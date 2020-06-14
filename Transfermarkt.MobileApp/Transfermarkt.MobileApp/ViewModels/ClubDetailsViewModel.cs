@@ -15,22 +15,9 @@ namespace Transfermarkt.MobileApp.ViewModels
 
         public ClubDetailsViewModel()
         {
-            //InitCommand = new Command(() => Init());
         }
 
         public Club Club { get; set; }
 
-        //ClubView clubView = new ClubView();
-
-        //public void Init()
-        //{
-        //    clubView.Abbreviation = Club.Abbreviation;
-        //    clubView.Founded = Club.Founded;
-        //    clubView.Name = Club.Name;
-        //    clubView.Nickname = Club.Nickname;
-        //    clubView.MarketValue = Club.MarketValue;
-        //}
-
-        //public ICommand InitCommand { get; set; }
     }
 }
