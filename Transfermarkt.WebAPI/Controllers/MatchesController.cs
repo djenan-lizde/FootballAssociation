@@ -25,11 +25,13 @@ namespace Transfermarkt.WebAPI.Controllers
         {
             return _serviceMatchDetail.GetByCondition(x => x.MatchId == matchId).ToList();
         }
+
         [HttpPost("RefereeMatch")]
         public RefereeMatch AddRefereeMatch(RefereeMatch refereeMatch)
         {
             return _serviceRefereeMatch.Insert(refereeMatch);
         }
+
         [HttpPost("NewDetailMatch")]
         public MatchDetail AddMatchDetail(MatchDetail matchDetail)
         {

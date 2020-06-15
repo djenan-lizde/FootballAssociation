@@ -30,11 +30,13 @@ namespace Transfermarkt.WebAPI.Controllers
         {
             return _servicePosition.Get();
         }
+
         [HttpPost("InsertPlayerPosition")]
         public PlayerPosition InsertPlayerPosition(PlayerPosition playerPosition)
         {
             return _servicePlayerPosition.Insert(playerPosition);
         }
+
         [HttpGet("UnsignedPlayers")]
         public List<Player> GetUnsignedPlayers()
         {

@@ -22,9 +22,15 @@ namespace Transfermarkt.MobileApp.Views
                 selectedLeague = league
             };
         }
+
         protected async override void OnAppearing()
         {
             base.OnAppearing();
+            await model.Init();
+        }
+
+        private async void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
             await model.Init();
         }
     }

@@ -18,9 +18,10 @@
             <Label Text="League details"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
-            <!--<Picker ItemsSource="{Binding LeaguesList}" SelectedItem="{Binding SelectedLeague}" ItemDisplayBinding="{Binding Name}"></Picker>
-            
-            #uraditi picker sezone-->
+
+            <Label Text="Choose the season from drop down list." VerticalOptions="Center" HorizontalOptions="Center"></Label>
+            <Picker ItemsSource="{Binding SeasonsList}" SelectedItem="{Binding SelectedSeason}" ItemDisplayBinding="{Binding SeasonYear}"></Picker>
+
             <ListView ItemsSource="{Binding ClubsList}">
                 <ListView.ItemTemplate>
                     <DataTemplate>

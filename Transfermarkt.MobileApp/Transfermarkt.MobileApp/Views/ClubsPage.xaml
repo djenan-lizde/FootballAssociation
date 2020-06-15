@@ -19,6 +19,7 @@
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
             <Picker ItemsSource="{Binding LeaguesList}" SelectedItem="{Binding SelectedLeague}" ItemDisplayBinding="{Binding Name}"></Picker>
+            
             <ListView ItemsSource="{Binding ClubsList}" ItemSelected="ListView_ItemSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>

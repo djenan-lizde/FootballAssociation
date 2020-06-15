@@ -12,30 +12,23 @@ using Xamarin.Forms.Xaml;
 namespace Transfermarkt.MobileApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ClubDetailsPage : ContentPage
+    public partial class PlayerDetailsPage : ContentPage
     {
-        private readonly ClubDetailsViewModel model = null;
+        private readonly PlayerDetailsViewModel model = null;
 
-        public ClubDetailsPage(Club club)
+        public PlayerDetailsPage(PlayersClub player)
         {
             InitializeComponent();
-            BindingContext = model = new ClubDetailsViewModel()
+            BindingContext = model = new PlayerDetailsViewModel()
             {
-                Club = club
+                Player = player
             };
         }
 
         protected async override void OnAppearing()
         {
             base.OnAppearing();
-            await model.ClubPlayers();
-        }
-
-        private async void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            var item = e.SelectedItem as PlayersClub;
-
-            await Navigation.PushAsync(new PlayerDetailsPage(item));
+            await model.PlayerContracts();
         }
     }
 }

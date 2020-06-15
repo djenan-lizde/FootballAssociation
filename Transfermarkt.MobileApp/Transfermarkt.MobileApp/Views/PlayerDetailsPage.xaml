@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:vm="clr-namespace:Transfermarkt.MobileApp.ViewModels"
+             mc:Ignorable="d"
+             x:Class="Transfermarkt.MobileApp.Views.PlayerDetailsPage">
+    <ContentPage.BindingContext>
+        <vm:PlayerDetailsViewModel></vm:PlayerDetailsViewModel>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Player details."
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+            <Label Text="{Binding Player.FirstName}"></Label>
+            <Label Text="{Binding Player.LastName}"></Label>
+            <Label Text="{Binding Player.Value}"></Label>
+            <Label Text="Contracts: "></Label>
+            <ListView ItemsSource="{Binding Contracts}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10" Orientation="Horizontal">
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding SignedDate}"></Label>
+                                    <Label Text="{Binding ExpirationDate}"></Label>
+                                    <Label Text="{Binding RedemptionClause}"></Label>
+                                    <Label Text="{Binding ClubName}" LineBreakMode="NoWrap"></Label>
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

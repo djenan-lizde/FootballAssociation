@@ -25,11 +25,13 @@ namespace Transfermarkt.WebAPI.Controllers
         {
             return _serviceContract.GetByCondition(x => x.PlayerId == playerId).ToList();
         }
+
         [HttpGet("ClubContracts/{ClubId}")]
         public List<Models.Contract> GetClubContracts(int ClubId)
         {
             return _serviceContract.GetByCondition(x => x.ClubId == ClubId && x.IsExpired == false).ToList();
         }
+
         [HttpGet("UnexpiredContracts")]
         public List<Models.Contract> GetUnexpiredContracts()
         {
