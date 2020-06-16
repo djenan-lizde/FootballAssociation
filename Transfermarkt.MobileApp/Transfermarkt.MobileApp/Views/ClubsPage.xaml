@@ -25,8 +25,8 @@
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Padding="10" Orientation="Horizontal">
-                                <StackLayout>
-                                    <Image Source="{Binding Logo, Converter={StaticResource imgConv}}"></Image>
+                                <StackLayout Orientation="Horizontal" HeightRequest="200" Grid.Column="0">
+                                    <Image Source="{Binding Logo, Converter={StaticResource imgConv}}" WidthRequest="200" Aspect="Fill"></Image>
                                 </StackLayout>
                                 <StackLayout Orientation="Vertical">
                                     <Label Text="{Binding Name}" LineBreakMode="NoWrap"></Label>

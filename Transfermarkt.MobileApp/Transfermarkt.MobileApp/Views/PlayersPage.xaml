@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:vm="clr-namespace:Transfermarkt.MobileApp.ViewModels" xmlns:local="clr-namespace:Transfermarkt.MobileApp.Views"
+             mc:Ignorable="d"
+             x:Class="Transfermarkt.MobileApp.Views.PlayersPage">
+    <ContentPage.BindingContext>
+        <vm:PlayersViewModel></vm:PlayersViewModel>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Here you can search for player"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+
+            <SearchBar x:Name="SearchBar" SearchCommand="{Binding SearchCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}">
+                <SearchBar.Behaviors>
+                    <local:TextChangedBehavior />
+                </SearchBar.Behaviors>
+            </SearchBar>
+
+            <ListView ItemsSource="{Binding Players}" ItemSelected="ListView_ItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10" Orientation="Horizontal">
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding FirstName}"></Label>
+                                    <Label Text="{Binding LastName}" LineBreakMode="NoWrap"></Label>
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

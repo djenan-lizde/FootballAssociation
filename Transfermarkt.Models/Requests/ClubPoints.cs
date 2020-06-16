@@ -11,5 +11,6 @@ namespace Transfermarkt.Models.Requests
         public string Abbreviation { get; set; }
         public byte[] Logo { get; set; }
         public int Points { get; set; }
+        public int Position { get; set; }
     }
 }

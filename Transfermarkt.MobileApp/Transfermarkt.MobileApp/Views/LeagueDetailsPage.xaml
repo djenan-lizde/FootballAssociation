@@ -15,25 +15,29 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="League details"
+            <Label Text="League details" FontSize="40"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
 
-            <Label Text="Choose the season from drop down list." VerticalOptions="Center" HorizontalOptions="Center"></Label>
+            <Label Text="Choose the season from drop down list." VerticalOptions="Center" HorizontalOptions="Center"
+                   FontSize="20"></Label>
             <Picker ItemsSource="{Binding SeasonsList}" SelectedItem="{Binding SelectedSeason}" ItemDisplayBinding="{Binding SeasonYear}"></Picker>
 
+
+            <Label Text="League table" FontSize="40"></Label>
             <ListView ItemsSource="{Binding ClubsList}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Padding="10" Orientation="Horizontal">
-                                <StackLayout>
-                                    <Image Source="{Binding Logo, Converter={StaticResource imgConv}}"></Image>
+                                <Label Text="{Binding Position}"></Label>
+                                <StackLayout Orientation="Horizontal" HeightRequest="200" Grid.Column="0">
+                                    <Image Source="{Binding Logo, Converter={StaticResource imgConv}}" WidthRequest="200" Aspect="Fill"></Image>
                                 </StackLayout>
-                                <StackLayout Orientation="Vertical">
-                                    <Label Text="{Binding Name}"></Label>
-                                    <Label Text="{Binding Abbreviation}"></Label>
-                                    <Label Text="{Binding Points}" LineBreakMode="NoWrap"></Label>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding Name}" FontSize="20"></Label>
+                                    <Label Text="{Binding Abbreviation}" FontSize="20"></Label>
+                                    <Label Text="{Binding Points}" FontSize="20" LineBreakMode="NoWrap"></Label>
                                 </StackLayout>
                             </StackLayout>
                         </ViewCell>

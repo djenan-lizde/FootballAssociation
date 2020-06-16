@@ -9,7 +9,8 @@ namespace Transfermarkt.MobileApp.Models
         Browse,
         About,
         Clubs,
-        Leagues
+        Leagues,
+        Players
     }
     public class HomeMenuItem
     {

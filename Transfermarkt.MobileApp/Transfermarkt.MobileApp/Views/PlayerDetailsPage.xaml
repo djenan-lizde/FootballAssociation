@@ -2,12 +2,17 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:vm="clr-namespace:Transfermarkt.MobileApp.ViewModels"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:vm="clr-namespace:Transfermarkt.MobileApp.ViewModels" xmlns:converters="clr-namespace:Transfermarkt.MobileApp.Converters"
              mc:Ignorable="d"
              x:Class="Transfermarkt.MobileApp.Views.PlayerDetailsPage">
     <ContentPage.BindingContext>
         <vm:PlayerDetailsViewModel></vm:PlayerDetailsViewModel>
     </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ImageConverter x:Key="imgConv"></converters:ImageConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Player details."
@@ -27,6 +32,9 @@
                                     <Label Text="{Binding ExpirationDate}"></Label>
                                     <Label Text="{Binding RedemptionClause}"></Label>
                                     <Label Text="{Binding ClubName}" LineBreakMode="NoWrap"></Label>
+                                    <StackLayout Orientation="Horizontal" HeightRequest="100" Grid.Column="0">
+                                        <Image Source="{Binding Logo, Converter={StaticResource imgConv}}" WidthRequest="100" Aspect="Fill"></Image>
+                                    </StackLayout>
                                 </StackLayout>
                             </StackLayout>
                         </ViewCell>

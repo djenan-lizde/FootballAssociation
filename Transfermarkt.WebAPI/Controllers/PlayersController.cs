@@ -54,12 +54,14 @@ namespace Transfermarkt.WebAPI.Controllers
             var query = _servicePlayer.GetByCondition(x => x.FirstName.ToLower()
             .StartsWith(request.FirstName) || x.LastName.ToLower().StartsWith(request.LastName)).ToList();
 
-            if (request.IsSigned)
-            {
-                return query.Where(x => x.IsSigned == true).ToList();
-            }
+            return query;
 
-            return query.Where(x => x.IsSigned == false).ToList();
+            //if (request.IsSigned)
+            //{
+            //    return query.Where(x => x.IsSigned == true).ToList();
+            //}
+
+            //return query.Where(x => x.IsSigned == false).ToList();
         }
     }
 }

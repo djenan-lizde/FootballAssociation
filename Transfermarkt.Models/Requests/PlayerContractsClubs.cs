@@ -11,5 +11,6 @@ namespace Transfermarkt.Models.Requests
         public DateTime SignedDate { get; set; }
         public DateTime ExpirationDate { get; set; }
         public int RedemptionClause { get; set; }
+        public byte[] Logo { get; set; }
     }
 }

@@ -28,11 +28,12 @@ namespace Transfermarkt.MobileApp.ViewModels
                 var club = await _apiServiceClubs.GetById<Club>(item.ClubId);
                 var playerClub = new PlayerContractsClubs
                 {
-                    ClubName=club.Name,
-                    ExpirationDate=item.ExpirationDate,
-                    Id=item.PlayerId,
-                    RedemptionClause=item.RedemptionClause,
-                    SignedDate=item.SignedDate
+                    ClubName = club.Name,
+                    ExpirationDate = item.ExpirationDate,
+                    Id = item.PlayerId,
+                    RedemptionClause = item.RedemptionClause,
+                    SignedDate = item.SignedDate,
+                    Logo = club.Logo
                 };
                 Contracts.Add(playerClub);
             }

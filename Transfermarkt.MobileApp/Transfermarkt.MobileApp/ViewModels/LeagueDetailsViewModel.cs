@@ -41,6 +41,7 @@ namespace Transfermarkt.MobileApp.ViewModels
         public async Task Init()
         {
             var seasons = await _apiServiceClubs.Get<List<Season>>(null, "AllSeasons");
+            var counter = 0;
 
             foreach (var item in seasons)
             {
@@ -60,7 +61,8 @@ namespace Transfermarkt.MobileApp.ViewModels
                         Id = club.Id,
                         Logo = club.Logo,
                         Name = club.Name,
-                        Abbreviation = club.Abbreviation
+                        Abbreviation = club.Abbreviation,
+                        Position = counter += 1
                     };
                     ClubsList.Add(clubPoint);
                 }

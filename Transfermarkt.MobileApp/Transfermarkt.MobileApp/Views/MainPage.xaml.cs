@@ -42,6 +42,9 @@ namespace Transfermarkt.MobileApp.Views
                     case (int)MenuItemType.Leagues:
                         MenuPages.Add(id, new NavigationPage(new LeaguesPage()));
                         break;
+                    case (int)MenuItemType.Players:
+                        MenuPages.Add(id, new NavigationPage(new PlayersPage()));
+                        break;
                 }
             }
 

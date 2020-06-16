@@ -23,7 +23,8 @@ namespace Transfermarkt.MobileApp.Views
                 new HomeMenuItem {Id = MenuItemType.Browse, Title="Browse" },
                 new HomeMenuItem {Id = MenuItemType.About, Title="About" },
                 new HomeMenuItem {Id = MenuItemType.Clubs, Title="Clubs" },
-                new HomeMenuItem {Id = MenuItemType.Leagues, Title="Leagues" }
+                new HomeMenuItem {Id = MenuItemType.Leagues, Title="Leagues" },
+                new HomeMenuItem {Id = MenuItemType.Players, Title="Players" }
             };
 
             ListViewMenu.ItemsSource = menuItems;
