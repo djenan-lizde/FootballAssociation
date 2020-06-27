@@ -25,7 +25,7 @@ namespace Transfermarkt.WinUI.Forms
 
         private async void FrmReferee_Load(object sender, EventArgs e)
         {
-            var resultCity =await _aPIServiceCity.Get<List<City>>();
+            var resultCity = await _aPIServiceCity.Get<List<City>>();
 
             CmbCities.DataSource = resultCity;
             CmbCities.DisplayMember = "Name";
@@ -33,7 +33,7 @@ namespace Transfermarkt.WinUI.Forms
 
             if (Id.HasValue)
             {
-                var refereeLoad =await _aPIServiceReferee.GetById<Referee>(Id);
+                var refereeLoad = await _aPIServiceReferee.GetById<Referee>(Id);
                 TxtFirstName.Text = refereeLoad.FirstName;
                 TxtLastName.Text = refereeLoad.LastName;
                 TxtMiddleName.Text = refereeLoad.MiddleName;

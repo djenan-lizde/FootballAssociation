@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using Transfermarkt.Models;
+using Transfermarkt.Models.Requests;
 
 namespace Transfermarkt.WinUI.Forms
 {
@@ -24,7 +25,34 @@ namespace Transfermarkt.WinUI.Forms
         private async void FrmMatchesList_Load(object sender, EventArgs e)
         {
             var result = await _aPIServiceMatches.Get<List<Match>>();
-            DgvMatches.DataSource = result;
+            var clubLeagues = await _aPIServiceClubs.Get<List<ClubLeague>>(null, "ClubLeague");
+
+            List<MatchesView> list = new List<MatchesView>();
+
+            foreach (var item in result)
+            {
+                var homeClubLeague = clubLeagues.FirstOrDefault(x => x.Id == item.HomeClubId);
+                var awayClubLeague = clubLeagues.FirstOrDefault(x => x.Id == item.AwayClubId);
+
+                var homeClub=await _aPIServiceClubs.GetById<Club>(homeClubLeague.ClubId);
+                var awayClub = await _aPIServiceClubs.GetById<Club>(awayClubLeague.ClubId);
+
+                var stadium = await _aPIServiceStadiums.GetById<Club>(homeClubLeague.ClubId, "HomeStadium");
+
+                var match = new MatchesView
+                {
+                    Id = item.Id,
+                    HomeClub = homeClub.Name,
+                    AwayClub = awayClub.Name,
+                    GameDate = item.DateGame,
+                    GameEnd = item.GameEnd,
+                    GameStart = item.GameStart,
+                    IsFinished = false,
+                    StadiumName = stadium.Name
+                };
+                list.Add(match);
+            }
+            DgvMatches.DataSource = list;
         }
         private void DgvMatches_MouseDoubleClick(object sender, MouseEventArgs e)
         {

@@ -62,7 +62,7 @@ namespace Transfermarkt.MobileApp.ViewModels
                         Logo = club.Logo,
                         Name = club.Name,
                         Abbreviation = club.Abbreviation,
-                        Position = counter += 1
+                        Position = int.Parse(counter.ToString()) + 1
                     };
                     ClubsList.Add(clubPoint);
                 }

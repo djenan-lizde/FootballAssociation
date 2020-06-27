@@ -61,6 +61,8 @@ namespace Transfermarkt.WebAPI.Controllers
             && x.SeasonId == lastSeason.Id).ToList();
         }
 
+
+
         [HttpGet("ClubPoints/{ClubId}")]
         public ClubLeague GetClubPoints(int clubId)
         {
@@ -76,6 +78,7 @@ namespace Transfermarkt.WebAPI.Controllers
             return _serviceClubLeague.Update(clubLeague);
         }
 
+        
         [HttpGet("Season")]
         public Season LastSeason()
         {

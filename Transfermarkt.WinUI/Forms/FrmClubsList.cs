@@ -63,6 +63,7 @@ namespace Transfermarkt.WinUI.Forms
         private async void GenerateClubs()
         {
             List<ClubPoints> clubs = new List<ClubPoints>();
+            int counter = 0;
 
             var clubLeague = await _ApiServiceClubs.GetById<List<ClubLeague>>(LeagueId, "ClubsInLeague");
             foreach (var item in clubLeague.OrderByDescending(x => x.Points))
@@ -75,7 +76,8 @@ namespace Transfermarkt.WinUI.Forms
                     Id = club.Id,
                     Logo = club.Logo,
                     Name = club.Name,
-                    Points = points.Points
+                    Points = points.Points,
+                    Position = int.Parse(counter.ToString()) + 1
                 };
                 clubs.Add(clubView);
             }
