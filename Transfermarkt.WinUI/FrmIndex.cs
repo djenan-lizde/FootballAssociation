@@ -186,5 +186,23 @@ namespace Transfermarkt.WinUI
             };
             frm.Show();
         }
+
+        private void usersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmAdminPanel frm = new FrmAdminPanel
+            {
+                MdiParent = this
+            };
+            frm.Show();
+        }
+
+        private void BtnUpdateProfile_Click(object sender, EventArgs e)
+        {
+            FrmUserProfile frm = new FrmUserProfile
+            {
+                MdiParent = this
+            };
+            frm.Show();
+        }
     }
 }

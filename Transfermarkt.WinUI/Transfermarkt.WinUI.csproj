@@ -150,6 +150,12 @@
     <Compile Include="Forms\FrmStadium.Designer.cs">
       <DependentUpon>FrmStadium.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmUserProfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmUserProfile.Designer.cs">
+      <DependentUpon>FrmUserProfile.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmIndex.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -202,6 +208,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmStadium.resx">
       <DependentUpon>FrmStadium.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmUserProfile.resx">
+      <DependentUpon>FrmUserProfile.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmIndex.resx">
       <DependentUpon>FrmIndex.cs</DependentUpon>

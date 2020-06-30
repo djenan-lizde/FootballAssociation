@@ -12,6 +12,8 @@ using Transfermarkt.Models.Requests;
 using Transfermarkt.Models.Responses;
 using Transfermarkt.WebAPI.Configuration;
 using Transfermarkt.WebAPI.Database;
+using System.Collections.Generic;
+using System.Reflection.Metadata;
 
 namespace Transfermarkt.WebAPI.Services
 {
@@ -19,6 +21,7 @@ namespace Transfermarkt.WebAPI.Services
     {
         UserAuthenticationResult Authenticate(UserLoginModel model);
         User RegisterUser(UserRegistration user);
+        List<User> GetUsers();
     }
     public class UserService : IUserService
     {
@@ -131,6 +134,13 @@ namespace Transfermarkt.WebAPI.Services
             HashAlgorithm algorithm = HashAlgorithm.Create("SHA1");
             byte[] inArray = algorithm.ComputeHash(dst);
             return Convert.ToBase64String(inArray);
+        }
+        public List<User> GetUsers()
+        {
+            var users = _context.Users.ToList();
+            if (users.Count() == 0)
+                throw new ArgumentNullException();
+            return users;
         }
     }
 }

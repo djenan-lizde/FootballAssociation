@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Transfermarkt.Models.Requests
+{
+    public class PlayersCards
+    {
+        public string PlayerFullName { get; set; }
+        public string ClubName { get; set; }
+        public int Minute { get; set; }
+        public string Card { get; set; }
+    }
+}

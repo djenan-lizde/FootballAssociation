@@ -31,7 +31,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.DgvUsers = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.TxtSearch = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.TxtUsersNumber = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
@@ -70,19 +70,20 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "Search user";
             // 
-            // txtSearch
+            // TxtSearch
             // 
-            this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(41, 68);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(218, 24);
-            this.txtSearch.TabIndex = 4;
+            this.TxtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtSearch.Location = new System.Drawing.Point(41, 68);
+            this.TxtSearch.Name = "TxtSearch";
+            this.TxtSearch.Size = new System.Drawing.Size(218, 24);
+            this.TxtSearch.TabIndex = 4;
+            this.TxtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(418, 429);
+            this.label2.Location = new System.Drawing.Point(426, 432);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(120, 18);
             this.label2.TabIndex = 4;
@@ -101,10 +102,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(824, 467);
+            this.ClientSize = new System.Drawing.Size(806, 467);
             this.Controls.Add(this.TxtUsersNumber);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.txtSearch);
+            this.Controls.Add(this.TxtSearch);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox1);
             this.Name = "FrmAdminPanel";
@@ -122,7 +123,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView DgvUsers;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.TextBox TxtSearch;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox TxtUsersNumber;
     }

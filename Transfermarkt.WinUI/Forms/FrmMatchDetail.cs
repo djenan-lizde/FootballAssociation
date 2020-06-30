@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Transfermarkt.Models;
+using Transfermarkt.Models.Requests;
 
 namespace Transfermarkt.WinUI.Forms
 {
@@ -69,30 +70,77 @@ namespace Transfermarkt.WinUI.Forms
                 return;
             }
 
-            var homeClubGoals = matchDetails.Count(x => x.ClubId == homeClub.Id
-            && int.Parse(x.ActionType.ToString()) == 5);
-            HomeClubGoal.Text = homeClubGoals.ToString();
+            //goals
+            HomeClubGoal.Text = GetMatchDetails(matchDetails, homeClub.Id, 3).ToString();
+            AwayClubGoal.Text = GetMatchDetails(matchDetails, awayClub.Id, 3).ToString();
 
-            var awayClubGoals = matchDetails.Count(x => x.ClubId == awayClub.Id
-                && int.Parse(x.ActionType.ToString()) == 5);
-            AwayClubGoal.Text = awayClubGoals.ToString();
-
-            List<GoalScorer> goalScorers = new List<GoalScorer>();
-            foreach (var item in matchDetails)
+            if (matchDetails.Count(x => int.Parse(x.ActionType.ToString()) == 3) > 0)
             {
-                var player = await _aPIServicePlayers.GetById<Player>(item.PlayerId);
-                var club = await _aPIServiceClubs.GetById<Club>(item.ClubId);
-                var goalscorer = new GoalScorer
+                List<GoalScorer> goalScorers = new List<GoalScorer>();
+                foreach (var item in matchDetails)
                 {
-                    ClubName = club.Name,
-                    Minute = item.Minute,
-                    PlayerFullName = $"{player.FirstName} {player.LastName}"
-                };
-                goalScorers.Add(goalscorer);
+                    var player = await _aPIServicePlayers.GetById<Player>(item.PlayerId);
+                    var club = await _aPIServiceClubs.GetById<Club>(item.ClubId);
+                    var goalscorer = new GoalScorer
+                    {
+                        ClubName = club.Name,
+                        Minute = item.Minute,
+                        PlayerFullName = $"{player.FirstName} {player.LastName}"
+                    };
+                    goalScorers.Add(goalscorer);
+                }
+                DgvGoalScorers.DataSource = goalScorers;
             }
-            DgvGoalScorers.DataSource = goalScorers;
+
+            //cards
+            if (matchDetails.Count(x => int.Parse(x.ActionType.ToString()) == 0 || int.Parse(x.ActionType.ToString()) == 1) != 0)
+            {
+                List<PlayersCards> cards = new List<PlayersCards>();
+                foreach (var item in matchDetails)
+                {
+                    var player = await _aPIServicePlayers.GetById<Player>(item.PlayerId);
+                    var club = await _aPIServiceClubs.GetById<Club>(item.ClubId);
+                    var playerCard = new PlayersCards
+                    {
+                        ClubName = club.Name,
+                        PlayerFullName = $"{player.FirstName} {player.LastName}",
+                        Minute = item.Minute
+                    };
+                    if (item.ActionType == 0)
+                        playerCard.Card = "Yellow card";
+                    else
+                        playerCard.Card = "Red card";
+                    cards.Add(playerCard);
+                }
+                DgvPlayerCards.DataSource = cards;
+            }
+
+            //corners
+            if (matchDetails.Count(x => int.Parse(x.ActionType.ToString()) == 2) != 0)
+            {
+                List<PlayersCorners> corners = new List<PlayersCorners>();
+                foreach (var item in matchDetails)
+                {
+                    var player = await _aPIServicePlayers.GetById<Player>(item.PlayerId);
+                    var club = await _aPIServiceClubs.GetById<Club>(item.ClubId);
+                    var playerCorner = new PlayersCorners
+                    {
+                        ClubName = club.Name,
+                        PlayerFullName = $"{player.FirstName} {player.LastName}",
+                        Minute = item.Minute
+                    };
+                    corners.Add(playerCorner);
+                }
+                DgvCorners.DataSource = corners;
+            }
 
             WindowState = FormWindowState.Maximized;
+        }
+        private int GetMatchDetails(List<MatchDetail> list, int clubId, int enumValue)
+        {
+            var clubStats = list.Count(x => x.ClubId == clubId
+                && int.Parse(x.ActionType.ToString()) == enumValue);
+            return int.Parse(clubStats.ToString());
         }
         private static Image ResizeImage(Image image)
         {

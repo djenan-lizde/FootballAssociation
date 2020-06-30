@@ -12,8 +12,6 @@
         {
             YellowCard = 0,
             RedCard,
-            Penalty,
-            FreeKick,
             CornerOccurred,
             Goal
         }
