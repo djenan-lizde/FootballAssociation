@@ -33,17 +33,17 @@ namespace Transfermarkt.WinUI.Forms
             CmbEvent.DisplayMember = "Value";
             CmbEvent.ValueMember = "Key";
 
-            var match =await _aPIServiceMatches.GetById<Match>(Id);
+            var match = await _aPIServiceMatches.GetById<Match>(Id);
 
-            var homeClubLeague =await _aPIServiceClubs.GetById<List<ClubLeague>>(match.HomeClubId, "ClubLeague");
-            var awayClubLeague =await _aPIServiceClubs.GetById<List<ClubLeague>>(match.AwayClubId, "ClubLeague");
+            var homeClubLeague = await _aPIServiceClubs.GetById<ClubLeague>(match.HomeClubId, "ClubLeague");
+            var awayClubLeague = await _aPIServiceClubs.GetById<ClubLeague>(match.AwayClubId, "ClubLeague");
             if (homeClubLeague == null || awayClubLeague == null)
             {
                 return;
             }
 
-            var homeClub =await _aPIServiceClubs.GetById<Club>(homeClubLeague[0].ClubId);
-            var awayClub =await _aPIServiceClubs.GetById<Club>(awayClubLeague[0].ClubId);
+            var homeClub = await _aPIServiceClubs.GetById<Club>(homeClubLeague.ClubId);
+            var awayClub = await _aPIServiceClubs.GetById<Club>(awayClubLeague.ClubId);
 
             //clubs for drop down list
             List<Club> clubs = new List<Club>
@@ -63,11 +63,11 @@ namespace Transfermarkt.WinUI.Forms
 
             var clubId = int.Parse(CmbClubs.SelectedValue.ToString());
 
-            var playerContract =await _aPIServiceContracts.GetById<List<Contract>>(clubId, "ClubContracts");
+            var playerContract = await _aPIServiceContracts.GetById<List<Contract>>(clubId, "ClubContracts");
 
             foreach (var item in playerContract)
             {
-                var player =await _aPIServicePlayers.GetById<Player>(item.PlayerId);
+                var player = await _aPIServicePlayers.GetById<Player>(item.PlayerId);
                 if (player == null) continue;
                 players.Add(player);
             }
@@ -83,7 +83,7 @@ namespace Transfermarkt.WinUI.Forms
                 MessageBox.Show("Minutes can't be under 0 or higher than 95 minutes.", "Error");
                 return;
             }
-            var matchDetails =await _aPIServiceMatches.GetById<List<MatchDetail>>(Id, "MatchDetail");
+            var matchDetails = await _aPIServiceMatches.GetById<List<MatchDetail>>(Id, "MatchDetail");
             if (matchDetails.Count != 0)
             {
                 var lastRecord = matchDetails.LastOrDefault();

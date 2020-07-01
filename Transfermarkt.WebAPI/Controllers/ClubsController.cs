@@ -40,9 +40,9 @@ namespace Transfermarkt.WebAPI.Controllers
 
         //vezano za meceve
         [HttpGet("ClubLeague/{ClubLeagueId}")]
-        public List<ClubLeague> GetClubLeague(int clubLeagueId)
+        public ClubLeague GetClubLeague(int clubLeagueId)
         {
-            return _serviceClubLeague.GetByCondition(x => x.Id == clubLeagueId).ToList();
+            return _serviceClubLeague.GetTByCondition(x => x.Id == clubLeagueId);
         }
 
         [HttpGet("ClubsInSeason")]
@@ -61,8 +61,6 @@ namespace Transfermarkt.WebAPI.Controllers
             && x.SeasonId == lastSeason.Id).ToList();
         }
 
-
-
         [HttpGet("ClubPoints/{ClubId}")]
         public ClubLeague GetClubPoints(int clubId)
         {
@@ -77,7 +75,6 @@ namespace Transfermarkt.WebAPI.Controllers
         {
             return _serviceClubLeague.Update(clubLeague);
         }
-
         
         [HttpGet("Season")]
         public Season LastSeason()

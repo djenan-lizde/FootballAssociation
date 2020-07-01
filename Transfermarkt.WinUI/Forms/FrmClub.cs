@@ -19,6 +19,7 @@ namespace Transfermarkt.WinUI.Forms
 
 
         public int? Id { get; set; }
+        readonly Club club = new Club();
 
         public FrmClub(int? id = null)
         {
@@ -57,6 +58,7 @@ namespace Transfermarkt.WinUI.Forms
                 }
                 label9.Visible = true;
                 DgvPlayers.Visible = true;
+                BtnMatchSchedule.Visible = true;
                 var contracts = await _aPIServiceContract.GetById<List<Contract>>(Id, "ClubContracts");
                 List<PlayersClub> playersClubs = new List<PlayersClub>();
                 foreach (var item in contracts)
@@ -92,7 +94,6 @@ namespace Transfermarkt.WinUI.Forms
                 return Image.FromStream(mStream);
             }
         }
-        readonly Club club = new Club();
         private async void BtnSaveClub_Click(object sender, EventArgs e)
         {
             club.MarketValue = int.Parse(txtMarketValue.Text);
@@ -173,6 +174,11 @@ namespace Transfermarkt.WinUI.Forms
                 MessageBox.Show("You need to insert new club" +
                     " to be able to assing stadium!", "Error");
             }
+        }
+        private void BtnMatchSchedule_Click(object sender, EventArgs e)
+        {
+            FrmClubMatchSchedule frm = new FrmClubMatchSchedule(Id);
+            frm.Show();
         }
     }
 }

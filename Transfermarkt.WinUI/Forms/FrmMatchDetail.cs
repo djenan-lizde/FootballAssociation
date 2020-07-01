@@ -34,14 +34,11 @@ namespace Transfermarkt.WinUI.Forms
                 BtnNewEventMatch.Visible = false;
             }
 
-            var homeClubLeague = await _aPIServiceClubs.GetById<List<ClubLeague>>(match.HomeClubId, "ClubLeague");
-            var awayClubLeague = await _aPIServiceClubs.GetById<List<ClubLeague>>(match.AwayClubId, "ClubLeague");
+            var homeClubLeague = await _aPIServiceClubs.GetById<ClubLeague>(match.HomeClubId, "ClubLeague");
+            var awayClubLeague = await _aPIServiceClubs.GetById<ClubLeague>(match.AwayClubId, "ClubLeague");
 
-            var homeClubLast = homeClubLeague.LastOrDefault();
-            var awayClubLast = awayClubLeague.LastOrDefault();
-
-            HomeClubId = homeClubLast.ClubId;
-            AwayClubId = awayClubLast.ClubId;
+            HomeClubId = homeClubLeague.ClubId;
+            AwayClubId = awayClubLeague.ClubId;
 
             var homeClub = await _aPIServiceClubs.GetById<Club>(HomeClubId);
             var awayClub = await _aPIServiceClubs.GetById<Club>(AwayClubId);
@@ -172,8 +169,7 @@ namespace Transfermarkt.WinUI.Forms
             var minutes = int.Parse(match.GameEnd.Substring(3, 2));
             //provjeriti konverzije datuma kako bi mogao testirati
 
-            if (DateTime.Now.Date >= match.DateGame.Date /*&& DateTime.Now.Hour >= hours*/
-/*                && DateTime.Now.Minute >= minutes*/)
+            if (DateTime.Now.Date >= match.DateGame.Date)
             {
                 match.IsFinished = true;
                 await _aPIServiceMatches.Update<Match>(match);

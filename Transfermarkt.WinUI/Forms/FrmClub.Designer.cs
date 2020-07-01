@@ -51,6 +51,7 @@
             this.CmbLeagues = new System.Windows.Forms.ComboBox();
             this.DgvPlayers = new System.Windows.Forms.DataGridView();
             this.label9 = new System.Windows.Forms.Label();
+            this.BtnMatchSchedule = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgvPlayers)).BeginInit();
             this.SuspendLayout();
@@ -277,11 +278,26 @@
             this.label9.Text = "Players: ";
             this.label9.Visible = false;
             // 
+            // BtnMatchSchedule
+            // 
+            this.BtnMatchSchedule.BackColor = System.Drawing.Color.RoyalBlue;
+            this.BtnMatchSchedule.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnMatchSchedule.ForeColor = System.Drawing.Color.White;
+            this.BtnMatchSchedule.Location = new System.Drawing.Point(603, 428);
+            this.BtnMatchSchedule.Name = "BtnMatchSchedule";
+            this.BtnMatchSchedule.Size = new System.Drawing.Size(139, 37);
+            this.BtnMatchSchedule.TabIndex = 27;
+            this.BtnMatchSchedule.Text = "Match schedule";
+            this.BtnMatchSchedule.UseVisualStyleBackColor = false;
+            this.BtnMatchSchedule.Visible = false;
+            this.BtnMatchSchedule.Click += new System.EventHandler(this.BtnMatchSchedule_Click);
+            // 
             // FrmClub
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(899, 544);
+            this.Controls.Add(this.BtnMatchSchedule);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.DgvPlayers);
             this.Controls.Add(this.label6);
@@ -339,5 +355,6 @@
         private System.Windows.Forms.ComboBox CmbLeagues;
         private System.Windows.Forms.DataGridView DgvPlayers;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button BtnMatchSchedule;
     }
 }
