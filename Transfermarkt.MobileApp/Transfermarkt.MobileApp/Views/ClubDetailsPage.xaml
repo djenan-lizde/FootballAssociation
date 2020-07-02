@@ -26,7 +26,7 @@
                 <Label Text="{Binding Club.Nickname}"></Label>
                 <Label Text="{Binding Club.MarketValue}"></Label>
             </StackLayout>
-            <ListView ItemsSource="{Binding Players}" ItemSelected="ListView_ItemSelected">
+            <ListView ItemsSource="{Binding Players}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

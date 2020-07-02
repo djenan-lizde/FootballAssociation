@@ -43,7 +43,6 @@ namespace Transfermarkt.MobileApp.ViewModels
                 Players.Add(signedPlayer);
             }
         }
-
         public ICommand InitCommand { get; set; }
     }
 }

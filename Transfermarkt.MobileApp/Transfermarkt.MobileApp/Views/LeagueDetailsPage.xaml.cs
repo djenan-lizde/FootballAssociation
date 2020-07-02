@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Transfermarkt.MobileApp.ViewModels;
 using Transfermarkt.Models;
+using Transfermarkt.Models.Requests;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -31,7 +32,9 @@ namespace Transfermarkt.MobileApp.Views
 
         private async void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            await model.Init();
+            var item = e.SelectedItem as Club;
+
+            await Navigation.PushAsync(new ClubDetailsPage(item));
         }
     }
 }

@@ -27,21 +27,18 @@ namespace Transfermarkt.WinUI.Forms
 
         private async void FrmMatchDetail_Load(object sender, EventArgs e)
         {
-            var match = await _aPIServiceMatches.GetById<Models.Match>(Id);
+            var match = await _aPIServiceMatches.GetById<Match>(Id);
             if (match.IsFinished)
             {
                 BtnMatchFinish.Visible = false;
                 BtnNewEventMatch.Visible = false;
             }
 
-            var homeClubLeague = await _aPIServiceClubs.GetById<ClubLeague>(match.HomeClubId, "ClubLeague");
-            var awayClubLeague = await _aPIServiceClubs.GetById<ClubLeague>(match.AwayClubId, "ClubLeague");
+            var homeClub = await _aPIServiceClubs.GetById<Club>(match.HomeClubId);
+            var awayClub = await _aPIServiceClubs.GetById<Club>(match.AwayClubId);
 
-            HomeClubId = homeClubLeague.ClubId;
-            AwayClubId = awayClubLeague.ClubId;
-
-            var homeClub = await _aPIServiceClubs.GetById<Club>(HomeClubId);
-            var awayClub = await _aPIServiceClubs.GetById<Club>(AwayClubId);
+            HomeClubId = homeClub.Id; 
+            AwayClubId = awayClub.Id;
 
             if (homeClub != null)
             {
@@ -60,7 +57,7 @@ namespace Transfermarkt.WinUI.Forms
             }
 
             var matchDetails = await _aPIServiceMatches.GetById<List<MatchDetail>>(Id, "MatchDetail");
-            if (matchDetails.Count == 0)
+            if (matchDetails.Count() == 0)
             {
                 HomeClubGoal.Text = "0";
                 AwayClubGoal.Text = "0";
@@ -90,7 +87,8 @@ namespace Transfermarkt.WinUI.Forms
             }
 
             //cards
-            if (matchDetails.Count(x => int.Parse(x.ActionType.ToString()) == 0 || int.Parse(x.ActionType.ToString()) == 1) != 0)
+            if ((matchDetails.Count(x => int.Parse(x.ActionType.ToString()) == 0) > 0) 
+                || (matchDetails.Count(x => int.Parse(x.ActionType.ToString()) == 1) > 0))
             {
                 List<PlayersCards> cards = new List<PlayersCards>();
                 foreach (var item in matchDetails)
@@ -164,10 +162,9 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void BtnMatchFinish_Click(object sender, EventArgs e)
         {
-            var match = await _aPIServiceMatches.GetById<Models.Match>(Id);
+            var match = await _aPIServiceMatches.GetById<Match>(Id);
             var hours = int.Parse(match.GameEnd.Substring(0, 2));
             var minutes = int.Parse(match.GameEnd.Substring(3, 2));
-            //provjeriti konverzije datuma kako bi mogao testirati
 
             if (DateTime.Now.Date >= match.DateGame.Date)
             {
@@ -176,11 +173,12 @@ namespace Transfermarkt.WinUI.Forms
 
                 var matchDetails = await _aPIServiceMatches.GetById<List<MatchDetail>>(Id, "MatchDetail");
 
+                //counting goals
                 var homeClubGoals = matchDetails.Count(x => x.ClubId == HomeClubId
-                    && int.Parse(x.ActionType.ToString()) == 5);
+                    && int.Parse(x.ActionType.ToString()) == 3);
 
                 var awayClubGoals = matchDetails.Count(x => x.ClubId == AwayClubId
-                    && int.Parse(x.ActionType.ToString()) == 5);
+                    && int.Parse(x.ActionType.ToString()) == 3);
 
                 if (homeClubGoals > awayClubGoals)
                     UpdatePoints(HomeClubId);

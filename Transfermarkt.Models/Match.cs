@@ -19,10 +19,18 @@ namespace Transfermarkt.Models
 
         [ForeignKey(nameof(HomeClub))]
         public int HomeClubId { get; set; }
-        public ClubLeague HomeClub { get; set; }
+        public Club HomeClub { get; set; }
 
         [ForeignKey(nameof(AwayClub))]
         public int AwayClubId { get; set; }
-        public ClubLeague AwayClub { get; set; }
+        public Club AwayClub { get; set; }
+
+        [ForeignKey(nameof(League))]
+        public int LeagueId { get; set; }
+        public League League { get; set; }
+
+        [ForeignKey(nameof(Season))]
+        public int SeasonId { get; set; }
+        public Season Season { get; set; }
     }
 }

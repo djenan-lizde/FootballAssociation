@@ -25,19 +25,22 @@ namespace Transfermarkt.WinUI.Forms
         private async void FrmMatchesList_Load(object sender, EventArgs e)
         {
             var result = await _aPIServiceMatches.Get<List<Match>>();
-            var clubLeagues = await _aPIServiceClubs.Get<List<ClubLeague>>(null, "ClubLeague");
+            if (result.Count() == 0)
+            {
+                MessageBox.Show("We don't have matches.", "Information");
+                return;
+            }
+
+            var league = await _aPIServiceLeagues.GetById<League>(result[0].LeagueId);
 
             List<MatchesView> list = new List<MatchesView>();
 
             foreach (var item in result)
             {
-                var homeClubLeague = clubLeagues.FirstOrDefault(x => x.Id == item.HomeClubId);
-                var awayClubLeague = clubLeagues.FirstOrDefault(x => x.Id == item.AwayClubId);
+                var homeClub = await _aPIServiceClubs.GetById<Club>(item.HomeClubId);
+                var awayClub = await _aPIServiceClubs.GetById<Club>(item.AwayClubId);
 
-                var homeClub=await _aPIServiceClubs.GetById<Club>(homeClubLeague.ClubId);
-                var awayClub = await _aPIServiceClubs.GetById<Club>(awayClubLeague.ClubId);
-
-                var stadium = await _aPIServiceStadiums.GetById<Club>(homeClubLeague.ClubId, "HomeStadium");
+                var stadium = await _aPIServiceStadiums.GetById<Club>(homeClub.Id, "HomeStadium");
 
                 var match = new MatchesView
                 {
@@ -48,7 +51,8 @@ namespace Transfermarkt.WinUI.Forms
                     GameEnd = item.GameEnd,
                     GameStart = item.GameStart,
                     IsFinished = false,
-                    StadiumName = stadium.Name
+                    StadiumName = stadium.Name,
+                    LeagueName = league.Name
                 };
                 list.Add(match);
             }

@@ -28,22 +28,19 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void FrmNewMatchEvent_Load(object sender, EventArgs e)
         {
-            var list = Globals.ToPairList<ActionType>(typeof(ActionType));
-            CmbEvent.DataSource = list.ToList();
+            var list = Globals.ToPairList<ActionType>(typeof(ActionType)).ToList();
+            CmbEvent.DataSource = list;
             CmbEvent.DisplayMember = "Value";
             CmbEvent.ValueMember = "Key";
 
             var match = await _aPIServiceMatches.GetById<Match>(Id);
 
-            var homeClubLeague = await _aPIServiceClubs.GetById<ClubLeague>(match.HomeClubId, "ClubLeague");
-            var awayClubLeague = await _aPIServiceClubs.GetById<ClubLeague>(match.AwayClubId, "ClubLeague");
-            if (homeClubLeague == null || awayClubLeague == null)
+            var homeClub = await _aPIServiceClubs.GetById<Club>(match.HomeClubId);
+            var awayClub = await _aPIServiceClubs.GetById<Club>(match.AwayClubId);
+            if (homeClub == null || awayClub == null)
             {
                 return;
             }
-
-            var homeClub = await _aPIServiceClubs.GetById<Club>(homeClubLeague.ClubId);
-            var awayClub = await _aPIServiceClubs.GetById<Club>(awayClubLeague.ClubId);
 
             //clubs for drop down list
             List<Club> clubs = new List<Club>
@@ -51,7 +48,7 @@ namespace Transfermarkt.WinUI.Forms
                 homeClub,
                 awayClub
             };
-            CmbClubs.DataSource = clubs.ToList();
+            CmbClubs.DataSource = clubs;
             CmbClubs.DisplayMember = "Name";
             CmbClubs.ValueMember = "Id";
         }

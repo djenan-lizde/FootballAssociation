@@ -45,6 +45,7 @@ namespace Transfermarkt.WebAPI.Controllers
             return _serviceClubLeague.GetTByCondition(x => x.Id == clubLeagueId);
         }
 
+        //get klubova u sezoni
         [HttpGet("ClubsInSeason")]
         public List<ClubLeague> GetClubsInSeason(int seasonId)
         {
@@ -61,13 +62,11 @@ namespace Transfermarkt.WebAPI.Controllers
             && x.SeasonId == lastSeason.Id).ToList();
         }
 
+
         [HttpGet("ClubPoints/{ClubId}")]
         public ClubLeague GetClubPoints(int clubId)
         {
-            var list = _serviceSeason.Get();
-            var lastSeason = list.LastOrDefault();
-
-            return _serviceClubLeague.GetTByCondition(x => x.ClubId == clubId && x.SeasonId == lastSeason.Id);
+            return _serviceClubLeague.GetTByCondition(x => x.ClubId == clubId);
         }
 
         [HttpPut("ClubPoints")]
@@ -75,6 +74,7 @@ namespace Transfermarkt.WebAPI.Controllers
         {
             return _serviceClubLeague.Update(clubLeague);
         }
+        
         
         [HttpGet("Season")]
         public Season LastSeason()

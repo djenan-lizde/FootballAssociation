@@ -14,6 +14,7 @@ namespace Transfermarkt.MobileApp.ViewModels
         private readonly APIService _apiServiceMatches = new APIService("Matches");
         private readonly APIService _apiServiceClubs = new APIService("Clubs");
         private readonly APIService _aPIServiceStadiums = new APIService("Stadiums");
+        private readonly APIService _aPIServiceLeagues = new APIService("Leagues");
 
         public MatchesViewModel()
         {
@@ -25,17 +26,19 @@ namespace Transfermarkt.MobileApp.ViewModels
         public async void Init()
         {
             var result = await _apiServiceMatches.Get<List<Match>>();
-            var clubLeagues = await _apiServiceClubs.Get<List<ClubLeague>>(null, "ClubLeague");
+            if (result.Count() == 0)
+            {
+                return;
+            }
+
+            var league = await _aPIServiceLeagues.GetById<League>(result[0].LeagueId);
 
             foreach (var item in result)
             {
-                var homeClubLeague = clubLeagues.FirstOrDefault(x => x.Id == item.HomeClubId);
-                var awayClubLeague = clubLeagues.FirstOrDefault(x => x.Id == item.AwayClubId);
+                var homeClub = await _apiServiceClubs.GetById<Club>(item.HomeClubId);
+                var awayClub = await _apiServiceClubs.GetById<Club>(item.AwayClubId);
 
-                var homeClub = await _apiServiceClubs.GetById<Club>(homeClubLeague.ClubId);
-                var awayClub = await _apiServiceClubs.GetById<Club>(awayClubLeague.ClubId);
-
-                var stadium = await _aPIServiceStadiums.GetById<Club>(homeClubLeague.ClubId, "HomeStadium");
+                var stadium = await _aPIServiceStadiums.GetById<Club>(homeClub.Id, "HomeStadium");
 
                 var match = new MatchesView
                 {
@@ -46,7 +49,8 @@ namespace Transfermarkt.MobileApp.ViewModels
                     GameEnd = item.GameEnd,
                     GameStart = item.GameEnd,
                     IsFinished = false,
-                    StadiumName = stadium.Name
+                    StadiumName = stadium.Name,
+                    LeagueName=league.Name
                 };
                 MatchesList.Add(match);
             }

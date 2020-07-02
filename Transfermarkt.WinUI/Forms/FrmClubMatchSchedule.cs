@@ -28,24 +28,20 @@ namespace Transfermarkt.WinUI.Forms
 
         private async void FrmClubMatchSchedule_Load(object sender, EventArgs e)
         {
-            var club = await _apiServiceClubs.GetById<Club>(Id); //12
-            var clubLeague = await _apiServiceClubs.GetById<ClubLeague>(club.Id, "ClubPoints"); //12
-
-            var clubMatches = await _apiServiceMatches.GetById<List<Match>>(clubLeague.Id, "ClubMatches"); //8
+            var club = await _apiServiceClubs.GetById<Club>(Id);
+            var clubMatches = await _apiServiceMatches.GetById<List<Match>>(Id, "ClubSchedule");
             List<MatchSchedule> list = new List<MatchSchedule>();
             foreach (var item in clubMatches.OrderBy(x => x.DateGame))
             {
                 var matchDetails = await _apiServiceMatches.GetById<List<MatchDetail>>(item.Id, "MatchDetail");
-                var homeClubLeague = await _apiServiceClubs.GetById<ClubLeague>(item.HomeClubId, "ClubLeague");
-                var awayClubLeague = await _apiServiceClubs.GetById<ClubLeague>(item.AwayClubId, "ClubLeague");
-                var homeClub = await _apiServiceClubs.GetById<Club>(homeClubLeague.ClubId);
-                var awayClub = await _apiServiceClubs.GetById<Club>(awayClubLeague.ClubId);
+                var homeClub = await _apiServiceClubs.GetById<Club>(item.HomeClubId);
+                var awayClub = await _apiServiceClubs.GetById<Club>(item.AwayClubId);
                 var matchSchedule = new MatchSchedule
                 {
                     GameDate = item.DateGame,
                     Id = item.Id
                 };
-                if (matchDetails == null)
+                if (matchDetails.Count() == 0)
                 {
                     matchSchedule.MatchGame = $"{homeClub.Name} - vs - {awayClub.Name}";
                 }
@@ -79,6 +75,13 @@ namespace Transfermarkt.WinUI.Forms
             {
                 return Image.FromStream(mStream);
             }
+        }
+        private void DgvMatches_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            var id = DgvMatches.SelectedRows[0].Cells[0].Value;
+
+            FrmMatchDetail frmClubsList = new FrmMatchDetail(int.Parse(id.ToString()));
+            frmClubsList.Show();
         }
     }
 }

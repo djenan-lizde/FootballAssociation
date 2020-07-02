@@ -115,25 +115,6 @@ namespace Transfermarkt.WinUI.Forms
                 MessageBox.Show("Successfully added. You can click assign stadium button for" +
                     " adding stadium!", "Club add");
             }
-
-            //rijesiti dal je bolje ovo da se ostavi ili obrise
-            //if (!Id.HasValue)
-            //{
-            //    var season = await _aPIServiceClub.Get<Season>(null, "Season");
-            //    var clubs = await _aPIServiceClub.Get<List<Club>>();
-            //    var lastClub = clubs.LastOrDefault();
-
-            //    var clubLeague = new ClubLeague
-            //    {
-            //        ClubId = lastClub.Id,
-            //        LeagueId = int.Parse(CmbLeagues.SelectedValue.ToString()),
-            //        SeasonId = season.Id,
-            //        Points = 0
-            //    };
-
-            //    await _aPIServiceClub.Insert<ClubLeague>(clubLeague, "ClubLeague");
-            //}
-
         }
         private void BtnAddLogo_Click(object sender, EventArgs e)
         {

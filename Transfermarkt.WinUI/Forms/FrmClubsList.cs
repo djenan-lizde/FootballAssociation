@@ -9,7 +9,7 @@ namespace Transfermarkt.WinUI.Forms
 {
     public partial class FrmClubsList : Form
     {
-        private readonly APIService _ApiServiceClubs = new APIService("Clubs");
+        private readonly APIService _apiServiceClubs = new APIService("Clubs");
 
         public int? LeagueId { get; set; }
 
@@ -27,7 +27,7 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void FrmClubsList_Load(object sender, EventArgs e)
         {
-            CmbSeasons.DataSource = await _ApiServiceClubs.Get<List<Season>>(null, "AllSeasons");
+            CmbSeasons.DataSource = await _apiServiceClubs.Get<List<Season>>(null, "AllSeasons");
             CmbSeasons.DisplayMember = "SeasonYear";
             CmbSeasons.ValueMember = "Id";
             GenerateClubs();
@@ -43,7 +43,7 @@ namespace Transfermarkt.WinUI.Forms
             {
                 Name = TxtSearch.Text.ToLower()
             };
-            var list = await _ApiServiceClubs.Get<List<Club>>(request, "ClubSearch");
+            var list = await _apiServiceClubs.Get<List<Club>>(request, "ClubSearch");
             List<ClubView> clubViews = new List<ClubView>();
             foreach (var item in list)
             {
@@ -65,18 +65,17 @@ namespace Transfermarkt.WinUI.Forms
             List<ClubPoints> clubs = new List<ClubPoints>();
             int counter = 0;
 
-            var clubLeague = await _ApiServiceClubs.GetById<List<ClubLeague>>(LeagueId, "ClubsInLeague");
-            foreach (var item in clubLeague.OrderByDescending(x => x.Points))
+            var clubLeague = await _apiServiceClubs.GetById<List<ClubLeague>>(LeagueId, "ClubsInLeague");
+            foreach (var item in clubLeague)
             {
-                var club = await _ApiServiceClubs.GetById<Club>(item.ClubId);
-                var points = await _ApiServiceClubs.GetById<ClubLeague>(item.ClubId, "ClubPoints");
+                var club = await _apiServiceClubs.GetById<Club>(item.ClubId);
                 var clubView = new ClubPoints
                 {
                     Abbreviation = club.Abbreviation,
                     Id = club.Id,
                     Logo = club.Logo,
                     Name = club.Name,
-                    Points = points.Points,
+                    Points = item.Points,
                     Position = int.Parse(counter.ToString()) + 1
                 };
                 clubs.Add(clubView);
@@ -85,15 +84,14 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void CmbSeasons_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //testirati
             int seasonId = CmbSeasons.SelectedIndex;
             if (seasonId == 0)
                 return;
-            var clubsInSeason = await _ApiServiceClubs.GetById<List<ClubLeague>>(seasonId, "ClubsInSeason");
+            var clubsInSeason = await _apiServiceClubs.GetById<List<ClubLeague>>(seasonId, "ClubsInSeason");
             List<ClubPoints> clubPoints = new List<ClubPoints>();
             foreach (var item in clubsInSeason.Where(x => x.LeagueId == LeagueId).OrderByDescending(x => x.Points))
             {
-                var club = await _ApiServiceClubs.GetById<Club>(item.ClubId);
+                var club = await _apiServiceClubs.GetById<Club>(item.ClubId);
                 var clubView = new ClubPoints
                 {
                     Abbreviation = club.Abbreviation,

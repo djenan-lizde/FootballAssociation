@@ -19,7 +19,7 @@ namespace Transfermarkt.WebAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.City", b =>
+            modelBuilder.Entity("Transfermarkt.Models.City", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,7 +37,7 @@ namespace Transfermarkt.WebAPI.Migrations
                     b.ToTable("Cities");
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.Club", b =>
+            modelBuilder.Entity("Transfermarkt.Models.Club", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -72,7 +72,7 @@ namespace Transfermarkt.WebAPI.Migrations
                     b.ToTable("Clubs");
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.ClubLeague", b =>
+            modelBuilder.Entity("Transfermarkt.Models.ClubLeague", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -81,6 +81,9 @@ namespace Transfermarkt.WebAPI.Migrations
 
                     b.Property<int>("ClubId")
                         .HasColumnType("int");
+
+                    b.Property<TimeSpan>("LastUpdate")
+                        .HasColumnType("time");
 
                     b.Property<int>("LeagueId")
                         .HasColumnType("int");
@@ -93,16 +96,10 @@ namespace Transfermarkt.WebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClubId");
-
-                    b.HasIndex("LeagueId");
-
-                    b.HasIndex("SeasonId");
-
                     b.ToTable("ClubsLeague");
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.Contract", b =>
+            modelBuilder.Entity("Transfermarkt.Models.Contract", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -136,7 +133,7 @@ namespace Transfermarkt.WebAPI.Migrations
                     b.ToTable("Contracts");
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.League", b =>
+            modelBuilder.Entity("Transfermarkt.Models.League", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -157,7 +154,7 @@ namespace Transfermarkt.WebAPI.Migrations
                     b.ToTable("Leagues");
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.Match", b =>
+            modelBuilder.Entity("Transfermarkt.Models.Match", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -182,6 +179,12 @@ namespace Transfermarkt.WebAPI.Migrations
                     b.Property<bool>("IsFinished")
                         .HasColumnType("bit");
 
+                    b.Property<int>("LeagueId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeasonId")
+                        .HasColumnType("int");
+
                     b.Property<int>("StadiumId")
                         .HasColumnType("int");
 
@@ -191,12 +194,16 @@ namespace Transfermarkt.WebAPI.Migrations
 
                     b.HasIndex("HomeClubId");
 
+                    b.HasIndex("LeagueId");
+
+                    b.HasIndex("SeasonId");
+
                     b.HasIndex("StadiumId");
 
                     b.ToTable("Matches");
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.MatchDetail", b =>
+            modelBuilder.Entity("Transfermarkt.Models.MatchDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -225,7 +232,7 @@ namespace Transfermarkt.WebAPI.Migrations
                     b.ToTable("MatchDetails");
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.Player", b =>
+            modelBuilder.Entity("Transfermarkt.Models.Player", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -267,7 +274,7 @@ namespace Transfermarkt.WebAPI.Migrations
                     b.ToTable("Players");
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.PlayerPosition", b =>
+            modelBuilder.Entity("Transfermarkt.Models.PlayerPosition", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -289,7 +296,7 @@ namespace Transfermarkt.WebAPI.Migrations
                     b.ToTable("PlayerPositions");
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.Position", b =>
+            modelBuilder.Entity("Transfermarkt.Models.Position", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -307,7 +314,7 @@ namespace Transfermarkt.WebAPI.Migrations
                     b.ToTable("Positions");
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.Referee", b =>
+            modelBuilder.Entity("Transfermarkt.Models.Referee", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -333,7 +340,7 @@ namespace Transfermarkt.WebAPI.Migrations
                     b.ToTable("Referees");
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.RefereeMatch", b =>
+            modelBuilder.Entity("Transfermarkt.Models.RefereeMatch", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -355,7 +362,7 @@ namespace Transfermarkt.WebAPI.Migrations
                     b.ToTable("RefereeMatches");
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.Role", b =>
+            modelBuilder.Entity("Transfermarkt.Models.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -370,7 +377,7 @@ namespace Transfermarkt.WebAPI.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.Season", b =>
+            modelBuilder.Entity("Transfermarkt.Models.Season", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -385,7 +392,7 @@ namespace Transfermarkt.WebAPI.Migrations
                     b.ToTable("Seasons");
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.Stadium", b =>
+            modelBuilder.Entity("Transfermarkt.Models.Stadium", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -411,7 +418,7 @@ namespace Transfermarkt.WebAPI.Migrations
                     b.ToTable("Stadiums");
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.User", b =>
+            modelBuilder.Entity("Transfermarkt.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -444,7 +451,7 @@ namespace Transfermarkt.WebAPI.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.UsersRoles", b =>
+            modelBuilder.Entity("Transfermarkt.Models.UsersRoles", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -466,139 +473,130 @@ namespace Transfermarkt.WebAPI.Migrations
                     b.ToTable("UsersRoles");
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.Club", b =>
+            modelBuilder.Entity("Transfermarkt.Models.Club", b =>
                 {
-                    b.HasOne("Transfermarkt.WebAPI.Database.City", "City")
+                    b.HasOne("Transfermarkt.Models.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.ClubLeague", b =>
+            modelBuilder.Entity("Transfermarkt.Models.Contract", b =>
                 {
-                    b.HasOne("Transfermarkt.WebAPI.Database.Club", "Club")
+                    b.HasOne("Transfermarkt.Models.Club", "Club")
                         .WithMany()
                         .HasForeignKey("ClubId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Transfermarkt.WebAPI.Database.League", "League")
-                        .WithMany()
-                        .HasForeignKey("LeagueId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Transfermarkt.WebAPI.Database.Season", "Season")
-                        .WithMany()
-                        .HasForeignKey("SeasonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.Contract", b =>
-                {
-                    b.HasOne("Transfermarkt.WebAPI.Database.Club", "Club")
-                        .WithMany()
-                        .HasForeignKey("ClubId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Transfermarkt.WebAPI.Database.Player", "Player")
+                    b.HasOne("Transfermarkt.Models.Player", "Player")
                         .WithMany()
                         .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.Match", b =>
+            modelBuilder.Entity("Transfermarkt.Models.Match", b =>
                 {
-                    b.HasOne("Transfermarkt.WebAPI.Database.ClubLeague", "AwayClub")
+                    b.HasOne("Transfermarkt.Models.Club", "AwayClub")
                         .WithMany()
                         .HasForeignKey("AwayClubId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Transfermarkt.WebAPI.Database.ClubLeague", "HomeClub")
+                    b.HasOne("Transfermarkt.Models.Club", "HomeClub")
                         .WithMany()
                         .HasForeignKey("HomeClubId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Transfermarkt.WebAPI.Database.Stadium", "Stadium")
+                    b.HasOne("Transfermarkt.Models.League", "League")
+                        .WithMany()
+                        .HasForeignKey("LeagueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Transfermarkt.Models.Season", "Season")
+                        .WithMany()
+                        .HasForeignKey("SeasonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Transfermarkt.Models.Stadium", "Stadium")
                         .WithMany()
                         .HasForeignKey("StadiumId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.MatchDetail", b =>
+            modelBuilder.Entity("Transfermarkt.Models.MatchDetail", b =>
                 {
-                    b.HasOne("Transfermarkt.WebAPI.Database.Match", "Match")
+                    b.HasOne("Transfermarkt.Models.Match", "Match")
                         .WithMany()
                         .HasForeignKey("MatchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.PlayerPosition", b =>
+            modelBuilder.Entity("Transfermarkt.Models.PlayerPosition", b =>
                 {
-                    b.HasOne("Transfermarkt.WebAPI.Database.Player", "Player")
+                    b.HasOne("Transfermarkt.Models.Player", "Player")
                         .WithMany()
                         .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Transfermarkt.WebAPI.Database.Position", "Position")
+                    b.HasOne("Transfermarkt.Models.Position", "Position")
                         .WithMany()
                         .HasForeignKey("PositionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.Referee", b =>
+            modelBuilder.Entity("Transfermarkt.Models.Referee", b =>
                 {
-                    b.HasOne("Transfermarkt.WebAPI.Database.City", "City")
+                    b.HasOne("Transfermarkt.Models.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.RefereeMatch", b =>
+            modelBuilder.Entity("Transfermarkt.Models.RefereeMatch", b =>
                 {
-                    b.HasOne("Transfermarkt.WebAPI.Database.Match", "Match")
+                    b.HasOne("Transfermarkt.Models.Match", "Match")
                         .WithMany()
                         .HasForeignKey("MatchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Transfermarkt.WebAPI.Database.Referee", "Referee")
+                    b.HasOne("Transfermarkt.Models.Referee", "Referee")
                         .WithMany()
                         .HasForeignKey("RefereeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.Stadium", b =>
+            modelBuilder.Entity("Transfermarkt.Models.Stadium", b =>
                 {
-                    b.HasOne("Transfermarkt.WebAPI.Database.Club", "Club")
+                    b.HasOne("Transfermarkt.Models.Club", "Club")
                         .WithMany()
                         .HasForeignKey("ClubId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Transfermarkt.WebAPI.Database.UsersRoles", b =>
+            modelBuilder.Entity("Transfermarkt.Models.UsersRoles", b =>
                 {
-                    b.HasOne("Transfermarkt.WebAPI.Database.Role", "Role")
+                    b.HasOne("Transfermarkt.Models.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Transfermarkt.WebAPI.Database.User", "User")
-                        .WithMany()
+                    b.HasOne("Transfermarkt.Models.User", "User")
+                        .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

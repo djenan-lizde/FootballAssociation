@@ -25,7 +25,7 @@
 
 
             <Label Text="League table" FontSize="40"></Label>
-            <ListView ItemsSource="{Binding ClubsList}">
+            <ListView ItemsSource="{Binding ClubsList}" ItemSelected="ListView_ItemSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

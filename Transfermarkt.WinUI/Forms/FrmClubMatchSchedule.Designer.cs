@@ -56,8 +56,10 @@
             this.DgvMatches.Location = new System.Drawing.Point(3, 16);
             this.DgvMatches.Name = "DgvMatches";
             this.DgvMatches.ReadOnly = true;
+            this.DgvMatches.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DgvMatches.Size = new System.Drawing.Size(649, 177);
             this.DgvMatches.TabIndex = 0;
+            this.DgvMatches.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.DgvMatches_MouseDoubleClick);
             // 
             // LblClubName
             // 

@@ -8,6 +8,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200417142302_MatchClass.cs" />
     <Compile Remove="Migrations\20200417142302_MatchClass.Designer.cs" />
+    <Compile Remove="Migrations\20200701214248_BuxFixing.cs" />
+    <Compile Remove="Migrations\20200701214248_BuxFixing.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,18 +5,20 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Transfermarkt.Models;
+using Transfermarkt.Models.Requests;
 
 namespace Transfermarkt.WinUI.Forms
 {
     public partial class FrmMatch : Form
     {
         private readonly APIService _aPIServiceStadium = new APIService("Stadiums");
+        private readonly APIService _aPIServiceLeagues = new APIService("Leagues");
         private readonly APIService _aPIServiceClub = new APIService("Clubs");
         private readonly APIService _aPIServiceMatch = new APIService("Matches");
         private readonly APIService _aPIServiceReferee = new APIService("Referee");
 
         private int StadiumId { get; set; }
-        private IEnumerable<ClubLeague> ClubLeagues { get; set; }
+        private int SeasonId { get; set; }
 
         public FrmMatch()
         {
@@ -24,17 +26,45 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void FrmMatch_Load(object sender, EventArgs e)
         {
-            var clubs = await _aPIServiceClub.Get<List<Club>>();
-            var clubs1 = await _aPIServiceClub.Get<List<Club>>();
+            var leagues = await _aPIServiceLeagues.Get<List<League>>();
+            CmbLeagues.DataSource = leagues;
+            CmbLeagues.DisplayMember = "Name";
+            CmbLeagues.ValueMember = "Id";
 
-            ClubLeagues = await _aPIServiceClub.Get<List<ClubLeague>>(null, "ClubLeague");
+            CmbAwayClub.Enabled = false;
+            CmbHomeClub.Enabled = false;
+            CmbReferees.Enabled = false;
+            TxtDateGame.Enabled = false;
+            TxtMatchStart.Enabled = false;
+        }
+        private async void CmbLeagues_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            var leagueId = int.Parse(CmbLeagues.SelectedValue.ToString());
 
-            //pogledat neko drugo rjesenje
-            CmbHomeClub.DataSource = clubs;
+            CmbAwayClub.Enabled = true;
+            CmbHomeClub.Enabled = true;
+            CmbReferees.Enabled = true;
+            TxtDateGame.Enabled = true;
+            TxtMatchStart.Enabled = true;
+
+            var clubs = await _aPIServiceClub.GetById<List<ClubLeague>>(leagueId, "ClubsInLeague");
+
+            List<Club> comboHomeTeam = new List<Club>();
+            List<Club> comboAwayTeam = new List<Club>();
+
+            foreach (var item in clubs)
+            {
+                var clubInDb = await _aPIServiceClub.GetById<Club>(item.ClubId);
+                comboHomeTeam.Add(clubInDb);
+                comboAwayTeam.Add(clubInDb);
+                SeasonId = item.SeasonId;
+            }
+
+            CmbHomeClub.DataSource = comboHomeTeam;
             CmbHomeClub.DisplayMember = "Name";
             CmbHomeClub.ValueMember = "Id";
 
-            CmbAwayClub.DataSource = clubs1;
+            CmbAwayClub.DataSource = comboAwayTeam;
             CmbAwayClub.DisplayMember = "Name";
             CmbAwayClub.ValueMember = "Id";
 
@@ -45,7 +75,6 @@ namespace Transfermarkt.WinUI.Forms
             CmbReferees.ValueMember = "Id";
 
             TxtStadium.Text = "Home stadium will load automatically.";
-
         }
         private async void CmbHomeClub_SelectionChangeCommitted(object sender, EventArgs e)
         {
@@ -100,28 +129,26 @@ namespace Transfermarkt.WinUI.Forms
         private async void BtnSave_Click(object sender, EventArgs e)
         {
             var gameEnd = (int.Parse(TxtMatchStart.Text.Substring(0, 2)) + 2).ToString() + TxtMatchStart.Text.Substring(2, 3);
-            var homeClub = ClubLeagues.LastOrDefault(x => x.ClubId == int.Parse(CmbHomeClub.SelectedValue.ToString()));
-            var awayClub = ClubLeagues.LastOrDefault(x => x.ClubId == int.Parse(CmbAwayClub.SelectedValue.ToString()));
 
             var match = new Match
             {
-                AwayClubId = awayClub.Id,
-                HomeClubId = homeClub.Id,
+                HomeClubId = int.Parse(CmbHomeClub.SelectedValue.ToString()),
+                AwayClubId = int.Parse(CmbAwayClub.SelectedValue.ToString()),
                 DateGame = DateTime.Parse(TxtDateGame.Text),
                 IsFinished = false,
                 StadiumId = StadiumId,
                 GameStart = TxtMatchStart.Text,
-                GameEnd = gameEnd
+                GameEnd = gameEnd,
+                LeagueId = int.Parse(CmbHomeClub.SelectedValue.ToString()),
+                SeasonId = SeasonId
             };
-            await _aPIServiceMatch.Insert<Match>(match);
 
-            var matches = await _aPIServiceMatch.Get<List<Match>>();
-            var lastMatch = matches.LastOrDefault();
+            var addedMatch = await _aPIServiceMatch.Insert<Match>(match);
 
             var refereeMatch = new RefereeMatch
             {
                 RefereeId = int.Parse(CmbReferees.SelectedValue.ToString()),
-                MatchId = lastMatch.Id
+                MatchId = addedMatch.Id
             };
             await _aPIServiceMatch.Insert<RefereeMatch>(refereeMatch, "RefereeMatch");
         }

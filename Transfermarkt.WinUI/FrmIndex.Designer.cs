@@ -34,7 +34,6 @@
             this.AddClubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.leaguesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddLeagueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.leagueListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.playersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddPlayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PlayersListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -90,8 +89,7 @@
             // leaguesToolStripMenuItem
             // 
             this.leaguesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.AddLeagueToolStripMenuItem,
-            this.leagueListToolStripMenuItem});
+            this.AddLeagueToolStripMenuItem});
             this.leaguesToolStripMenuItem.Name = "leaguesToolStripMenuItem";
             this.leaguesToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
             this.leaguesToolStripMenuItem.Text = "Leagues";
@@ -99,15 +97,9 @@
             // AddLeagueToolStripMenuItem
             // 
             this.AddLeagueToolStripMenuItem.Name = "AddLeagueToolStripMenuItem";
-            this.AddLeagueToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.AddLeagueToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.AddLeagueToolStripMenuItem.Text = "Add league";
             this.AddLeagueToolStripMenuItem.Click += new System.EventHandler(this.AddLeagueToolStripMenuItem_Click);
-            // 
-            // leagueListToolStripMenuItem
-            // 
-            this.leagueListToolStripMenuItem.Name = "leagueListToolStripMenuItem";
-            this.leagueListToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
-            this.leagueListToolStripMenuItem.Text = "League list";
             // 
             // playersToolStripMenuItem
             // 
@@ -277,7 +269,6 @@
         private System.Windows.Forms.ToolStripMenuItem AddClubToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem leaguesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AddLeagueToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem leagueListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem playersToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AddPlayerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem PlayersListToolStripMenuItem;

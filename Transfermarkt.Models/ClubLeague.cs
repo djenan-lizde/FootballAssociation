@@ -9,17 +9,18 @@ namespace Transfermarkt.Models
     {
         public int Id { get; set; }
 
-        [ForeignKey(nameof(Club))]
+        //[ForeignKey(nameof(Club))]
         public int ClubId { get; set; }
-        public Club Club { get; set; }
+        //public Club Club { get; set; }
 
-        [ForeignKey(nameof(League))]
+        //[ForeignKey(nameof(League))]
         public int LeagueId { get; set; }
-        public League League { get; set; }
+        //public League League { get; set; }
 
-        [ForeignKey(nameof(Season))]
+        //[ForeignKey(nameof(Season))]
         public int SeasonId { get; set; }
-        public Season Season { get; set; }
+        //public Season Season { get; set; }
         public int Points { get; set; }
+        public TimeSpan LastUpdate { get; set; }
     }
 }

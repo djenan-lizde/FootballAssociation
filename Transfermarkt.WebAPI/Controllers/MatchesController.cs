@@ -13,15 +13,16 @@ namespace Transfermarkt.WebAPI.Controllers
     {
         private readonly IData<RefereeMatch> _serviceRefereeMatch;
         private readonly IData<MatchDetail> _serviceMatchDetail;
+        private readonly IData<Season> _serviceSeason;
         private readonly IData<Match> _serviceMatch;
 
-
         public MatchesController(IData<Match> service, IData<RefereeMatch> serviceRefereeMatch,
-            IData<MatchDetail> serviceMatchDetail, IData<Match> serviceMatch) : base(service)
+            IData<MatchDetail> serviceMatchDetail, IData<Season> serviceSeason, IData<Match> serviceMatch) : base(service)
         {
             _serviceRefereeMatch = serviceRefereeMatch;
             _serviceMatchDetail = serviceMatchDetail;
-            _serviceMatch = service;
+            _serviceMatch = serviceMatch;
+            _serviceSeason = serviceSeason;
         }
 
         [HttpGet("MatchDetail/{MatchId}")]
@@ -30,10 +31,27 @@ namespace Transfermarkt.WebAPI.Controllers
             return _serviceMatchDetail.GetByCondition(x => x.MatchId == matchId).ToList();
         }
 
-        [HttpGet("ClubMatches/{ClubLeagueId}")]
-        public List<Match> GetMatches(int clubLeagueId)
+        [HttpGet("ClubSchedule/{clubId}")]
+        public List<Match> GetMatches(int clubId)
         {
-            return _serviceMatch.GetByCondition(x => x.HomeClubId == clubLeagueId || x.AwayClubId == clubLeagueId).ToList();
+            return _serviceMatch.GetByCondition(x => x.HomeClubId == clubId || x.AwayClubId == clubId).ToList();
+        }
+
+        [HttpGet("ClubMatches/{leagueId}")]
+        public List<Match> GetClubsInLeague(int leagueId)
+        {
+            var list = _serviceSeason.Get();
+            var lastSeason = list.LastOrDefault();
+            return _serviceMatch.GetByCondition(x => x.LeagueId == leagueId && x.SeasonId==lastSeason.Id).ToList();
+        }
+
+        [HttpGet("Season")]
+        public Season LastSeason()
+        {
+            var list = _serviceSeason.Get();
+            var lastSeason = list.LastOrDefault();
+
+            return lastSeason;
         }
 
         [HttpPost("RefereeMatch")]
