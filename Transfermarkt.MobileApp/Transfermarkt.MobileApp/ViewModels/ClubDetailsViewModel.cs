@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Transfermarkt.MobileApp.Views;
 using Transfermarkt.Models;
 using Transfermarkt.Models.Requests;
 using Xamarin.Forms;
@@ -20,7 +22,7 @@ namespace Transfermarkt.MobileApp.ViewModels
             InitCommand = new Command(async () => await ClubPlayers());
         }
 
-        public Club Club { get; set; }
+        public ClubPoints Club { get; set; }
 
         public ObservableCollection<PlayersClub> Players { get; set; } = new ObservableCollection<PlayersClub>();
 

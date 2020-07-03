@@ -16,7 +16,7 @@ namespace Transfermarkt.MobileApp.Views
     {
         private readonly ClubDetailsViewModel model = null;
 
-        public ClubDetailsPage(Club club)
+        public ClubDetailsPage(ClubPoints club)
         {
             InitializeComponent();
             BindingContext = model = new ClubDetailsViewModel()
@@ -36,6 +36,10 @@ namespace Transfermarkt.MobileApp.Views
             var item = e.SelectedItem as PlayersClub;
 
             await Navigation.PushAsync(new PlayerDetailsPage(item));
+        }
+        async void OnButtonClicked(object sender, EventArgs args)
+        {
+            await Navigation.PushAsync(new MatchSchedulePage(model.Club.Id));
         }
     }
 }

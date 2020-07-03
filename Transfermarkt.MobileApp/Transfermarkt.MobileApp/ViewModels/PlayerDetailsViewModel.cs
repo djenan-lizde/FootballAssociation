@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Transfermarkt.Models;
@@ -17,6 +18,7 @@ namespace Transfermarkt.MobileApp.ViewModels
         public PlayerDetailsViewModel() { }
 
         public PlayersClub Player { get; set; }
+        public PlayerStats playerStats { get; set; } = new PlayerStats();
 
         public ObservableCollection<PlayerContractsClubs> Contracts { get; set; } = new ObservableCollection<PlayerContractsClubs>();
 
@@ -37,6 +39,11 @@ namespace Transfermarkt.MobileApp.ViewModels
                 };
                 Contracts.Add(playerClub);
             }
+            var playerMatchDetails = await _apiServiceMatches.GetById<List<MatchDetail>>(Player.Id, "PlayerMatchDetails");
+            playerStats.NumberOfGoals = playerMatchDetails.Count(x => x.ActionType == 3);
+            playerStats.NumberOfYellowCards = playerMatchDetails.Count(x => x.ActionType == 0);
+            playerStats.NumberOfRedCards = playerMatchDetails.Count(x => x.ActionType == 1);
+            playerStats.Id = Player.Id;
         }
     }
 }

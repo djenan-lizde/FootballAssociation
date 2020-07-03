@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Transfermarkt.Models;
+using Transfermarkt.Models.Requests;
 using Xamarin.Forms;
 
 namespace Transfermarkt.MobileApp.ViewModels
@@ -41,17 +42,29 @@ namespace Transfermarkt.MobileApp.ViewModels
 
             if (SelectedLeague != null)
             {
+                //club points uraditi tip i onda ce se fixati sve
                 var clubInLeague = await _apiServiceClubs.GetById<List<ClubLeague>>(SelectedLeague.Id, "ClubsInLeague");
-                ClubsList.Clear();
+                ClubsPoints.Clear();
+                var counter = 0;
                 foreach (var item in clubInLeague)
                 {
                     var club = await _apiServiceClubs.GetById<Club>(item.ClubId);
-                    ClubsList.Add(club);
+                    var clubPoints = new ClubPoints
+                    {
+                        Id = club.Id,
+                        Abbreviation = club.Abbreviation,
+                        Logo = club.Logo,
+                        Name = club.Name,
+                        Points = item.Points,
+                        Position = counter + 1
+                    };
+                    ClubsPoints.Add(clubPoints);
                 }
             }
         }
 
-        public ObservableCollection<Club> ClubsList { get; set; } = new ObservableCollection<Club>();
+        //public ObservableCollection<Club> ClubsList { get; set; } = new ObservableCollection<Club>();
+        public ObservableCollection<ClubPoints> ClubsPoints { get; set; } = new ObservableCollection<ClubPoints>();
         public ObservableCollection<League> LeaguesList { get; set; } = new ObservableCollection<League>();
 
         public ICommand InitCommand { get; set; }

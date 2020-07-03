@@ -65,5 +65,11 @@ namespace Transfermarkt.WebAPI.Controllers
         {
             return _serviceMatchDetail.Insert(matchDetail);
         }
+
+        [HttpGet("PlayerMatchDetails/{playerId}")]
+        public List<MatchDetail> GetPlayerMatchDetails(int playerId)
+        {
+            return _serviceMatchDetail.GetByCondition(x => x.PlayerId == playerId).ToList();
+        }
     }
 }

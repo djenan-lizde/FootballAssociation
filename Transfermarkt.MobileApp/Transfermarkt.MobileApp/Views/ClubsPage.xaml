@@ -17,10 +17,11 @@
         <StackLayout>
             <Label Text="Clubs!"
                 VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+                HorizontalOptions="CenterAndExpand" Padding="10"/>
+            <Label Text="Choose a league from a combo box." VerticalOptions="FillAndExpand" Padding="10"></Label>
             <Picker ItemsSource="{Binding LeaguesList}" SelectedItem="{Binding SelectedLeague}" ItemDisplayBinding="{Binding Name}"></Picker>
-            
-            <ListView ItemsSource="{Binding ClubsList}" ItemSelected="ListView_ItemSelected">
+
+            <ListView ItemsSource="{Binding ClubsPoints}" ItemSelected="ListView_ItemSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

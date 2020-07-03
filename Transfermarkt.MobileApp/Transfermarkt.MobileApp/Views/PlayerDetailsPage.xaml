@@ -18,9 +18,14 @@
             <Label Text="Player details."
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
-            <Label Text="{Binding Player.FirstName}"></Label>
-            <Label Text="{Binding Player.LastName}"></Label>
-            <Label Text="{Binding Player.Value}"></Label>
+            <StackLayout>
+                <Label Text="{Binding Player.FirstName}"></Label>
+                <Label Text="{Binding Player}"></Label>
+                <Label Text="{Binding Player}"></Label>
+            </StackLayout>
+            <StackLayout>
+                <Label Text="{Binding playerStats}"></Label>
+            </StackLayout>
             <Label Text="Contracts: "></Label>
             <ListView ItemsSource="{Binding Contracts}">
                 <ListView.ItemTemplate>

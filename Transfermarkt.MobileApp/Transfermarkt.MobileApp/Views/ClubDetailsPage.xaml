@@ -18,30 +18,28 @@
             <Label Text="Club!"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />
-            <StackLayout Grid.Row="0" Grid.Column="0">
-                <!--<StackLayout>
-                    <Image Source="{Binding Club.Logo, Converter={StaticResource imgConv}}"></Image>
-                </StackLayout>-->
+            <StackLayout Grid.Row="0" Grid.Column="0" Padding="10">
                 <Label Text="{Binding Club.Name}"></Label>
-                <Label Text="{Binding Club.Nickname}"></Label>
-                <Label Text="{Binding Club.MarketValue}"></Label>
+                <Button Text="Match schedule" Padding="10" Clicked="OnButtonClicked"></Button>
             </StackLayout>
-            <ListView ItemsSource="{Binding Players}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Padding="10" Orientation="Horizontal">
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="{Binding FirstName}"></Label>
-                                    <Label Text="{Binding LastName}"></Label>
-                                    <Label Text="{Binding Jersey}"></Label>
-                                    <Label Text="{Binding Birthdate}" LineBreakMode="NoWrap"></Label>
+            <StackLayout>
+                <ListView ItemsSource="{Binding Players}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="10" Orientation="Horizontal">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="{Binding FirstName}"></Label>
+                                        <Label Text="{Binding LastName}"></Label>
+                                        <Label Text="{Binding Jersey}"></Label>
+                                        <Label Text="{Binding Birthdate}" LineBreakMode="NoWrap"></Label>
+                                    </StackLayout>
                                 </StackLayout>
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
