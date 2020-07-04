@@ -10,7 +10,6 @@ namespace Transfermarkt.MobileApp.ViewModels
 {
     public class MatchesViewModel : BaseViewModel
     {
-        private readonly APIService _apiServiceLeagues = new APIService("Leagues");
         private readonly APIService _apiServiceMatches = new APIService("Matches");
         private readonly APIService _apiServiceClubs = new APIService("Clubs");
         private readonly APIService _aPIServiceStadiums = new APIService("Stadiums");

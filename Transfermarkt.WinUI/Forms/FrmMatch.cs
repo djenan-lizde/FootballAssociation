@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using Transfermarkt.Models;
-using Transfermarkt.Models.Requests;
 
 namespace Transfermarkt.WinUI.Forms
 {
@@ -70,7 +68,7 @@ namespace Transfermarkt.WinUI.Forms
 
             var referees = await _aPIServiceReferee.Get<List<Referee>>();
             CmbReferees.DataSource = referees;
-            //dodat ime i prezime da prikazujes
+            //dodat ime i prezime da prikazuje mapirati 
             CmbReferees.DisplayMember = "FirstName";
             CmbReferees.ValueMember = "Id";
 

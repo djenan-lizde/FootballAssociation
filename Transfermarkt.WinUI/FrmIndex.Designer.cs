@@ -42,14 +42,13 @@
             this.matchesListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refereeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addRefereeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.usersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.DgvLeagues = new System.Windows.Forms.DataGridView();
             this.lblHello = new System.Windows.Forms.Label();
-            this.BtnUpdateProfile = new System.Windows.Forms.Button();
+            this.BtnReport = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -63,8 +62,7 @@
             this.leaguesToolStripMenuItem,
             this.playersToolStripMenuItem,
             this.matchesToolStripMenuItem,
-            this.refereeToolStripMenuItem,
-            this.usersToolStripMenuItem});
+            this.refereeToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(887, 24);
@@ -97,7 +95,7 @@
             // AddLeagueToolStripMenuItem
             // 
             this.AddLeagueToolStripMenuItem.Name = "AddLeagueToolStripMenuItem";
-            this.AddLeagueToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.AddLeagueToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.AddLeagueToolStripMenuItem.Text = "Add league";
             this.AddLeagueToolStripMenuItem.Click += new System.EventHandler(this.AddLeagueToolStripMenuItem_Click);
             // 
@@ -162,13 +160,6 @@
             this.addRefereeToolStripMenuItem.Text = "Add referee";
             this.addRefereeToolStripMenuItem.Click += new System.EventHandler(this.AddRefereeToolStripMenuItem_Click);
             // 
-            // usersToolStripMenuItem
-            // 
-            this.usersToolStripMenuItem.Name = "usersToolStripMenuItem";
-            this.usersToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
-            this.usersToolStripMenuItem.Text = "Users";
-            this.usersToolStripMenuItem.Click += new System.EventHandler(this.usersToolStripMenuItem_Click);
-            // 
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -218,18 +209,18 @@
             this.lblHello.Size = new System.Drawing.Size(0, 31);
             this.lblHello.TabIndex = 6;
             // 
-            // BtnUpdateProfile
+            // BtnReport
             // 
-            this.BtnUpdateProfile.BackColor = System.Drawing.Color.RoyalBlue;
-            this.BtnUpdateProfile.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnUpdateProfile.ForeColor = System.Drawing.Color.White;
-            this.BtnUpdateProfile.Location = new System.Drawing.Point(397, 308);
-            this.BtnUpdateProfile.Name = "BtnUpdateProfile";
-            this.BtnUpdateProfile.Size = new System.Drawing.Size(134, 37);
-            this.BtnUpdateProfile.TabIndex = 8;
-            this.BtnUpdateProfile.Text = "Update profile";
-            this.BtnUpdateProfile.UseVisualStyleBackColor = false;
-            this.BtnUpdateProfile.Click += new System.EventHandler(this.BtnUpdateProfile_Click);
+            this.BtnReport.BackColor = System.Drawing.Color.RoyalBlue;
+            this.BtnReport.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnReport.ForeColor = System.Drawing.Color.White;
+            this.BtnReport.Location = new System.Drawing.Point(397, 309);
+            this.BtnReport.Name = "BtnReport";
+            this.BtnReport.Size = new System.Drawing.Size(134, 37);
+            this.BtnReport.TabIndex = 10;
+            this.BtnReport.Text = "Report";
+            this.BtnReport.UseVisualStyleBackColor = false;
+            this.BtnReport.Click += new System.EventHandler(this.BtnReport_Click);
             // 
             // FrmIndex
             // 
@@ -237,7 +228,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(887, 430);
-            this.Controls.Add(this.BtnUpdateProfile);
+            this.Controls.Add(this.BtnReport);
             this.Controls.Add(this.lblHello);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.statusStrip);
@@ -280,8 +271,7 @@
         private System.Windows.Forms.DataGridView DgvLeagues;
         private System.Windows.Forms.ToolStripMenuItem matchesListToolStripMenuItem;
         private System.Windows.Forms.Label lblHello;
-        private System.Windows.Forms.ToolStripMenuItem usersToolStripMenuItem;
-        private System.Windows.Forms.Button BtnUpdateProfile;
+        private System.Windows.Forms.Button BtnReport;
     }
 }
 

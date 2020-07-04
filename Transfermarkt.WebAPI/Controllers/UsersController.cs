@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using Transfermarkt.Models;
 using Transfermarkt.Models.Requests;
 using Transfermarkt.WebAPI.Services;
@@ -97,5 +98,13 @@ namespace Transfermarkt.WebAPI.Controllers
             }
             return list;
         }
+
+        //[HttpGet]
+        //[Authorize]
+        //public User GetUserInfo()
+        //{
+        //    //ovo user je sada moj UserId
+        //    var user = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+        //}
     }
 }
