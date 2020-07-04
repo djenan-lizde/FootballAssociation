@@ -37,6 +37,7 @@ namespace Transfermarkt.MobileApp.Views
 
             await Navigation.PushAsync(new PlayerDetailsPage(item));
         }
+
         async void OnButtonClicked(object sender, EventArgs args)
         {
             await Navigation.PushAsync(new MatchSchedulePage(model.Club.Id));

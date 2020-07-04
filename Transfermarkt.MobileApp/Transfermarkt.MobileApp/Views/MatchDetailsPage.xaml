@@ -12,7 +12,7 @@
         <StackLayout>
             <Label Text="Match details"
                 HorizontalOptions="CenterAndExpand" />
-                <Label Text="{Binding TeamsMatchResult}" HorizontalOptions="CenterAndExpand" Padding="10"></Label>
+                <Label Text="{Binding TeamsMatchResult}" HorizontalOptions="CenterAndExpand" Padding="10" FontSize="Header"></Label>
             <StackLayout>
                 <Label Text="Goals: " FontSize="Medium"></Label>
                 <ListView ItemsSource="{Binding GoalScorers}">

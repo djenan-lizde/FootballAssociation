@@ -7,7 +7,7 @@ using Transfermarkt.Models.Requests;
 
 namespace Transfermarkt.MobileApp.ViewModels
 {
-    public class MatchDetailsViewModel
+    public class MatchDetailsViewModel : BaseViewModel
     {
         private readonly APIService _apiServiceMatches = new APIService("Matches");
         private readonly APIService _aPIServiceClubs = new APIService("Clubs");
@@ -18,7 +18,12 @@ namespace Transfermarkt.MobileApp.ViewModels
         public ObservableCollection<PlayersCards> PlayersCards { get; set; } = new ObservableCollection<PlayersCards>();
         public ObservableCollection<PlayersCorners> PlayersCorners { get; set; } = new ObservableCollection<PlayersCorners>();
 
-        public string TeamsMatchResult { get; set; }
+        string teamsMatchResult = string.Empty;
+        public string TeamsMatchResult
+        {
+            get { return teamsMatchResult; }
+            set { SetProperty(ref teamsMatchResult, value); }
+        }
 
         public async Task Init()
         {

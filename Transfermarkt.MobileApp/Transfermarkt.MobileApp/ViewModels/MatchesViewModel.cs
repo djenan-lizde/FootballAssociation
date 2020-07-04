@@ -30,6 +30,7 @@ namespace Transfermarkt.MobileApp.ViewModels
             {
                 return;
             }
+            MatchesList.Clear();
 
             var league = await _aPIServiceLeagues.GetById<League>(result[0].LeagueId);
 

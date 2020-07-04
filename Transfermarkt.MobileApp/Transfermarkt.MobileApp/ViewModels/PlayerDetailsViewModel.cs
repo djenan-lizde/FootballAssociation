@@ -9,7 +9,7 @@ using Transfermarkt.Models.Requests;
 
 namespace Transfermarkt.MobileApp.ViewModels
 {
-    public class PlayerDetailsViewModel
+    public class PlayerDetailsViewModel : BaseViewModel
     {
         private readonly APIService _apiServiceContracts = new APIService("Contracts");
         private readonly APIService _apiServiceClubs = new APIService("Clubs");
@@ -18,13 +18,20 @@ namespace Transfermarkt.MobileApp.ViewModels
         public PlayerDetailsViewModel() { }
 
         public PlayersClub Player { get; set; }
-        public PlayerStats playerStats { get; set; } = new PlayerStats();
+
+        string stats = string.Empty;
+        public string Stats
+        {
+            get { return stats; }
+            set { SetProperty(ref stats, value); }
+        }
 
         public ObservableCollection<PlayerContractsClubs> Contracts { get; set; } = new ObservableCollection<PlayerContractsClubs>();
 
         public async Task PlayerContracts()
         {
             var contracts = await _apiServiceContracts.GetById<List<Contract>>(Player.Id, "PlayerContracts");
+            Contracts.Clear();
             foreach (var item in contracts)
             {
                 var club = await _apiServiceClubs.GetById<Club>(item.ClubId);
@@ -40,10 +47,10 @@ namespace Transfermarkt.MobileApp.ViewModels
                 Contracts.Add(playerClub);
             }
             var playerMatchDetails = await _apiServiceMatches.GetById<List<MatchDetail>>(Player.Id, "PlayerMatchDetails");
-            playerStats.NumberOfGoals = playerMatchDetails.Count(x => x.ActionType == 3);
-            playerStats.NumberOfYellowCards = playerMatchDetails.Count(x => x.ActionType == 0);
-            playerStats.NumberOfRedCards = playerMatchDetails.Count(x => x.ActionType == 1);
-            playerStats.Id = Player.Id;
+            var NumberOfGoals = playerMatchDetails.Count(x => x.ActionType == 3);
+            var NumberOfYellowCards = playerMatchDetails.Count(x => x.ActionType == 0);
+            var NumberOfRedCards = playerMatchDetails.Count(x => x.ActionType == 1);
+            Stats = $"Scored goals: {NumberOfGoals}, yellow cards: {NumberOfYellowCards}, red cards: {NumberOfRedCards}";
         }
     }
 }

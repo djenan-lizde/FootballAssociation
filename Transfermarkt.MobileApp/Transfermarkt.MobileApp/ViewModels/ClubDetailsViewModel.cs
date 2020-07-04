@@ -29,6 +29,7 @@ namespace Transfermarkt.MobileApp.ViewModels
         public async Task ClubPlayers()
         {
             var contracts = await _apiServiceContracts.GetById<List<Contract>>(Club.Id, "ClubContracts");
+            Players.Clear();
 
             foreach (var item in contracts)
             {

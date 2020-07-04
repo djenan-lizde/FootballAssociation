@@ -23,7 +23,7 @@
                 <Button Text="Match schedule" Padding="10" Clicked="OnButtonClicked"></Button>
             </StackLayout>
             <StackLayout>
-                <ListView ItemsSource="{Binding Players}">
+                <ListView ItemsSource="{Binding Players}" ItemSelected="ListView_ItemSelected">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>

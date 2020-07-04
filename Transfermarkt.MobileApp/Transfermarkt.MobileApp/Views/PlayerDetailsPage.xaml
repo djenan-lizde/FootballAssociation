@@ -20,11 +20,11 @@
                 HorizontalOptions="CenterAndExpand" />
             <StackLayout>
                 <Label Text="{Binding Player.FirstName}"></Label>
-                <Label Text="{Binding Player}"></Label>
-                <Label Text="{Binding Player}"></Label>
+                <Label Text="{Binding Player.LastName}"></Label>
+                <Label Text="{Binding Player.Jersey}"></Label>
             </StackLayout>
             <StackLayout>
-                <Label Text="{Binding playerStats}"></Label>
+                <Label Text="{Binding Stats}"></Label>
             </StackLayout>
             <Label Text="Contracts: "></Label>
             <ListView ItemsSource="{Binding Contracts}">

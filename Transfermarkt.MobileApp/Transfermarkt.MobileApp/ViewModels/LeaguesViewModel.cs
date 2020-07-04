@@ -18,6 +18,7 @@ namespace Transfermarkt.MobileApp.ViewModels
         public async Task Init()
         {
             var leaguesList = await _apiServiceLeagues.Get<List<League>>(null);
+            LeaguesList.Clear();
             foreach (var item in leaguesList)
             {
                 LeaguesList.Add(item);
