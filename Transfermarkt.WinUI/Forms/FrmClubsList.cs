@@ -10,6 +10,7 @@ namespace Transfermarkt.WinUI.Forms
     public partial class FrmClubsList : Form
     {
         private readonly APIService _apiServiceClubs = new APIService("Clubs");
+        private readonly APIService _apiServiceMatch = new APIService("Matches");
 
         public int? LeagueId { get; set; }
 
@@ -22,6 +23,12 @@ namespace Transfermarkt.WinUI.Forms
         {
             var id = DgvClubList.SelectedRows[0].Cells[0].Value;
 
+            if ((int)id == 0)
+            {
+                MessageBox.Show("You need to select a club.", "Error", MessageBoxButtons.OK);
+                return;
+            }
+
             FrmClub frm = new FrmClub(int.Parse(id.ToString()));
             frm.Show();
         }
@@ -30,6 +37,13 @@ namespace Transfermarkt.WinUI.Forms
             CmbSeasons.DataSource = await _apiServiceClubs.Get<List<Season>>(null, "AllSeasons");
             CmbSeasons.DisplayMember = "SeasonYear";
             CmbSeasons.ValueMember = "Id";
+            var match = await _apiServiceMatch.GetById<Match>(LeagueId, "RecommendMatch");
+
+            var homeClub = await _apiServiceClubs.GetById<Club>(match.HomeClubId);
+            var awayClub = await _apiServiceClubs.GetById<Club>(match.AwayClubId);
+
+            TxtRecomMatch.Text = $"{homeClub.Name} - vs - {awayClub.Name} -- date: {match.DateGame.Date} {match.GameStart}";
+
             GenerateClubs();
         }
         private async void TxtSearch_TextChanged(object sender, EventArgs e)

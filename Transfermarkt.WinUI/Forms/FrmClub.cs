@@ -106,6 +106,8 @@ namespace Transfermarkt.WinUI.Forms
 
             if (Id.HasValue)
             {
+                var clubInDb = await _aPIServiceClub.GetById<Club>(club.Id);
+                club.Logo = clubInDb.Logo;
                 await _aPIServiceClub.Update<Club>(club);
                 MessageBox.Show("Successfully updated.", "Club update");
             }

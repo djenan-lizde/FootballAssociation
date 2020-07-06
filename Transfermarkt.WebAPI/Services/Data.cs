@@ -25,7 +25,12 @@ namespace Transfermarkt.WebAPI.Services
         }
         public T GetById(int id)
         {
-            return _context.Set<T>().Find(id);
+            var entity = _context.Set<T>().Find(id);
+            if (entity == null)
+            {
+                throw new ArgumentNullException("Entity");
+            }
+            return entity;
         }
         public IQueryable<T> GetByCondition(Expression<Func<T, bool>> predicate)
         {
@@ -33,7 +38,12 @@ namespace Transfermarkt.WebAPI.Services
         }
         public T GetTByCondition(Expression<Func<T, bool>> predicate)
         {
-            return entities.AsNoTracking().FirstOrDefault(predicate);
+            var entity = entities.AsNoTracking().FirstOrDefault(predicate);
+            if (entity == null)
+            {
+                throw new ArgumentNullException("Entity");
+            }
+            return entity;
         }
         public T GetLast()
         {

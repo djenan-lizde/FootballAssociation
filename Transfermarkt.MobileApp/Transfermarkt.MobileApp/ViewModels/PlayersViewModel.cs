@@ -25,7 +25,6 @@ namespace Transfermarkt.MobileApp.ViewModels
             {
                 return _searchCommand ?? (_searchCommand = new Command<string>((text) =>
                 {
-                    // The text parameter can now be used for searching.
                     Search(text);
                 }));
             }

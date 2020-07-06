@@ -1,8 +1,6 @@
-﻿using Flurl.Util;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using Transfermarkt.Models;
 using Transfermarkt.Models.Requests;
@@ -67,8 +65,16 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void BtnNewSeason_Click(object sender, EventArgs e)
         {
-            //kreiranje nove sezone
             var lastSeason = await _aPIServiceClubs.Get<Season>(null, "Season");
+            var matchesSeason = await _aPIServiceMatches.GetById<List<Match>>(lastSeason.Id, "SeasonMatches");
+            foreach (var item in matchesSeason)
+            {
+                if (!item.IsFinished)
+                {
+                    MessageBox.Show("We can't create new season beacuse matches are not finished yet", "Information");
+                    return;
+                }
+            }
             var seasonYearFirstPart = (int.Parse(lastSeason.SeasonYear.Substring(2, 2)) + 1).ToString();
             var seasonYearSecondPart = (int.Parse(lastSeason.SeasonYear.Substring(7, 2)) + 1).ToString();
 
@@ -102,7 +108,6 @@ namespace Transfermarkt.WinUI.Forms
             //klubovi koji su promijenili ligu dodaju se u novu listu kojoj pripadaju
             bundesligaClubs.Add(first2BundesligaClub);
             bundesliga2Clubs.Add(lastBundesligaClub);
-
 
             //insert klubova u nove lige i sezone
             InsertClubInLeague(bundesligaClubs, leagues[0].Id, newSeason.Id);

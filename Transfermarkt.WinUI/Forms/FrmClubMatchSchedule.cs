@@ -79,6 +79,11 @@ namespace Transfermarkt.WinUI.Forms
         private void DgvMatches_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             var id = DgvMatches.SelectedRows[0].Cells[0].Value;
+            if((int)id == 0)
+            {
+                MessageBox.Show("You need to select a match.", "Error", MessageBoxButtons.OK);
+                return;
+            }
 
             FrmMatchDetail frmClubsList = new FrmMatchDetail(int.Parse(id.ToString()));
             frmClubsList.Show();

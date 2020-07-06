@@ -49,42 +49,50 @@ namespace Transfermarkt.WinUI.Forms
             {
                 return;
             }
-            foreach (var item in clubsInLeague)
+            try
             {
-                var clubContracts = await _apiServiceContracts.GetById<List<Contract>>(item.ClubId, "ClubContracts");
-                if (clubContracts.Count() == 0)
+                foreach (var item in clubsInLeague)
                 {
-                    continue;
-                }
-                var club = await _apiServiceClubs.GetById<Club>(item.ClubId);
-                foreach (var item2 in clubContracts)
-                {
-                    var player = await _apiServicePlayers.GetById<Player>(item2.PlayerId);
-                    var transfer = new Transfers
+                    var clubContracts = await _apiServiceContracts.GetById<List<Contract>>(item.ClubId, "ClubContracts");
+                    if (clubContracts.Count() == 0)
+                    {
+                        continue;
+                    }
+                    var club = await _apiServiceClubs.GetById<Club>(item.ClubId);
+                    foreach (var item2 in clubContracts)
+                    {
+                        var player = await _apiServicePlayers.GetById<Player>(item2.PlayerId);
+                        var transfer = new Transfers
+                        {
+                            ClubName = club.Name,
+                            ContractExpirationDate = item2.ExpirationDate,
+                            PlayerFullName = $"{player.FirstName} {player.LastName}",
+                            RedemptionClause = item2.RedemptionClause
+                        };
+                        transfers.Add(transfer);
+                    }
+                    var contractsSum = clubContracts.Sum(x => x.RedemptionClause);
+                    var clubContractInfo = new ClubContracts
                     {
                         ClubName = club.Name,
-                        ContractExpirationDate = item2.ExpirationDate,
-                        PlayerFullName = $"{player.FirstName} {player.LastName}",
-                        RedemptionClause = item2.RedemptionClause
+                        Sum = contractsSum
                     };
-                    transfers.Add(transfer);
+                    clubContractsMoneySpent.Add(clubContractInfo);
                 }
-                var contractsSum = clubContracts.Sum(x => x.RedemptionClause);
-                var clubContractInfo = new ClubContracts
+
+                ChrPie.Series["s1"].IsValueShownAsLabel = true;
+                foreach (var item in clubContractsMoneySpent)
                 {
-                    ClubName = club.Name,
-                    Sum = contractsSum
-                };
-                clubContractsMoneySpent.Add(clubContractInfo);
+                    ChrPie.Series["s1"].Points.AddXY(item.ClubName, item.Sum);
+                }
+                TxtTotalSum.Text = clubContractsMoneySpent.Sum(x => x.Sum).ToString();
+                DgvTransfers.DataSource = transfers;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            ChrPie.Series["s1"].IsValueShownAsLabel = true;
-            foreach (var item in clubContractsMoneySpent)
-            {
-                ChrPie.Series["s1"].Points.AddXY(item.ClubName, item.Sum);
-            }
-            TxtTotalSum.Text = clubContractsMoneySpent.Sum(x => x.Sum).ToString();
-            DgvTransfers.DataSource = transfers;
         }
         private void BtnPrint_Click(object sender, EventArgs e)
         {
@@ -95,7 +103,7 @@ namespace Transfermarkt.WinUI.Forms
                 xmlSerializer.Serialize(stream, clubContractsMoneySpent);
 
                 stream.Close();
-                MessageBox.Show("Successfully saved to desktop.", "Information",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                MessageBox.Show("Successfully saved to desktop.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {

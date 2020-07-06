@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,7 @@ using System.Text;
 using Transfermarkt.Models;
 using Transfermarkt.WebAPI.Configuration;
 using Transfermarkt.WebAPI.Database;
+using Transfermarkt.WebAPI.Filters;
 using Transfermarkt.WebAPI.Middleware;
 using Transfermarkt.WebAPI.Services;
 
@@ -32,9 +34,11 @@ namespace Transfermarkt.WebAPI
         {
             services.AddControllers().AddNewtonsoftJson();
 
+            services.AddMvc(x => x.Filters.Add<ErrorFilter>()).SetCompatibilityVersion(CompatibilityVersion.Latest);
+
             services.AddDbContext<AppDbContext>(options =>
                  options.UseSqlServer(
-                 Configuration.GetConnectionString("DefaultConnection")));
+                 Configuration.GetConnectionString("Transfermarkt")));
 
             services.Configure<AppSettings>(Configuration.GetSection(nameof(AppSettings)));
 

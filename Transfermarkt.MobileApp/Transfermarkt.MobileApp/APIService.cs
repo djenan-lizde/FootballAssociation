@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Transfermarkt.Models;
+using Xamarin.Forms;
 
 namespace Transfermarkt.MobileApp
 {
@@ -17,7 +18,7 @@ namespace Transfermarkt.MobileApp
         private readonly string _apiUrl = "http://localhost:52736/api";
 #endif
 #if RELEASE
-        private string _apiUrl = "https://mywebsite.azure.com/api/"; 
+        private string _apiUrl = "http://localhost:52736/api"; 
 #endif
 
         public APIService(string route)
@@ -27,22 +28,38 @@ namespace Transfermarkt.MobileApp
 
         public async Task<T> Get<T>(object search = null, string relativeRoute = null)
         {
-            string url;
-            if (string.IsNullOrEmpty(relativeRoute))
+            try
             {
-                url = $"{_apiUrl}/{_route}";
+                string url;
+                if (string.IsNullOrEmpty(relativeRoute))
+                {
+                    url = $"{_apiUrl}/{_route}";
+                }
+                else
+                {
+                    url = $"{_apiUrl}/{_route}/{relativeRoute}";
+                }
+                if (search != null)
+                {
+                    url += "?";
+                    url += await search.ToQueryString();
+                }
+
+                return await url.WithOAuthBearerToken(Token).GetJsonAsync<T>();
             }
-            else
+            catch (FlurlHttpException ex)
             {
-                url = $"{_apiUrl}/{_route}/{relativeRoute}";
-            }
-            if (search != null)
-            {
-                url += "?";
-                url += await search.ToQueryString();
+                if (ex.Call.HttpStatus == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Wrong username or password", "Try again");
+                }
+                if (ex.Call.HttpStatus == System.Net.HttpStatusCode.Forbidden)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Forbidden", "Try again");
+                }
+                throw;
             }
 
-            return await url.WithOAuthBearerToken(Token).GetJsonAsync<T>();
         }
 
         public async Task<T> GetById<T>(object id, string relativeRoute = null)
@@ -62,31 +79,63 @@ namespace Transfermarkt.MobileApp
 
         public async Task<T> Insert<T>(object insert, string relativeRoute = null)
         {
-            string url;
-            if (string.IsNullOrEmpty(relativeRoute))
+            try
             {
-                url = $"{_apiUrl}/{_route}";
+                string url;
+                if (string.IsNullOrEmpty(relativeRoute))
+                {
+                    url = $"{_apiUrl}/{_route}";
+                }
+                else
+                {
+                    url = $"{_apiUrl}/{_route}/{relativeRoute}";
+                }
+                return await url.WithOAuthBearerToken(Token).PostJsonAsync(insert).ReceiveJson<T>();
             }
-            else
+            catch (FlurlHttpException ex)
             {
-                url = $"{_apiUrl}/{_route}/{relativeRoute}";
+                var errors = await ex.GetResponseJsonAsync<Dictionary<string, string[]>>();
+
+                var stringBuilder = new StringBuilder();
+                foreach (var error in errors)
+                {
+                    stringBuilder.AppendLine($"{error.Key}, {string.Join(",", error.Value)}");
+                }
+
+                await Application.Current.MainPage.DisplayAlert("Error", stringBuilder.ToString(), "Try again");
+                return default(T);
             }
-            return await url.WithOAuthBearerToken(Token).PostJsonAsync(insert).ReceiveJson<T>();
         }
 
         public async Task<T> Update<T>(object insert, string relativeRoute = null)
         {
-            string url;
-            if (string.IsNullOrEmpty(relativeRoute))
+            try
             {
-                url = $"{_apiUrl}/{_route}";
-            }
-            else
-            {
-                url = $"{_apiUrl}/{_route}/{relativeRoute}";
-            }
+                string url;
+                if (string.IsNullOrEmpty(relativeRoute))
+                {
+                    url = $"{_apiUrl}/{_route}";
+                }
+                else
+                {
+                    url = $"{_apiUrl}/{_route}/{relativeRoute}";
+                }
 
-            return await url.WithOAuthBearerToken(Token).PutJsonAsync(insert).ReceiveJson<T>();
+                return await url.WithOAuthBearerToken(Token).PutJsonAsync(insert).ReceiveJson<T>();
+            }
+            catch (FlurlHttpException ex)
+            {
+                var errors = await ex.GetResponseJsonAsync<Dictionary<string, string[]>>();
+
+                var stringBuilder = new StringBuilder();
+                foreach (var error in errors)
+                {
+                    stringBuilder.AppendLine($"{error.Key}, ${string.Join(",", error.Value)}");
+                }
+
+                await Application.Current.MainPage.DisplayAlert("Error", stringBuilder.ToString(), "OK");
+                return default(T);
+            }
         }
     }
 }

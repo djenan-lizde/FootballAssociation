@@ -1,0 +1,33 @@
+version: '3'
+services:
+#mssql docker
+  transfermarkt-sql:
+    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+    restart: unless-stopped
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=QWElkj132!
+      - MSSQL_PID=Developer
+    ports:
+      - 1401:1433
+    networks:
+      - transfermarktnet
+
+  transfermarkt-api:
+    restart: unless-stopped
+    build:
+      context: .
+    environment:
+      - ConnectionStrings:Transfermarkt=Server=transfermarkt-sql,1433;Database=170121;User=sa;Password=QWElkj132!;ConnectRetryCount=0
+    ports:
+      - 52736:80
+    networks:
+      - transfermarktnet      
+    links:
+      - transfermarkt-sql
+    depends_on:
+      - transfermarkt-sql
+
+networks:
+  transfermarktnet:
+    driver: bridge

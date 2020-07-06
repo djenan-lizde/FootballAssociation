@@ -85,7 +85,7 @@ namespace Transfermarkt.MobileApp.ViewModels
             }
 
             //corners
-            if (matchDetails.Count(x => int.Parse(x.ActionType.ToString()) == 2) != 0)
+            if (matchDetails.Count(x => int.Parse(x.ActionType.ToString()) == 2) >= 0)
             {
                 foreach (var item in matchDetails)
                 {

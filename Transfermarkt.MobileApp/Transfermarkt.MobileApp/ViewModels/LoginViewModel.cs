@@ -49,7 +49,7 @@ namespace Transfermarkt.MobileApp.ViewModels
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Wrong username or password", "OK");
+                await Application.Current.MainPage.DisplayAlert(ex.Message, "Wrong username or password", "OK");
             }
         }
 

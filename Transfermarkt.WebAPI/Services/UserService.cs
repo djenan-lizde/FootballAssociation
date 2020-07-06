@@ -13,7 +13,7 @@ using Transfermarkt.Models.Responses;
 using Transfermarkt.WebAPI.Configuration;
 using Transfermarkt.WebAPI.Database;
 using System.Collections.Generic;
-using System.Reflection.Metadata;
+using Transfermarkt.WebAPI.Exceptions;
 
 namespace Transfermarkt.WebAPI.Services
 {
@@ -43,7 +43,7 @@ namespace Transfermarkt.WebAPI.Services
 
             if (user == null)
             {
-                return null;
+                throw new ArgumentNullException();
             }
 
             if (user.PasswordHash != GenerateHash(user.PasswordSalt, model.Password))
@@ -79,14 +79,14 @@ namespace Transfermarkt.WebAPI.Services
             var userInDbEmail = _context.Users.FirstOrDefault(x => x.Email == userRegister.Email);
 
             if (userInDbUserName != null)
-                throw new Exception("Username already in use!");
+                throw new UserException("Username already in use!");
 
             if (userInDbEmail != null)
-                throw new Exception("Email already in use!");
+                throw new UserException("Email already in use!");
 
             if (userRegister.Password != userRegister.PasswordConfirmation)
             {
-                throw new Exception("Passwords do not match!");
+                throw new UserException("Passwords do not match!");
             }
             var user = new User
             {
@@ -137,10 +137,7 @@ namespace Transfermarkt.WebAPI.Services
         }
         public List<User> GetUsers()
         {
-            var users = _context.Users.ToList();
-            if (users.Count() == 0)
-                throw new ArgumentNullException();
-            return users;
+            return _context.Users.ToList();
         }
     }
 }

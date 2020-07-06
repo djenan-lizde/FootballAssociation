@@ -10,6 +10,7 @@ namespace Transfermarkt.WinUI
     {
         private int childFormNumber = 0;
         private readonly APIService _aPIServiceLeague = new APIService("Leagues");
+
         private string UserName { get; set; }
 
         public FrmIndex(string userName)
@@ -120,46 +121,31 @@ namespace Transfermarkt.WinUI
 
         private void AddPlayerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmPlayer frm = new FrmPlayer
-            {
-                MdiParent = this
-            };
+            FrmPlayer frm = new FrmPlayer();
             frm.Show();
         }
 
         private void PlayersListToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmPlayersList frm = new FrmPlayersList
-            {
-                MdiParent = this
-            };
+            FrmPlayersList frm = new FrmPlayersList();
             frm.Show();
         }
 
         private void AddLeagueToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmLeague frm = new FrmLeague
-            {
-                MdiParent = this
-            };
+            FrmLeague frm = new FrmLeague();
             frm.Show();
         }
 
         private void AddMatchToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmMatch frm = new FrmMatch
-            {
-                MdiParent = this
-            };
+            FrmMatch frm = new FrmMatch();
             frm.Show();
         }
 
         private void AddRefereeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmReferee frm = new FrmReferee
-            {
-                MdiParent = this
-            };
+            FrmReferee frm = new FrmReferee();
             frm.Show();
         }
 
@@ -174,25 +160,25 @@ namespace Transfermarkt.WinUI
         {
             var id = DgvLeagues.SelectedRows[0].Cells[0].Value;
 
+            if ((int)id == 0)
+            {
+                MessageBox.Show("You need to select a league.", "Error", MessageBoxButtons.OK);
+                return;
+            }
+
             FrmClubsList frmClubsList = new FrmClubsList(int.Parse(id.ToString()));
             frmClubsList.Show();
         }
 
         private void MatchesListToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmMatchesList frm = new FrmMatchesList
-            {
-                MdiParent = this
-            };
+            FrmMatchesList frm = new FrmMatchesList();
             frm.Show();
         }
 
         private void BtnReport_Click(object sender, EventArgs e)
         {
-            FrmReport frm = new FrmReport
-            {
-                MdiParent = this
-            };
+            FrmReport frm = new FrmReport();
             frm.Show();
         }
     }

@@ -68,7 +68,6 @@ namespace Transfermarkt.WinUI.Forms
 
             var referees = await _aPIServiceReferee.Get<List<Referee>>();
             CmbReferees.DataSource = referees;
-            //dodat ime i prezime da prikazuje mapirati 
             CmbReferees.DisplayMember = "FirstName";
             CmbReferees.ValueMember = "Id";
 

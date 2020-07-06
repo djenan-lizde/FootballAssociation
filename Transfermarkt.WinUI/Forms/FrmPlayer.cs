@@ -33,7 +33,7 @@ namespace Transfermarkt.WinUI.Forms
             CmbStrongerFoot.DisplayMember = "Value";
             CmbStrongerFoot.ValueMember = "Key";
 
-            var positions =await _aPIServicePlayer.Get<List<Position>>(null,"Positions");
+            var positions = await _aPIServicePlayer.Get<List<Position>>(null, "Positions");
 
             listBox1.DataSource = positions.ToList();
             listBox1.DisplayMember = "Name";
@@ -41,7 +41,7 @@ namespace Transfermarkt.WinUI.Forms
 
             if (Id.HasValue)
             {
-                var player =await _aPIServicePlayer.GetById<Player>(Id);
+                var player = await _aPIServicePlayer.GetById<Player>(Id);
                 txtBirthDate.Text = player.Birthdate.ToString();
                 txtFirstName.Text = player.FirstName;
                 txtHeight.Text = player.Height.ToString();
@@ -81,14 +81,11 @@ namespace Transfermarkt.WinUI.Forms
             {
                 player.IsSigned = false;
             }
-
+            Player lastAdded = null;
             if (Id.HasValue)
-                await _aPIServicePlayer.Update<Player>(player);
+                lastAdded = await _aPIServicePlayer.Update<Player>(player);
             else
-                await _aPIServicePlayer.Insert<Player>(player);
-
-            var players =await _aPIServicePlayer.Get<List<Player>>();
-            var lastInDb = players.LastOrDefault();
+                lastAdded = await _aPIServicePlayer.Insert<Player>(player);
 
             if (!Id.HasValue)
             {
@@ -97,7 +94,7 @@ namespace Transfermarkt.WinUI.Forms
                 {
                     PlayerPosition playerPosition = new PlayerPosition
                     {
-                        PlayerId = lastInDb.Id,
+                        PlayerId = lastAdded.Id,
                         PositionId = selectedValues[i]
                     };
                     await _aPIServicePlayer.Insert<PlayerPosition>(playerPosition, "InsertPlayerPosition");
@@ -111,13 +108,12 @@ namespace Transfermarkt.WinUI.Forms
                 }
                 else if (Id.HasValue)
                 {
-                    var playerInDb =await _aPIServicePlayer.GetById<Player>(Id);
-                    FrmContract frm = new FrmContract(playerInDb.FirstName, playerInDb.LastName, playerInDb.Id);
+                    FrmContract frm = new FrmContract(lastAdded.FirstName, lastAdded.LastName, lastAdded.Id);
                     frm.Show();
                 }
                 else
                 {
-                    FrmContract frm = new FrmContract(lastInDb.FirstName, lastInDb.LastName, lastInDb.Id);
+                    FrmContract frm = new FrmContract(lastAdded.FirstName, lastAdded.LastName, lastAdded.Id);
                     frm.Show();
                 }
             }

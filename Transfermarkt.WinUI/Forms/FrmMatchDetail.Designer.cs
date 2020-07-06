@@ -72,7 +72,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(556, 150);
+            this.label1.Location = new System.Drawing.Point(578, 150);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(40, 55);
             this.label1.TabIndex = 2;
@@ -82,7 +82,7 @@
             // 
             this.HomeClubGoal.AutoSize = true;
             this.HomeClubGoal.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.HomeClubGoal.Location = new System.Drawing.Point(274, 159);
+            this.HomeClubGoal.Location = new System.Drawing.Point(303, 159);
             this.HomeClubGoal.Name = "HomeClubGoal";
             this.HomeClubGoal.Size = new System.Drawing.Size(118, 42);
             this.HomeClubGoal.TabIndex = 3;
@@ -112,7 +112,7 @@
             // 
             this.AwayClubName.AutoSize = true;
             this.AwayClubName.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.AwayClubName.Location = new System.Drawing.Point(1023, 310);
+            this.AwayClubName.Location = new System.Drawing.Point(913, 310);
             this.AwayClubName.Name = "AwayClubName";
             this.AwayClubName.Size = new System.Drawing.Size(86, 31);
             this.AwayClubName.TabIndex = 6;
@@ -123,7 +123,7 @@
             this.BtnNewEventMatch.BackColor = System.Drawing.Color.RoyalBlue;
             this.BtnNewEventMatch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnNewEventMatch.ForeColor = System.Drawing.Color.White;
-            this.BtnNewEventMatch.Location = new System.Drawing.Point(540, 24);
+            this.BtnNewEventMatch.Location = new System.Drawing.Point(762, 24);
             this.BtnNewEventMatch.Name = "BtnNewEventMatch";
             this.BtnNewEventMatch.Size = new System.Drawing.Size(107, 46);
             this.BtnNewEventMatch.TabIndex = 7;
@@ -147,10 +147,10 @@
             this.DgvGoalScorers.AllowUserToDeleteRows = false;
             this.DgvGoalScorers.BackgroundColor = System.Drawing.Color.White;
             this.DgvGoalScorers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DgvGoalScorers.Location = new System.Drawing.Point(44, 425);
+            this.DgvGoalScorers.Location = new System.Drawing.Point(12, 425);
             this.DgvGoalScorers.Name = "DgvGoalScorers";
             this.DgvGoalScorers.ReadOnly = true;
-            this.DgvGoalScorers.Size = new System.Drawing.Size(329, 107);
+            this.DgvGoalScorers.Size = new System.Drawing.Size(373, 107);
             this.DgvGoalScorers.TabIndex = 9;
             // 
             // BtnMatchFinish
@@ -158,7 +158,7 @@
             this.BtnMatchFinish.BackColor = System.Drawing.Color.RoyalBlue;
             this.BtnMatchFinish.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnMatchFinish.ForeColor = System.Drawing.Color.White;
-            this.BtnMatchFinish.Location = new System.Drawing.Point(336, 24);
+            this.BtnMatchFinish.Location = new System.Drawing.Point(310, 24);
             this.BtnMatchFinish.Name = "BtnMatchFinish";
             this.BtnMatchFinish.Size = new System.Drawing.Size(107, 46);
             this.BtnMatchFinish.TabIndex = 10;
@@ -170,7 +170,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(505, 376);
+            this.label3.Location = new System.Drawing.Point(521, 376);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(113, 31);
             this.label3.TabIndex = 11;
@@ -182,17 +182,17 @@
             this.DgvPlayerCards.AllowUserToDeleteRows = false;
             this.DgvPlayerCards.BackgroundColor = System.Drawing.Color.White;
             this.DgvPlayerCards.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DgvPlayerCards.Location = new System.Drawing.Point(406, 425);
+            this.DgvPlayerCards.Location = new System.Drawing.Point(391, 425);
             this.DgvPlayerCards.Name = "DgvPlayerCards";
             this.DgvPlayerCards.ReadOnly = true;
-            this.DgvPlayerCards.Size = new System.Drawing.Size(329, 107);
+            this.DgvPlayerCards.Size = new System.Drawing.Size(373, 107);
             this.DgvPlayerCards.TabIndex = 12;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(862, 376);
+            this.label4.Location = new System.Drawing.Point(903, 376);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(137, 31);
             this.label4.TabIndex = 13;
@@ -204,10 +204,10 @@
             this.DgvCorners.AllowUserToDeleteRows = false;
             this.DgvCorners.BackgroundColor = System.Drawing.Color.White;
             this.DgvCorners.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DgvCorners.Location = new System.Drawing.Point(762, 425);
+            this.DgvCorners.Location = new System.Drawing.Point(775, 425);
             this.DgvCorners.Name = "DgvCorners";
             this.DgvCorners.ReadOnly = true;
-            this.DgvCorners.Size = new System.Drawing.Size(329, 107);
+            this.DgvCorners.Size = new System.Drawing.Size(373, 107);
             this.DgvCorners.TabIndex = 14;
             // 
             // FrmMatchDetail

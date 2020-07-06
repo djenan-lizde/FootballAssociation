@@ -30,6 +30,13 @@ namespace Transfermarkt.WinUI.Forms
         private void DgvPlayersList_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             var id = DgvPlayersList.SelectedRows[0].Cells[0].Value;
+
+            if ((int)id == 0)
+            {
+                MessageBox.Show("You need to select a club.", "Error", MessageBoxButtons.OK);
+                return;
+            }
+
             FrmPlayer frm = new FrmPlayer(int.Parse(id.ToString()));
             frm.Show();
         }
@@ -60,7 +67,7 @@ namespace Transfermarkt.WinUI.Forms
                     if (player == null)
                     {
                         MessageBox.Show("This player doesn't exist", "Error");
-                        return;
+                        continue;
                     }
                     item.IsExpired = true;
                     player.IsSigned = false;

@@ -42,7 +42,6 @@ namespace Transfermarkt.MobileApp.ViewModels
 
             if (SelectedLeague != null)
             {
-                //club points uraditi tip i onda ce se fixati sve
                 var clubInLeague = await _apiServiceClubs.GetById<List<ClubLeague>>(SelectedLeague.Id, "ClubsInLeague");
                 ClubsPoints.Clear();
                 var counter = 0;
@@ -63,7 +62,6 @@ namespace Transfermarkt.MobileApp.ViewModels
             }
         }
 
-        //public ObservableCollection<Club> ClubsList { get; set; } = new ObservableCollection<Club>();
         public ObservableCollection<ClubPoints> ClubsPoints { get; set; } = new ObservableCollection<ClubPoints>();
         public ObservableCollection<League> LeaguesList { get; set; } = new ObservableCollection<League>();
 

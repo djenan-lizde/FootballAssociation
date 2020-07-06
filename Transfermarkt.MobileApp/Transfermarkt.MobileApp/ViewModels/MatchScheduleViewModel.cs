@@ -13,8 +13,8 @@ namespace Transfermarkt.MobileApp.ViewModels
         private readonly APIService _apiServiceClubs = new APIService("Clubs");
 
 
-        public MatchScheduleViewModel(){}
-        public int ClubId{ get; set; }
+        public MatchScheduleViewModel() { }
+        public int ClubId { get; set; }
         public ObservableCollection<MatchSchedule> Matches { get; set; } = new ObservableCollection<MatchSchedule>();
 
         public async Task Init()

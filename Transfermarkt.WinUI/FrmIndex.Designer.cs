@@ -65,7 +65,7 @@
             this.refereeToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(887, 24);
+            this.menuStrip.Size = new System.Drawing.Size(1222, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "MenuStrip";
             // 
@@ -166,7 +166,7 @@
             this.toolStripStatusLabel});
             this.statusStrip.Location = new System.Drawing.Point(0, 408);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(887, 22);
+            this.statusStrip.Size = new System.Drawing.Size(1222, 22);
             this.statusStrip.TabIndex = 2;
             this.statusStrip.Text = "StatusStrip";
             // 
@@ -179,9 +179,9 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.DgvLeagues);
-            this.groupBox1.Location = new System.Drawing.Point(12, 103);
+            this.groupBox1.Location = new System.Drawing.Point(12, 72);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(522, 157);
+            this.groupBox1.Size = new System.Drawing.Size(453, 116);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Leagues";
@@ -196,7 +196,7 @@
             this.DgvLeagues.Name = "DgvLeagues";
             this.DgvLeagues.ReadOnly = true;
             this.DgvLeagues.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DgvLeagues.Size = new System.Drawing.Size(516, 138);
+            this.DgvLeagues.Size = new System.Drawing.Size(447, 97);
             this.DgvLeagues.TabIndex = 0;
             this.DgvLeagues.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.DgvLeagues_MouseDoubleClick);
             // 
@@ -214,7 +214,7 @@
             this.BtnReport.BackColor = System.Drawing.Color.RoyalBlue;
             this.BtnReport.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnReport.ForeColor = System.Drawing.Color.White;
-            this.BtnReport.Location = new System.Drawing.Point(397, 309);
+            this.BtnReport.Location = new System.Drawing.Point(331, 225);
             this.BtnReport.Name = "BtnReport";
             this.BtnReport.Size = new System.Drawing.Size(134, 37);
             this.BtnReport.TabIndex = 10;
@@ -227,7 +227,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(887, 430);
+            this.ClientSize = new System.Drawing.Size(1222, 430);
             this.Controls.Add(this.BtnReport);
             this.Controls.Add(this.lblHello);
             this.Controls.Add(this.groupBox1);

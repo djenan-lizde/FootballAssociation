@@ -50,7 +50,7 @@ namespace Transfermarkt.MobileApp.ViewModels
                     GameStart = item.GameEnd,
                     IsFinished = false,
                     StadiumName = stadium.Name,
-                    LeagueName=league.Name
+                    LeagueName = league.Name
                 };
                 MatchesList.Add(match);
             }

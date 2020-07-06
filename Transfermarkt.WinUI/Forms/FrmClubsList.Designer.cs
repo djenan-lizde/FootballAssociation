@@ -34,6 +34,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.CmbSeasons = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.TxtRecomMatch = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.DgvClubList)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -65,7 +67,7 @@
             // TxtSearch
             // 
             this.TxtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtSearch.Location = new System.Drawing.Point(61, 58);
+            this.TxtSearch.Location = new System.Drawing.Point(15, 58);
             this.TxtSearch.Name = "TxtSearch";
             this.TxtSearch.Size = new System.Drawing.Size(225, 26);
             this.TxtSearch.TabIndex = 3;
@@ -85,7 +87,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(444, 24);
+            this.label2.Location = new System.Drawing.Point(800, 24);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(137, 20);
             this.label2.TabIndex = 5;
@@ -95,17 +97,37 @@
             // 
             this.CmbSeasons.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CmbSeasons.FormattingEnabled = true;
-            this.CmbSeasons.Location = new System.Drawing.Point(448, 56);
+            this.CmbSeasons.Location = new System.Drawing.Point(762, 58);
             this.CmbSeasons.Name = "CmbSeasons";
-            this.CmbSeasons.Size = new System.Drawing.Size(225, 28);
+            this.CmbSeasons.Size = new System.Drawing.Size(215, 28);
             this.CmbSeasons.TabIndex = 6;
             this.CmbSeasons.SelectedIndexChanged += new System.EventHandler(this.CmbSeasons_SelectedIndexChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(437, 24);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(166, 20);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Recommended match";
+            // 
+            // TxtRecomMatch
+            // 
+            this.TxtRecomMatch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtRecomMatch.Location = new System.Drawing.Point(246, 58);
+            this.TxtRecomMatch.Name = "TxtRecomMatch";
+            this.TxtRecomMatch.Size = new System.Drawing.Size(510, 26);
+            this.TxtRecomMatch.TabIndex = 7;
             // 
             // FrmClubsList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(992, 452);
+            this.Controls.Add(this.TxtRecomMatch);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.CmbSeasons);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -129,5 +151,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox CmbSeasons;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox TxtRecomMatch;
     }
 }

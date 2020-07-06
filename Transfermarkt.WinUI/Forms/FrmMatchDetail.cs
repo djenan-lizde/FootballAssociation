@@ -190,6 +190,10 @@ namespace Transfermarkt.WinUI.Forms
                 BtnMatchFinish.Visible = false;
                 BtnNewEventMatch.Visible = false;
             }
+            else
+            {
+                MessageBox.Show("Match is not finished.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
         private async void UpdatePoints(int clubId, int? clubId2 = null, bool tie = false)
         {
