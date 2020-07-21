@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Transfermarkt.Models;
+using Transfermarkt.WinUI.Helper;
 
 namespace Transfermarkt.WinUI.Forms
 {
@@ -80,8 +81,8 @@ namespace Transfermarkt.WinUI.Forms
 
             if (homeClub != null)
             {
-                Image image = ByteArrayToImage(homeClub.Logo);
-                var newImage = ResizeImage(image);
+                Image image = ImageResizer.ByteArrayToImage(homeClub.Logo);
+                var newImage = ImageResizer.ResizeImage(image,200,200);
                 pictureBox1.Image = newImage;
             }
 
@@ -101,26 +102,9 @@ namespace Transfermarkt.WinUI.Forms
 
             if (awayClub != null)
             {
-                Image image = ByteArrayToImage(awayClub.Logo);
-                var newImage = ResizeImage(image);
+                Image image = ImageResizer.ByteArrayToImage(awayClub.Logo);
+                var newImage = ImageResizer.ResizeImage(image,200,200);
                 pictureBox2.Image = newImage;
-            }
-        }
-        private static Image ResizeImage(Image image)
-        {
-            var size = new Size(200, 200);
-            Image newImage = new Bitmap(image, size);
-            using (Graphics graphics = Graphics.FromImage((Bitmap)newImage))
-            {
-                graphics.DrawImage(image, new Rectangle(Point.Empty, size));
-            }
-            return newImage;
-        }
-        private static Image ByteArrayToImage(byte[] byteArrayIn)
-        {
-            using (MemoryStream mStream = new MemoryStream(byteArrayIn))
-            {
-                return Image.FromStream(mStream);
             }
         }
         private async void BtnSave_Click(object sender, EventArgs e)

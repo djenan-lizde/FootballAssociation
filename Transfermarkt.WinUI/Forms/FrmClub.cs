@@ -6,6 +6,7 @@ using System.IO;
 using System.Windows.Forms;
 using Transfermarkt.Models;
 using Transfermarkt.Models.Requests;
+using Transfermarkt.WinUI.Helper;
 
 namespace Transfermarkt.WinUI.Forms
 {
@@ -52,8 +53,8 @@ namespace Transfermarkt.WinUI.Forms
                 CmbLeagues.Enabled = false;
                 if (clubLoad.Logo != null)
                 {
-                    Image image = ByteArrayToImage(clubLoad.Logo);
-                    var newImage = ResizeImage(image);
+                    Image image = ImageResizer.ByteArrayToImage(clubLoad.Logo);
+                    var newImage = ImageResizer.ResizeImage(image, 200, 200);
                     pictureBox1.Image = newImage;
                 }
                 label9.Visible = true;
@@ -75,23 +76,6 @@ namespace Transfermarkt.WinUI.Forms
                     playersClubs.Add(player);
                 }
                 DgvPlayers.DataSource = playersClubs;
-            }
-        }
-        private static Image ResizeImage(Image image)
-        {
-            var size = new Size(200, 200);
-            Image newImage = new Bitmap(image, size);
-            using (Graphics graphics = Graphics.FromImage((Bitmap)newImage))
-            {
-                graphics.DrawImage(image, new Rectangle(Point.Empty, size));
-            }
-            return newImage;
-        }
-        public Image ByteArrayToImage(byte[] byteArrayIn)
-        {
-            using (MemoryStream mStream = new MemoryStream(byteArrayIn))
-            {
-                return Image.FromStream(mStream);
             }
         }
         private async void BtnSaveClub_Click(object sender, EventArgs e)
@@ -132,7 +116,7 @@ namespace Transfermarkt.WinUI.Forms
                 txtPhotoInput.Text = fileName;
 
                 Image image = Image.FromFile(fileName);
-                Image newImage = ResizeImage(image);
+                Image newImage = ImageResizer.ResizeImage(image, 200, 200);
                 pictureBox1.Image = newImage;
             }
         }

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Transfermarkt.Models;
 using Transfermarkt.Models.Requests;
+using Transfermarkt.WinUI.Helper;
 
 namespace Transfermarkt.WinUI.Forms
 {
@@ -54,27 +55,10 @@ namespace Transfermarkt.WinUI.Forms
                 list.Add(matchSchedule);
             }
             LblClubName.Text = club.Name;
-            Image image = ByteArrayToImage(club.Logo);
-            var newImage = ResizeImage(image);
+            Image image = ImageResizer.ByteArrayToImage(club.Logo);
+            var newImage = ImageResizer.ResizeImage(image,150,150);
             PicBoxLogoClub.Image = newImage;
             DgvMatches.DataSource = list;
-        }
-        private static Image ResizeImage(Image image)
-        {
-            var size = new Size(150, 150);
-            Image newImage = new Bitmap(image, size);
-            using (Graphics graphics = Graphics.FromImage((Bitmap)newImage))
-            {
-                graphics.DrawImage(image, new Rectangle(Point.Empty, size));
-            }
-            return newImage;
-        }
-        private static Image ByteArrayToImage(byte[] byteArrayIn)
-        {
-            using (MemoryStream mStream = new MemoryStream(byteArrayIn))
-            {
-                return Image.FromStream(mStream);
-            }
         }
         private void DgvMatches_MouseDoubleClick(object sender, MouseEventArgs e)
         {

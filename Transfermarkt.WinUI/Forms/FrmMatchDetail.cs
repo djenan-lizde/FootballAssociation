@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Transfermarkt.Models;
 using Transfermarkt.Models.Requests;
+using Transfermarkt.WinUI.Helper;
 
 namespace Transfermarkt.WinUI.Forms
 {
@@ -42,16 +43,16 @@ namespace Transfermarkt.WinUI.Forms
 
             if (homeClub != null)
             {
-                Image image = ByteArrayToImage(homeClub.Logo);
-                var newImage = ResizeImage(image);
+                Image image = ImageResizer.ByteArrayToImage(homeClub.Logo);
+                var newImage = ImageResizer.ResizeImage(image,200,200);
                 pictureBox1.Image = newImage;
                 HomeClubName.Text = homeClub.Name;
             }
 
             if (awayClub != null)
             {
-                Image image = ByteArrayToImage(awayClub.Logo);
-                var newImage = ResizeImage(image);
+                Image image = ImageResizer.ByteArrayToImage(awayClub.Logo);
+                var newImage = ImageResizer.ResizeImage(image,200,200);
                 pictureBox2.Image = newImage;
                 AwayClubName.Text = awayClub.Name;
             }
@@ -136,23 +137,6 @@ namespace Transfermarkt.WinUI.Forms
             var clubStats = list.Count(x => x.ClubId == clubId
                 && int.Parse(x.ActionType.ToString()) == enumValue);
             return int.Parse(clubStats.ToString());
-        }
-        private static Image ResizeImage(Image image)
-        {
-            var size = new Size(200, 200);
-            Image newImage = new Bitmap(image, size);
-            using (Graphics graphics = Graphics.FromImage((Bitmap)newImage))
-            {
-                graphics.DrawImage(image, new Rectangle(Point.Empty, size));
-            }
-            return newImage;
-        }
-        private static Image ByteArrayToImage(byte[] byteArrayIn)
-        {
-            using (MemoryStream mStream = new MemoryStream(byteArrayIn))
-            {
-                return Image.FromStream(mStream);
-            }
         }
         private void BtnNewEventMatch_Click(object sender, EventArgs e)
         {
