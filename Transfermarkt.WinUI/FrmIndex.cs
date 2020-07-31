@@ -151,7 +151,7 @@ namespace Transfermarkt.WinUI
 
         private async void FrmIndex_Load(object sender, EventArgs e)
         {
-            var result = await _aPIServiceLeague.Get<List<League>>();
+            var result = await _aPIServiceLeague.Get<List<Leagues>>();
             lblHello.Text = $"Hello, {UserName}";
             DgvLeagues.DataSource = result;
         }

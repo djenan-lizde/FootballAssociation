@@ -18,8 +18,8 @@ namespace Transfermarkt.MobileApp.ViewModels
             InitCommand = new Command(async () => await Init());
         }
 
-        League _selectedLeague = null;
-        public League SelectedLeague
+        Leagues _selectedLeague = null;
+        public Leagues SelectedLeague
         {
             get { return _selectedLeague; }
             set
@@ -33,7 +33,7 @@ namespace Transfermarkt.MobileApp.ViewModels
         {
             if (LeaguesList.Count == 0)
             {
-                var leagues = await _apiServiceLeagues.Get<List<League>>(null);
+                var leagues = await _apiServiceLeagues.Get<List<Leagues>>(null);
                 foreach (var item in leagues)
                 {
                     LeaguesList.Add(item);
@@ -42,12 +42,12 @@ namespace Transfermarkt.MobileApp.ViewModels
 
             if (SelectedLeague != null)
             {
-                var clubInLeague = await _apiServiceClubs.GetById<List<ClubLeague>>(SelectedLeague.Id, "ClubsInLeague");
+                var clubInLeague = await _apiServiceClubs.GetById<List<ClubsLeague>>(SelectedLeague.Id, "ClubsInLeague");
                 ClubsPoints.Clear();
                 var counter = 0;
                 foreach (var item in clubInLeague)
                 {
-                    var club = await _apiServiceClubs.GetById<Club>(item.ClubId);
+                    var club = await _apiServiceClubs.GetById<Clubs>(item.ClubId);
                     var clubPoints = new ClubPoints
                     {
                         Id = club.Id,
@@ -63,7 +63,7 @@ namespace Transfermarkt.MobileApp.ViewModels
         }
 
         public ObservableCollection<ClubPoints> ClubsPoints { get; set; } = new ObservableCollection<ClubPoints>();
-        public ObservableCollection<League> LeaguesList { get; set; } = new ObservableCollection<League>();
+        public ObservableCollection<Leagues> LeaguesList { get; set; } = new ObservableCollection<Leagues>();
 
         public ICommand InitCommand { get; set; }
     }

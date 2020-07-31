@@ -29,14 +29,14 @@ namespace Transfermarkt.WinUI.Forms
 
         private async void FrmClubMatchSchedule_Load(object sender, EventArgs e)
         {
-            var club = await _apiServiceClubs.GetById<Club>(Id);
-            var clubMatches = await _apiServiceMatches.GetById<List<Match>>(Id, "ClubSchedule");
+            var club = await _apiServiceClubs.GetById<Clubs>(Id);
+            var clubMatches = await _apiServiceMatches.GetById<List<Matches>>(Id, "ClubSchedule");
             List<MatchSchedule> list = new List<MatchSchedule>();
             foreach (var item in clubMatches.OrderBy(x => x.DateGame))
             {
-                var matchDetails = await _apiServiceMatches.GetById<List<MatchDetail>>(item.Id, "MatchDetail");
-                var homeClub = await _apiServiceClubs.GetById<Club>(item.HomeClubId);
-                var awayClub = await _apiServiceClubs.GetById<Club>(item.AwayClubId);
+                var matchDetails = await _apiServiceMatches.GetById<List<MatchDetails>>(item.Id, "MatchDetail");
+                var homeClub = await _apiServiceClubs.GetById<Clubs>(item.HomeClubId);
+                var awayClub = await _apiServiceClubs.GetById<Clubs>(item.AwayClubId);
                 var matchSchedule = new MatchSchedule
                 {
                     GameDate = item.DateGame,

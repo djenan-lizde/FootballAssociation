@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
-using Transfermarkt.Models;
 using Transfermarkt.Models.Requests;
+using Transfermarkt.WebAPI.Database;
 using Transfermarkt.WebAPI.Services;
 
 namespace Transfermarkt.WebAPI.Controllers
@@ -15,10 +13,10 @@ namespace Transfermarkt.WebAPI.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly IData<Role> _serviceRole;
-        private readonly IData<UsersRoles> _serviceUsersRoles;
+        private readonly IData<Roles> _serviceRole;
+        private readonly IData<Database.UsersRoles> _serviceUsersRoles;
 
-        public UsersController(IUserService userService, IData<Role> serviceRole, IData<UsersRoles> serviceUsersRoles)
+        public UsersController(IUserService userService, IData<Roles> serviceRole, IData<Database.UsersRoles> serviceUsersRoles)
         {
             _userService = userService;
             _serviceRole = serviceRole;
@@ -27,10 +25,10 @@ namespace Transfermarkt.WebAPI.Controllers
 
         [HttpPost("registration")]
         [AllowAnonymous]
-        public User UserRegister(UserRegistration userRequest)
+        public Users UserRegister(Models.UserRegistration userRequest)
         {
             var obj = _userService.RegisterUser(userRequest);
-            User user = new User
+            Users user = new Users
             {
                 Id = obj.Id,
                 Username = obj.Username,
@@ -56,7 +54,7 @@ namespace Transfermarkt.WebAPI.Controllers
         }
 
         [HttpGet]
-        public List<UserInfo> GetUsers([FromQuery]UserSearchRequest request)
+        public List<UserInfo> GetUsers([FromQuery] UserSearchRequest request)
         {
             var query = _userService.GetUsers().AsQueryable();
 
@@ -73,7 +71,7 @@ namespace Transfermarkt.WebAPI.Controllers
             return GetUserInfos(query.ToList());
         }
 
-        private List<UserInfo> GetUserInfos(List<User> users)
+        private List<UserInfo> GetUserInfos(List<Users> users)
         {
             List<UserInfo> list = new List<UserInfo>();
 

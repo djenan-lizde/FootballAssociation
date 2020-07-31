@@ -20,10 +20,10 @@ namespace Transfermarkt.MobileApp.ViewModels
             InitCommand = new Command(async () => await Init());
         }
 
-        public League selectedLeague;
+        public Leagues selectedLeague;
 
-        Season _selectedSeason = null;
-        public Season SelectedSeason
+        Seasons _selectedSeason = null;
+        public Seasons SelectedSeason
         {
             get { return _selectedSeason; }
             set
@@ -34,13 +34,13 @@ namespace Transfermarkt.MobileApp.ViewModels
         }
 
         public ObservableCollection<ClubPoints> ClubsList { get; set; } = new ObservableCollection<ClubPoints>();
-        public ObservableCollection<Season> SeasonsList { get; set; } = new ObservableCollection<Season>();
+        public ObservableCollection<Seasons> SeasonsList { get; set; } = new ObservableCollection<Seasons>();
 
         public ICommand InitCommand { get; set; }
 
         public async Task Init()
         {
-            var seasons = await _apiServiceClubs.Get<List<Season>>(null, "AllSeasons");
+            var seasons = await _apiServiceClubs.Get<List<Seasons>>(null, "AllSeasons");
             var counter = 0;
 
             foreach (var item in seasons)
@@ -50,11 +50,11 @@ namespace Transfermarkt.MobileApp.ViewModels
 
             if (SelectedSeason != null)
             {
-                var clubLeague = await _apiServiceClubs.GetById<List<ClubLeague>>(selectedLeague.Id, "ClubsInLeague");
+                var clubLeague = await _apiServiceClubs.GetById<List<ClubsLeague>>(selectedLeague.Id, "ClubsInLeague");
 
                 foreach (var item in clubLeague.Where(x => x.SeasonId == SelectedSeason.Id).OrderByDescending(x => x.Points))
                 {
-                    var club = await _apiServiceClubs.GetById<Club>(item.ClubId);
+                    var club = await _apiServiceClubs.GetById<Clubs>(item.ClubId);
                     var clubPoint = new ClubPoints
                     {
                         Points = item.Points,

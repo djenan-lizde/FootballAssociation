@@ -24,7 +24,7 @@ namespace Transfermarkt.WinUI.Forms
 
         private async void FrmContract_Load(object sender, EventArgs e)
         {
-            var clubs = await _aPIServiceClubs.Get<List<Club>>();
+            var clubs = await _aPIServiceClubs.Get<List<Clubs>>();
 
             CmbClubs.DataSource = clubs;
             CmbClubs.DisplayMember = "Name";
@@ -35,13 +35,13 @@ namespace Transfermarkt.WinUI.Forms
 
         private async void BtnSignContract_Click(object sender, EventArgs e)
         {
-            var contracts = await _aPIServiceContracts.GetById<List<Contract>>(_id, "PlayerContracts");
+            var contracts = await _aPIServiceContracts.GetById<List<Contracts>>(_id, "PlayerContracts");
 
             var contractInDb = contracts.LastOrDefault(x => x.PlayerId == _id);
 
             if (contractInDb == null || contractInDb.IsExpired)
             {
-                Contract contract = new Contract
+                Contracts contract = new Contracts
                 {
                     ClubId = int.Parse(CmbClubs.SelectedValue.ToString()),
                     ExpirationDate = DateTime.Parse(TxtExpirationDate.Text),
@@ -50,7 +50,7 @@ namespace Transfermarkt.WinUI.Forms
                     RedemptionClause = int.Parse(TxtRedemptionClause.Text),
                     SignedDate = DateTime.Now
                 };
-                await _aPIServiceContracts.Insert<Contract>(contract);
+                await _aPIServiceContracts.Insert<Contracts>(contract);
                 MessageBox.Show("Player is successfully signed! ", "Error");
                 return;
             }

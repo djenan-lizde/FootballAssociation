@@ -10,10 +10,10 @@ namespace Transfermarkt.WebAPI.Services
 {
     public class Data<T> : IData<T> where T : class
     {
-        protected readonly AppDbContext _context;
+        protected readonly FootballAssociationDbContext _context;
         private readonly DbSet<T> entities;
 
-        public Data(AppDbContext context)
+        public Data(FootballAssociationDbContext context)
         {
             _context = context;
             entities = context.Set<T>();

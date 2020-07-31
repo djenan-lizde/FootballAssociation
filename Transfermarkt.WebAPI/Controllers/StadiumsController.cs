@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Transfermarkt.Models;
 using Transfermarkt.WebAPI.Database;
 using Transfermarkt.WebAPI.Services;
 
@@ -7,16 +6,16 @@ namespace Transfermarkt.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StadiumsController : BaseController<Stadium>
+    public class StadiumsController : BaseController<Stadiums>
     {
-        private readonly IData<Stadium> _serviceStadium;
+        private readonly IData<Stadiums> _serviceStadium;
 
-        public StadiumsController(IData<Stadium> serviceStadium, IData<Stadium> service) : base(service)
+        public StadiumsController(IData<Stadiums> serviceStadium, IData<Stadiums> service) : base(service)
         {
             _serviceStadium = serviceStadium;
         }
         [HttpGet("HomeStadium/{ClubId}")]
-        public Stadium GetStadium(int clubId)
+        public Stadiums GetStadium(int clubId)
         {
             return _serviceStadium.GetTByCondition(x => x.ClubId == clubId);
         }

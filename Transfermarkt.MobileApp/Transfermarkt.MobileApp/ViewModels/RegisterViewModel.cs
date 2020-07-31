@@ -40,7 +40,7 @@ namespace Transfermarkt.MobileApp.ViewModels
             };
             user.Roles.Add(2);//represents a Member role
 
-            await _apiServiceUsers.Insert<User>(user, "Registration");
+            await _apiServiceUsers.Insert<Users>(user, "Registration");
             await Application.Current.MainPage.DisplayAlert("Success", "Successful registration.", "OK");
             Application.Current.MainPage = new LoginPage();
         }

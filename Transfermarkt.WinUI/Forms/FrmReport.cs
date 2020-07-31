@@ -30,7 +30,7 @@ namespace Transfermarkt.WinUI.Forms
 
         private async void FrmReport_Load(object sender, EventArgs e)
         {
-            var leagues = await _apiServiceLeagues.Get<List<League>>();
+            var leagues = await _apiServiceLeagues.Get<List<Leagues>>();
             CmbLeagues.DataSource = leagues;
             CmbLeagues.DisplayMember = "Name";
             CmbLeagues.ValueMember = "Id";
@@ -44,7 +44,7 @@ namespace Transfermarkt.WinUI.Forms
             clubContractsMoneySpent.Clear();
             transfers.Clear();
             var selectedValue = int.Parse(CmbLeagues.SelectedValue.ToString());
-            var clubsInLeague = await _apiServiceClubs.GetById<List<ClubLeague>>(selectedValue, "ClubsInLeague");
+            var clubsInLeague = await _apiServiceClubs.GetById<List<ClubsLeague>>(selectedValue, "ClubsInLeague");
             if (clubsInLeague.Count() == 0)
             {
                 return;
@@ -53,15 +53,15 @@ namespace Transfermarkt.WinUI.Forms
             {
                 foreach (var item in clubsInLeague)
                 {
-                    var clubContracts = await _apiServiceContracts.GetById<List<Contract>>(item.ClubId, "ClubContracts");
+                    var clubContracts = await _apiServiceContracts.GetById<List<Contracts>>(item.ClubId, "ClubContracts");
                     if (clubContracts.Count() == 0)
                     {
                         continue;
                     }
-                    var club = await _apiServiceClubs.GetById<Club>(item.ClubId);
+                    var club = await _apiServiceClubs.GetById<Clubs>(item.ClubId);
                     foreach (var item2 in clubContracts)
                     {
-                        var player = await _apiServicePlayers.GetById<Player>(item2.PlayerId);
+                        var player = await _apiServicePlayers.GetById<Players>(item2.PlayerId);
                         var transfer = new Transfers
                         {
                             ClubName = club.Name,

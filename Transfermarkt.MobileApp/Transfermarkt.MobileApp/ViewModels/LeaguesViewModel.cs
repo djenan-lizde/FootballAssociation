@@ -17,7 +17,7 @@ namespace Transfermarkt.MobileApp.ViewModels
 
         public async Task Init()
         {
-            var leaguesList = await _apiServiceLeagues.Get<List<League>>(null);
+            var leaguesList = await _apiServiceLeagues.Get<List<Leagues>>(null);
             LeaguesList.Clear();
             foreach (var item in leaguesList)
             {
@@ -25,7 +25,7 @@ namespace Transfermarkt.MobileApp.ViewModels
             }
         }
 
-        public ObservableCollection<League> LeaguesList { get; set; } = new ObservableCollection<League>();
+        public ObservableCollection<Leagues> LeaguesList { get; set; } = new ObservableCollection<Leagues>();
 
     }
 }

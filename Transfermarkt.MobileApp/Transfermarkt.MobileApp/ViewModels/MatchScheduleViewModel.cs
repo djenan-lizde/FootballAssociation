@@ -19,14 +19,14 @@ namespace Transfermarkt.MobileApp.ViewModels
 
         public async Task Init()
         {
-            var matches = await _apiServiceMatches.GetById<List<Match>>(ClubId, "ClubSchedule");
+            var matches = await _apiServiceMatches.GetById<List<Matches>>(ClubId, "ClubSchedule");
             Matches.Clear();
 
             foreach (var item in matches)
             {
-                var matchDetails = await _apiServiceMatches.GetById<List<MatchDetail>>(item.Id, "MatchDetail");
-                var homeClub = await _apiServiceClubs.GetById<Club>(item.HomeClubId);
-                var awayClub = await _apiServiceClubs.GetById<Club>(item.AwayClubId);
+                var matchDetails = await _apiServiceMatches.GetById<List<MatchDetails>>(item.Id, "MatchDetail");
+                var homeClub = await _apiServiceClubs.GetById<Clubs>(item.HomeClubId);
+                var awayClub = await _apiServiceClubs.GetById<Clubs>(item.AwayClubId);
                 var matchSchedule = new MatchSchedule
                 {
                     GameDate = item.DateGame,

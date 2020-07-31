@@ -22,7 +22,7 @@ namespace Transfermarkt.WinUI.Forms
         private async void FrmStadium_Load(object sender, EventArgs e)
         {
             lblClubName.Text = ClubName;
-            var stadiumsList = await _aPIServiceStadium.Get<List<Stadium>>();
+            var stadiumsList = await _aPIServiceStadium.Get<List<Stadiums>>();
             var _stadium = stadiumsList.FirstOrDefault(x => x.ClubId == Id);
             if (_stadium != null)
             {
@@ -33,7 +33,7 @@ namespace Transfermarkt.WinUI.Forms
             }
         }
 
-        readonly Stadium stadium = new Stadium();
+        readonly Stadiums stadium = new Stadiums();
         private async void BtnSaveStadium_Click(object sender, EventArgs e)
         {
             stadium.Capacity = int.Parse(txtCapacity.Text);
@@ -47,13 +47,13 @@ namespace Transfermarkt.WinUI.Forms
 
             if (stadium.Id == 0)
             {
-                await _aPIServiceStadium.Insert<Stadium>(stadium);
+                await _aPIServiceStadium.Insert<Stadiums>(stadium);
                 MessageBox.Show("Successfully added!", "Stadium added");
                 Close();
             }
             else
             {
-                await _aPIServiceStadium.Update<Stadium>(stadium);
+                await _aPIServiceStadium.Update<Stadiums>(stadium);
                 MessageBox.Show("Successfully updated!", "Stadium updated");
                 Close();
             }

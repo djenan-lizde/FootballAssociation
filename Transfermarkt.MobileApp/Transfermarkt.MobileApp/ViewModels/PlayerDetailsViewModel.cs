@@ -30,11 +30,11 @@ namespace Transfermarkt.MobileApp.ViewModels
 
         public async Task PlayerContracts()
         {
-            var contracts = await _apiServiceContracts.GetById<List<Contract>>(Player.Id, "PlayerContracts");
+            var contracts = await _apiServiceContracts.GetById<List<Contracts>>(Player.Id, "PlayerContracts");
             Contracts.Clear();
             foreach (var item in contracts)
             {
-                var club = await _apiServiceClubs.GetById<Club>(item.ClubId);
+                var club = await _apiServiceClubs.GetById<Clubs>(item.ClubId);
                 var playerClub = new PlayerContractsClubs
                 {
                     ClubName = club.Name,
@@ -46,7 +46,7 @@ namespace Transfermarkt.MobileApp.ViewModels
                 };
                 Contracts.Add(playerClub);
             }
-            var playerMatchDetails = await _apiServiceMatches.GetById<List<MatchDetail>>(Player.Id, "PlayerMatchDetails");
+            var playerMatchDetails = await _apiServiceMatches.GetById<List<MatchDetails>>(Player.Id, "PlayerMatchDetails");
             var NumberOfGoals = playerMatchDetails.Count(x => x.ActionType == 3);
             var NumberOfYellowCards = playerMatchDetails.Count(x => x.ActionType == 0);
             var NumberOfRedCards = playerMatchDetails.Count(x => x.ActionType == 1);

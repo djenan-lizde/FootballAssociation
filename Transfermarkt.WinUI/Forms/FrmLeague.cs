@@ -21,13 +21,13 @@ namespace Transfermarkt.WinUI.Forms
 
         private async void BtnAddLeague_Click(object sender, EventArgs e)
         {
-            var league = new League
+            var league = new Leagues
             {
                 Established = DateTime.Parse(txtDateEstablished.Text),
                 Name = txtLeagueName.Text,
                 Organizer = txtOrganizer.Text 
             };
-            await _aPIServiceLeagues.Insert<League>(league);
+            await _aPIServiceLeagues.Insert<Leagues>(league);
             MessageBox.Show("Leagues successfully added!", "Information", MessageBoxButtons.OK);
             Close();
         }

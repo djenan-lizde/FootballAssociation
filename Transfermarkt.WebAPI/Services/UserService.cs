@@ -7,29 +7,28 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Transfermarkt.Models;
 using Transfermarkt.Models.Requests;
 using Transfermarkt.Models.Responses;
 using Transfermarkt.WebAPI.Configuration;
-using Transfermarkt.WebAPI.Database;
 using System.Collections.Generic;
 using Transfermarkt.WebAPI.Exceptions;
+using Transfermarkt.WebAPI.Database;
 
 namespace Transfermarkt.WebAPI.Services
 {
     public interface IUserService
     {
         UserAuthenticationResult Authenticate(UserLoginModel model);
-        User RegisterUser(UserRegistration user);
-        List<User> GetUsers();
+        Users RegisterUser(Models.UserRegistration user);
+        List<Users> GetUsers();
     }
     public class UserService : IUserService
     {
-        protected readonly AppDbContext _context;
+        protected readonly FootballAssociationDbContext _context;
 
         private readonly IOptions<AppSettings> _options;
 
-        public UserService(AppDbContext context, IOptions<AppSettings> options)
+        public UserService(FootballAssociationDbContext context, IOptions<AppSettings> options)
         {
             _context = context;
             _options = options;
@@ -37,7 +36,7 @@ namespace Transfermarkt.WebAPI.Services
         public UserAuthenticationResult Authenticate(UserLoginModel model)
         {
             var user = _context.Users
-                .Include(x => x.UserRoles)
+                .Include(x => x.UsersRoles)
                 .ThenInclude(x => x.Role)
                 .FirstOrDefault(x => x.Username == model.Username);
 
@@ -73,7 +72,7 @@ namespace Transfermarkt.WebAPI.Services
                 Username = user.Username
             };
         }
-        public User RegisterUser(UserRegistration userRegister)
+        public Users RegisterUser(Models.UserRegistration userRegister)
         {
             var userInDbUserName = _context.Users.FirstOrDefault(x => x.Username == userRegister.Username);
             var userInDbEmail = _context.Users.FirstOrDefault(x => x.Email == userRegister.Email);
@@ -88,7 +87,7 @@ namespace Transfermarkt.WebAPI.Services
             {
                 throw new UserException("Passwords do not match!");
             }
-            var user = new User
+            var user = new Users
             {
                 Email = userRegister.Email,
                 Username = userRegister.Username,
@@ -135,7 +134,7 @@ namespace Transfermarkt.WebAPI.Services
             byte[] inArray = algorithm.ComputeHash(dst);
             return Convert.ToBase64String(inArray);
         }
-        public List<User> GetUsers()
+        public List<Users> GetUsers()
         {
             return _context.Users.ToList();
         }

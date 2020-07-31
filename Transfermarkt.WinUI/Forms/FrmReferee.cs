@@ -25,7 +25,7 @@ namespace Transfermarkt.WinUI.Forms
 
         private async void FrmReferee_Load(object sender, EventArgs e)
         {
-            var resultCity = await _aPIServiceCity.Get<List<City>>();
+            var resultCity = await _aPIServiceCity.Get<List<Cities>>();
 
             CmbCities.DataSource = resultCity;
             CmbCities.DisplayMember = "Name";
@@ -33,7 +33,7 @@ namespace Transfermarkt.WinUI.Forms
 
             if (Id.HasValue)
             {
-                var refereeLoad = await _aPIServiceReferee.GetById<Referee>(Id);
+                var refereeLoad = await _aPIServiceReferee.GetById<Referees>(Id);
                 TxtFirstName.Text = refereeLoad.FirstName;
                 TxtLastName.Text = refereeLoad.LastName;
                 TxtMiddleName.Text = refereeLoad.MiddleName;
@@ -42,7 +42,7 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void BtnSaveReferee_Click(object sender, EventArgs e)
         {
-            Referee referee = new Referee
+            Referees referee = new Referees
             {
                 FirstName = TxtFirstName.Text,
                 LastName = TxtLastName.Text,
@@ -52,12 +52,12 @@ namespace Transfermarkt.WinUI.Forms
             };
             if (Id.HasValue)
             {
-                await _aPIServiceReferee.Update<Referee>(referee);
+                await _aPIServiceReferee.Update<Referees>(referee);
                 MessageBox.Show("Referee updated", "Information");
             }
             else
             {
-                await _aPIServiceReferee.Insert<Referee>(referee);
+                await _aPIServiceReferee.Insert<Referees>(referee);
                 MessageBox.Show("Referee added", "Information");
             }
         }

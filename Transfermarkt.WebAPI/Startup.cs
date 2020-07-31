@@ -12,7 +12,6 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System;
 using System.Text;
-using Transfermarkt.Models;
 using Transfermarkt.WebAPI.Configuration;
 using Transfermarkt.WebAPI.Database;
 using Transfermarkt.WebAPI.Filters;
@@ -38,7 +37,7 @@ namespace Transfermarkt.WebAPI
             services.AddMvc(x => x.Filters.Add<ErrorFilter>()).SetCompatibilityVersion(CompatibilityVersion.Latest);
             services.AddAutoMapper(typeof(Startup));
 
-            services.AddDbContext<AppDbContext>(options =>
+            services.AddDbContext<FootballAssociationDbContext>(options =>
                  options.UseSqlServer(
                  Configuration.GetConnectionString("Transfermarkt")));
 
@@ -78,22 +77,22 @@ namespace Transfermarkt.WebAPI
                     };
                 });
 
-            services.AddScoped<IData<City>, Data<City>>();
-            services.AddScoped<IData<Club>, Data<Club>>();
-            services.AddScoped<IData<League>, Data<League>>();
-            services.AddScoped<IData<Stadium>, Data<Stadium>>();
-            services.AddScoped<IData<Player>, Data<Player>>();
-            services.AddScoped<IData<Contract>, Data<Contract>>();
-            services.AddScoped<IData<Season>, Data<Season>>();
-            services.AddScoped<IData<ClubLeague>, Data<ClubLeague>>();
-            services.AddScoped<IData<Match>, Data<Match>>();
-            services.AddScoped<IData<Position>, Data<Position>>();
-            services.AddScoped<IData<PlayerPosition>, Data<PlayerPosition>>();
-            services.AddScoped<IData<Referee>, Data<Referee>>();
-            services.AddScoped<IData<RefereeMatch>, Data<RefereeMatch>>();
-            services.AddScoped<IData<MatchDetail>, Data<MatchDetail>>();
-            services.AddScoped<IData<User>, Data<User>>();
-            services.AddScoped<IData<Role>, Data<Role>>();
+            services.AddScoped<IData<Cities>, Data<Cities>>();
+            services.AddScoped<IData<Clubs>, Data<Clubs>>();
+            services.AddScoped<IData<Leagues>, Data<Leagues>>();
+            services.AddScoped<IData<Stadiums>, Data<Stadiums>>();
+            services.AddScoped<IData<Players>, Data<Players>>();
+            services.AddScoped<IData<Contracts>, Data<Contracts>>();
+            services.AddScoped<IData<Seasons>, Data<Seasons>>();
+            services.AddScoped<IData<ClubsLeague>, Data<ClubsLeague>>();
+            services.AddScoped<IData<Matches>, Data<Matches>>();
+            services.AddScoped<IData<Positions>, Data<Positions>>();
+            services.AddScoped<IData<PlayerPositions>, Data<PlayerPositions>>();
+            services.AddScoped<IData<Referees>, Data<Referees>>();
+            services.AddScoped<IData<RefereeMatches>, Data<RefereeMatches>>();
+            services.AddScoped<IData<MatchDetails>, Data<MatchDetails>>();
+            services.AddScoped<IData<Users>, Data<Users>>();
+            services.AddScoped<IData<Roles>, Data<Roles>>();
             services.AddScoped<IData<UsersRoles>, Data<UsersRoles>>();
             services.AddScoped<IUserService, UserService>();
 

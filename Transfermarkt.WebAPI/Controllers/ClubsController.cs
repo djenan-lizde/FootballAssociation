@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using Transfermarkt.Models;
 using Transfermarkt.Models.Requests;
 using Transfermarkt.WebAPI.Database;
 using Transfermarkt.WebAPI.Services;
@@ -10,15 +9,15 @@ namespace Transfermarkt.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClubsController : BaseController<Club>
+    public class ClubsController : BaseController<Clubs>
     {
-        private readonly IData<ClubLeague> _serviceClubLeague;
-        private readonly IData<Season> _serviceSeason;
-        private readonly IData<Club> _serviceClub;
+        private readonly IData<ClubsLeague> _serviceClubLeague;
+        private readonly IData<Seasons> _serviceSeason;
+        private readonly IData<Clubs> _serviceClub;
 
-        public ClubsController(IData<Club> service, IData<ClubLeague> serviceClubLeague,
-            IData<Club> serviceClub,
-            IData<Season> serviceSeason) : base(service)
+        public ClubsController(IData<Clubs> service, IData<ClubsLeague> serviceClubLeague,
+            IData<Clubs> serviceClub,
+            IData<Seasons> serviceSeason) : base(service)
         {
             _serviceClubLeague = serviceClubLeague;
             _serviceSeason = serviceSeason;
@@ -27,34 +26,34 @@ namespace Transfermarkt.WebAPI.Controllers
 
 
         [HttpPost("ClubLeague")]
-        public ClubLeague AddClubLeague(ClubLeague clubLeague)
+        public ClubsLeague AddClubLeague(ClubsLeague clubLeague)
         {
             return _serviceClubLeague.Insert(clubLeague);
         }
 
         [HttpGet("ClubLeague")]
-        public IEnumerable<ClubLeague> ClubLeagues()
+        public IEnumerable<ClubsLeague> ClubLeagues()
         {
             return _serviceClubLeague.Get().AsEnumerable();
         }
 
         //vezano za meceve
         [HttpGet("ClubLeague/{ClubLeagueId}")]
-        public ClubLeague GetClubLeague(int clubLeagueId)
+        public ClubsLeague GetClubLeague(int clubLeagueId)
         {
             return _serviceClubLeague.GetTByCondition(x => x.Id == clubLeagueId);
         }
 
         //get klubova u sezoni
         [HttpGet("ClubsInSeason")]
-        public List<ClubLeague> GetClubsInSeason(int seasonId)
+        public List<ClubsLeague> GetClubsInSeason(int seasonId)
         {
             return _serviceClubLeague.GetByCondition(x => x.SeasonId == seasonId).ToList();
         }
 
         //get klubova u nekoj ligi
         [HttpGet("ClubsInLeague/{LeagueId}")]
-        public List<ClubLeague> ClubLeaguesCondition(int LeagueId)
+        public List<ClubsLeague> ClubLeaguesCondition(int LeagueId)
         {
             var list = _serviceSeason.Get();
             var lastSeason = list.LastOrDefault();
@@ -64,13 +63,13 @@ namespace Transfermarkt.WebAPI.Controllers
 
 
         [HttpGet("ClubPoints/{ClubId}")]
-        public ClubLeague GetClubPoints(int clubId)
+        public ClubsLeague GetClubPoints(int clubId)
         {
             return _serviceClubLeague.GetTByCondition(x => x.ClubId == clubId);
         }
 
         [HttpPut("ClubPoints")]
-        public ClubLeague UpdatePoints(ClubLeague clubLeague)
+        public ClubsLeague UpdatePoints(ClubsLeague clubLeague)
         {
             return _serviceClubLeague.Update(clubLeague);
         }
@@ -78,7 +77,7 @@ namespace Transfermarkt.WebAPI.Controllers
         
         
         [HttpGet("Season")]
-        public Season LastSeason()
+        public Seasons LastSeason()
         {
             var list = _serviceSeason.Get();
             var lastSeason = list.LastOrDefault();
@@ -87,19 +86,19 @@ namespace Transfermarkt.WebAPI.Controllers
         }
 
         [HttpGet("AllSeasons")]
-        public List<Season> GetSeasons()
+        public List<Seasons> GetSeasons()
         {
             return _serviceSeason.Get();
         }
 
         [HttpPost("NewSeason")]
-        public Season AddSeason(Season season)
+        public Seasons AddSeason(Seasons season)
         {
             return _serviceSeason.Insert(season);
         }
 
         [HttpGet("ClubSearch")]
-        public List<Club> SearchClub([FromQuery]ClubSearchRequest request)
+        public List<Clubs> SearchClub([FromQuery]ClubSearchRequest request)
         {
             if (string.IsNullOrEmpty(request.Name.ToLower()))
             {

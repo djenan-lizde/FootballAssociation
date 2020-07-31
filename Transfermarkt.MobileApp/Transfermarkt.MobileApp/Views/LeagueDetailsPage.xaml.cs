@@ -15,7 +15,7 @@ namespace Transfermarkt.MobileApp.Views
     public partial class LeagueDetailsPage : ContentPage
     {
         private readonly LeagueDetailsViewModel model = null;
-        public LeagueDetailsPage(League league)
+        public LeagueDetailsPage(Leagues league)
         {
             InitializeComponent();
             BindingContext = model = new LeagueDetailsViewModel()

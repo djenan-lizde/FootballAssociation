@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using Transfermarkt.Models;
 using Transfermarkt.Models.Requests;
 using Transfermarkt.WebAPI.Database;
 using Transfermarkt.WebAPI.Services;
@@ -10,15 +9,15 @@ namespace Transfermarkt.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PlayersController : BaseController<Player>
+    public class PlayersController : BaseController<Players>
     {
-        private readonly IData<Position> _servicePosition;
-        private readonly IData<PlayerPosition> _servicePlayerPosition;
-        private readonly IData<Player> _servicePlayer;
+        private readonly IData<Positions> _servicePosition;
+        private readonly IData<PlayerPositions> _servicePlayerPosition;
+        private readonly IData<Players> _servicePlayer;
 
-        public PlayersController(IData<Player> service, IData<Position> servicePosition,
-            IData<PlayerPosition> servicePlayerPosition,
-            IData<Player> servicePlayer) : base(service)
+        public PlayersController(IData<Players> service, IData<Positions> servicePosition,
+            IData<PlayerPositions> servicePlayerPosition,
+            IData<Players> servicePlayer) : base(service)
         {
             _servicePosition = servicePosition;
             _servicePlayer = servicePlayer;
@@ -26,25 +25,25 @@ namespace Transfermarkt.WebAPI.Controllers
         }
 
         [HttpGet("Positions")]
-        public List<Position> GetPositions()
+        public List<Positions> GetPositions()
         {
             return _servicePosition.Get();
         }
 
         [HttpPost("InsertPlayerPosition")]
-        public PlayerPosition InsertPlayerPosition(PlayerPosition playerPosition)
+        public PlayerPositions InsertPlayerPosition(PlayerPositions playerPosition)
         {
             return _servicePlayerPosition.Insert(playerPosition);
         }
 
         [HttpGet("UnsignedPlayers")]
-        public List<Player> GetUnsignedPlayers()
+        public List<Players> GetUnsignedPlayers()
         {
             return _servicePlayer.GetByCondition(x => x.IsSigned == false).ToList();
         }
 
         [HttpGet("PlayerSearch")]
-        public List<Player> SearchPlayer([FromQuery]PlayerSearchRequest request)
+        public List<Players> SearchPlayer([FromQuery]PlayerSearchRequest request)
         {
             if (string.IsNullOrEmpty(request.FirstName.ToLower()) 
                 && string.IsNullOrEmpty(request.LastName.ToLower()))

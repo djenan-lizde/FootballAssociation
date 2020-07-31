@@ -25,7 +25,7 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void FrmMatch_Load(object sender, EventArgs e)
         {
-            var leagues = await _aPIServiceLeagues.Get<List<League>>();
+            var leagues = await _aPIServiceLeagues.Get<List<Leagues>>();
             CmbLeagues.DataSource = leagues;
             CmbLeagues.DisplayMember = "Name";
             CmbLeagues.ValueMember = "Id";
@@ -46,14 +46,14 @@ namespace Transfermarkt.WinUI.Forms
             TxtDateGame.Enabled = true;
             TxtMatchStart.Enabled = true;
 
-            var clubs = await _aPIServiceClub.GetById<List<ClubLeague>>(leagueId, "ClubsInLeague");
+            var clubs = await _aPIServiceClub.GetById<List<ClubsLeague>>(leagueId, "ClubsInLeague");
 
-            List<Club> comboHomeTeam = new List<Club>();
-            List<Club> comboAwayTeam = new List<Club>();
+            List<Clubs> comboHomeTeam = new List<Clubs>();
+            List<Clubs> comboAwayTeam = new List<Clubs>();
 
             foreach (var item in clubs)
             {
-                var clubInDb = await _aPIServiceClub.GetById<Club>(item.ClubId);
+                var clubInDb = await _aPIServiceClub.GetById<Clubs>(item.ClubId);
                 comboHomeTeam.Add(clubInDb);
                 comboAwayTeam.Add(clubInDb);
                 SeasonId = item.SeasonId;
@@ -67,7 +67,7 @@ namespace Transfermarkt.WinUI.Forms
             CmbAwayClub.DisplayMember = "Name";
             CmbAwayClub.ValueMember = "Id";
 
-            var referees = await _aPIServiceReferee.Get<List<Referee>>();
+            var referees = await _aPIServiceReferee.Get<List<Referees>>();
             CmbReferees.DataSource = referees;
             CmbReferees.DisplayMember = "FirstName";
             CmbReferees.ValueMember = "Id";
@@ -77,7 +77,7 @@ namespace Transfermarkt.WinUI.Forms
         private async void CmbHomeClub_SelectionChangeCommitted(object sender, EventArgs e)
         {
             var clubId = int.Parse(CmbHomeClub.SelectedValue.ToString());
-            var homeClub = await _aPIServiceClub.GetById<Club>(clubId);
+            var homeClub = await _aPIServiceClub.GetById<Clubs>(clubId);
 
             if (homeClub != null)
             {
@@ -86,7 +86,7 @@ namespace Transfermarkt.WinUI.Forms
                 pictureBox1.Image = newImage;
             }
 
-            var homeStadium = await _aPIServiceStadium.GetById<Stadium>(homeClub.Id, "HomeStadium");
+            var homeStadium = await _aPIServiceStadium.GetById<Stadiums>(homeClub.Id, "HomeStadium");
             if (homeStadium == null)
             {
                 TxtStadium.Text = "Home club doesn't have home stadium.";
@@ -98,7 +98,7 @@ namespace Transfermarkt.WinUI.Forms
         private async void CmbAwayClub_SelectionChangeCommitted(object sender, EventArgs e)
         {
             var clubId = int.Parse(CmbAwayClub.SelectedValue.ToString());
-            var awayClub = await _aPIServiceClub.GetById<Club>(clubId);
+            var awayClub = await _aPIServiceClub.GetById<Clubs>(clubId);
 
             if (awayClub != null)
             {
@@ -111,7 +111,7 @@ namespace Transfermarkt.WinUI.Forms
         {
             var gameEnd = (int.Parse(TxtMatchStart.Text.Substring(0, 2)) + 2).ToString() + TxtMatchStart.Text.Substring(2, 3);
 
-            var match = new Match
+            var match = new Matches
             {
                 HomeClubId = int.Parse(CmbHomeClub.SelectedValue.ToString()),
                 AwayClubId = int.Parse(CmbAwayClub.SelectedValue.ToString()),
@@ -124,14 +124,14 @@ namespace Transfermarkt.WinUI.Forms
                 SeasonId = SeasonId
             };
 
-            var addedMatch = await _aPIServiceMatch.Insert<Match>(match);
+            var addedMatch = await _aPIServiceMatch.Insert<Matches>(match);
 
-            var refereeMatch = new RefereeMatch
+            var refereeMatch = new RefereeMatches
             {
                 RefereeId = int.Parse(CmbReferees.SelectedValue.ToString()),
                 MatchId = addedMatch.Id
             };
-            await _aPIServiceMatch.Insert<RefereeMatch>(refereeMatch, "RefereeMatch");
+            await _aPIServiceMatch.Insert<RefereeMatches>(refereeMatch, "RefereeMatch");
         }
     }
 }

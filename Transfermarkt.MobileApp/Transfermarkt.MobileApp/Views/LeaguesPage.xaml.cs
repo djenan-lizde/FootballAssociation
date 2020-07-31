@@ -27,7 +27,7 @@ namespace Transfermarkt.MobileApp.Views
         }
         private async void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            var item = e.SelectedItem as League;
+            var item = e.SelectedItem as Leagues;
 
             await Navigation.PushAsync(new LeagueDetailsPage(item));
         }

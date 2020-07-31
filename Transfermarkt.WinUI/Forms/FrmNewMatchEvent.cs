@@ -33,17 +33,17 @@ namespace Transfermarkt.WinUI.Forms
             CmbEvent.DisplayMember = "Value";
             CmbEvent.ValueMember = "Key";
 
-            var match = await _aPIServiceMatches.GetById<Match>(Id);
+            var match = await _aPIServiceMatches.GetById<Matches>(Id);
 
-            var homeClub = await _aPIServiceClubs.GetById<Club>(match.HomeClubId);
-            var awayClub = await _aPIServiceClubs.GetById<Club>(match.AwayClubId);
+            var homeClub = await _aPIServiceClubs.GetById<Clubs>(match.HomeClubId);
+            var awayClub = await _aPIServiceClubs.GetById<Clubs>(match.AwayClubId);
             if (homeClub == null || awayClub == null)
             {
                 return;
             }
 
             //clubs for drop down list
-            List<Club> clubs = new List<Club>
+            List<Clubs> clubs = new List<Clubs>
             {
                 homeClub,
                 awayClub
@@ -56,15 +56,15 @@ namespace Transfermarkt.WinUI.Forms
         {
             CmbPlayers.SelectedItem = null;
             CmbPlayers.SelectedText = "--select--";
-            List<Player> players = new List<Player>();
+            List<Players> players = new List<Players>();
 
             var clubId = int.Parse(CmbClubs.SelectedValue.ToString());
 
-            var playerContract = await _aPIServiceContracts.GetById<List<Contract>>(clubId, "ClubContracts");
+            var playerContract = await _aPIServiceContracts.GetById<List<Contracts>>(clubId, "ClubContracts");
 
             foreach (var item in playerContract)
             {
-                var player = await _aPIServicePlayers.GetById<Player>(item.PlayerId);
+                var player = await _aPIServicePlayers.GetById<Players>(item.PlayerId);
                 if (player == null) continue;
                 players.Add(player);
             }
@@ -80,7 +80,7 @@ namespace Transfermarkt.WinUI.Forms
                 MessageBox.Show("Minutes can't be under 0 or higher than 95 minutes.", "Error");
                 return;
             }
-            var matchDetails = await _aPIServiceMatches.GetById<List<MatchDetail>>(Id, "MatchDetail");
+            var matchDetails = await _aPIServiceMatches.GetById<List<MatchDetails>>(Id, "MatchDetail");
             if (matchDetails.Count != 0)
             {
                 var lastRecord = matchDetails.LastOrDefault();
@@ -91,7 +91,7 @@ namespace Transfermarkt.WinUI.Forms
                 }
             }
 
-            var matchDetail = new MatchDetail
+            var matchDetail = new MatchDetails
             {
                 ClubId = int.Parse(CmbClubs.SelectedValue.ToString()),
                 MatchId = Id,
@@ -99,7 +99,7 @@ namespace Transfermarkt.WinUI.Forms
                 PlayerId = int.Parse(CmbPlayers.SelectedValue.ToString()),
                 ActionType = int.Parse(CmbEvent.SelectedIndex.ToString())
             };
-            await _aPIServiceMatches.Insert<MatchDetail>(matchDetail, "NewDetailMatch");
+            await _aPIServiceMatches.Insert<MatchDetails>(matchDetail, "NewDetailMatch");
             FrmMatchDetail frm = new FrmMatchDetail(Id);
             frm.Show();
             Close();

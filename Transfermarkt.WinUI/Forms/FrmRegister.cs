@@ -37,7 +37,7 @@ namespace Transfermarkt.WinUI.Forms
             };
             user.Roles.Add(2);//represents a Member role
 
-            await _aPIServiceUser.Insert<User>(user, "Registration");
+            await _aPIServiceUser.Insert<Users>(user, "Registration");
             MessageBox.Show("Registration successful");
             FrmLogin frm = new FrmLogin();
             frm.Show();

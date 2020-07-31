@@ -20,7 +20,7 @@ namespace Transfermarkt.WinUI.Forms
 
 
         public int? Id { get; set; }
-        readonly Club club = new Club();
+        readonly Clubs club = new Clubs();
 
         public FrmClub(int? id = null)
         {
@@ -29,13 +29,13 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void FrmInsertClub_Load(object sender, EventArgs e)
         {
-            var resultCity = await _aPIServiceCity.Get<List<City>>();
+            var resultCity = await _aPIServiceCity.Get<List<Cities>>();
 
             CmbCities.DataSource = resultCity;
             CmbCities.DisplayMember = "Name";
             CmbCities.ValueMember = "Id";
 
-            var resultLeague = await _aPIServiceLeague.Get<List<League>>();
+            var resultLeague = await _aPIServiceLeague.Get<List<Leagues>>();
 
             CmbLeagues.DataSource = resultLeague;
             CmbLeagues.DisplayMember = "Name";
@@ -43,7 +43,7 @@ namespace Transfermarkt.WinUI.Forms
 
             if (Id.HasValue)
             {
-                var clubLoad = await _aPIServiceClub.GetById<Club>(Id);
+                var clubLoad = await _aPIServiceClub.GetById<Clubs>(Id);
                 txtAbbreviation.Text = clubLoad.Abbreviation;
                 txtClubName.Text = clubLoad.Name;
                 txtDateFounded.Text = clubLoad.Founded.ToString();
@@ -60,11 +60,11 @@ namespace Transfermarkt.WinUI.Forms
                 label9.Visible = true;
                 DgvPlayers.Visible = true;
                 BtnMatchSchedule.Visible = true;
-                var contracts = await _aPIServiceContract.GetById<List<Contract>>(Id, "ClubContracts");
+                var contracts = await _aPIServiceContract.GetById<List<Contracts>>(Id, "ClubContracts");
                 List<PlayersClub> playersClubs = new List<PlayersClub>();
                 foreach (var item in contracts)
                 {
-                    var playerInDb = await _aPIServicePlayer.GetById<Player>(item.PlayerId);
+                    var playerInDb = await _aPIServicePlayer.GetById<Players>(item.PlayerId);
                     var player = new PlayersClub
                     {
                         Id = item.PlayerId,
@@ -90,14 +90,14 @@ namespace Transfermarkt.WinUI.Forms
 
             if (Id.HasValue)
             {
-                var clubInDb = await _aPIServiceClub.GetById<Club>(club.Id);
+                var clubInDb = await _aPIServiceClub.GetById<Clubs>(club.Id);
                 club.Logo = clubInDb.Logo;
-                await _aPIServiceClub.Update<Club>(club);
+                await _aPIServiceClub.Update<Clubs>(club);
                 MessageBox.Show("Successfully updated.", "Club update");
             }
             else
             {
-                await _aPIServiceClub.Insert<Club>(club);
+                await _aPIServiceClub.Insert<Clubs>(club);
                 MessageBox.Show("Successfully added. You can click assign stadium button for" +
                     " adding stadium!", "Club add");
             }
@@ -122,12 +122,12 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void BtnAddStadium_Click(object sender, EventArgs e)
         {
-            var clubs = await _aPIServiceClub.Get<List<Club>>();
+            var clubs = await _aPIServiceClub.Get<List<Clubs>>();
             var clubStadium = clubs.Find(x => x.Name == club.Name);
 
             if (Id.HasValue)
             {
-                var clubInDb = await _aPIServiceClub.GetById<Club>(Id);
+                var clubInDb = await _aPIServiceClub.GetById<Clubs>(Id);
                 FrmStadium frm = new FrmStadium(clubInDb.Id, clubInDb.Name);
                 frm.Show();
             }

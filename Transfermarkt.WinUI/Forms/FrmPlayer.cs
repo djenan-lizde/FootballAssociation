@@ -33,7 +33,7 @@ namespace Transfermarkt.WinUI.Forms
             CmbStrongerFoot.DisplayMember = "Value";
             CmbStrongerFoot.ValueMember = "Key";
 
-            var positions = await _aPIServicePlayer.Get<List<Position>>(null, "Positions");
+            var positions = await _aPIServicePlayer.Get<List<Positions>>(null, "Positions");
 
             listBox1.DataSource = positions.ToList();
             listBox1.DisplayMember = "Name";
@@ -41,7 +41,7 @@ namespace Transfermarkt.WinUI.Forms
 
             if (Id.HasValue)
             {
-                var player = await _aPIServicePlayer.GetById<Player>(Id);
+                var player = await _aPIServicePlayer.GetById<Players>(Id);
                 txtBirthDate.Text = player.Birthdate.ToString();
                 txtFirstName.Text = player.FirstName;
                 txtHeight.Text = player.Height.ToString();
@@ -60,7 +60,7 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void BtnAddPlayer_Click(object sender, EventArgs e)
         {
-            Player player = new Player
+            Players player = new Players
             {
                 FirstName = txtFirstName.Text,
                 MiddleName = txtMiddleName.Text,
@@ -81,23 +81,23 @@ namespace Transfermarkt.WinUI.Forms
             {
                 player.IsSigned = false;
             }
-            Player lastAdded = null;
+            Players lastAdded = null;
             if (Id.HasValue)
-                lastAdded = await _aPIServicePlayer.Update<Player>(player);
+                lastAdded = await _aPIServicePlayer.Update<Players>(player);
             else
-                lastAdded = await _aPIServicePlayer.Insert<Player>(player);
+                lastAdded = await _aPIServicePlayer.Insert<Players>(player);
 
             if (!Id.HasValue)
             {
-                var selectedValues = listBox1.SelectedItems.Cast<Position>().Select(x => x.Id).ToList();
+                var selectedValues = listBox1.SelectedItems.Cast<Positions>().Select(x => x.Id).ToList();
                 for (int i = 0; i < selectedValues.Count(); i++)
                 {
-                    PlayerPosition playerPosition = new PlayerPosition
+                    PlayerPositions playerPosition = new PlayerPositions
                     {
                         PlayerId = lastAdded.Id,
                         PositionId = selectedValues[i]
                     };
-                    await _aPIServicePlayer.Insert<PlayerPosition>(playerPosition, "InsertPlayerPosition");
+                    await _aPIServicePlayer.Insert<PlayerPositions>(playerPosition, "InsertPlayerPosition");
                 }
             }
             if (ChBoxSign.Checked)

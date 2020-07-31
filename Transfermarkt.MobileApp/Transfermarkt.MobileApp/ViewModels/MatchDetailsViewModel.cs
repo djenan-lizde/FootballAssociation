@@ -27,11 +27,11 @@ namespace Transfermarkt.MobileApp.ViewModels
 
         public async Task Init()
         {
-            var match = await _apiServiceMatches.GetById<Match>(Match.Id);
-            var matchDetails = await _apiServiceMatches.GetById<List<MatchDetail>>(Match.Id, "MatchDetail");
+            var match = await _apiServiceMatches.GetById<Matches>(Match.Id);
+            var matchDetails = await _apiServiceMatches.GetById<List<MatchDetails>>(Match.Id, "MatchDetail");
 
-            var HomeClubName = await _aPIServiceClubs.GetById<Club>(match.HomeClubId);
-            var AwayClubName = await _aPIServiceClubs.GetById<Club>(match.AwayClubId);
+            var HomeClubName = await _aPIServiceClubs.GetById<Clubs>(match.HomeClubId);
+            var AwayClubName = await _aPIServiceClubs.GetById<Clubs>(match.AwayClubId);
             var HomeClubGoals = GetMatchDetails(matchDetails, match.HomeClubId, 3);
             var AwayClubGoals = GetMatchDetails(matchDetails, match.AwayClubId, 3);
 
@@ -50,8 +50,8 @@ namespace Transfermarkt.MobileApp.ViewModels
             {
                 foreach (var item in matchDetails)
                 {
-                    var player = await _aPIServicePlayers.GetById<Player>(item.PlayerId);
-                    var club = await _aPIServiceClubs.GetById<Club>(item.ClubId);
+                    var player = await _aPIServicePlayers.GetById<Players>(item.PlayerId);
+                    var club = await _aPIServiceClubs.GetById<Clubs>(item.ClubId);
                     var goalscorer = new GoalScorer
                     {
                         ClubName = club.Name,
@@ -68,8 +68,8 @@ namespace Transfermarkt.MobileApp.ViewModels
             {
                 foreach (var item in matchDetails)
                 {
-                    var player = await _aPIServicePlayers.GetById<Player>(item.PlayerId);
-                    var club = await _aPIServiceClubs.GetById<Club>(item.ClubId);
+                    var player = await _aPIServicePlayers.GetById<Players>(item.PlayerId);
+                    var club = await _aPIServiceClubs.GetById<Clubs>(item.ClubId);
                     var playerCard = new PlayersCards
                     {
                         ClubName = club.Name,
@@ -89,8 +89,8 @@ namespace Transfermarkt.MobileApp.ViewModels
             {
                 foreach (var item in matchDetails)
                 {
-                    var player = await _aPIServicePlayers.GetById<Player>(item.PlayerId);
-                    var club = await _aPIServiceClubs.GetById<Club>(item.ClubId);
+                    var player = await _aPIServicePlayers.GetById<Players>(item.PlayerId);
+                    var club = await _aPIServiceClubs.GetById<Clubs>(item.ClubId);
                     var playerCorner = new PlayersCorners
                     {
                         ClubName = club.Name,
@@ -102,7 +102,7 @@ namespace Transfermarkt.MobileApp.ViewModels
             }
         }
 
-        private int GetMatchDetails(List<MatchDetail> list, int clubId, int enumValue)
+        private int GetMatchDetails(List<MatchDetails> list, int clubId, int enumValue)
         {
             var clubStats = list.Count(x => x.ClubId == clubId
                 && int.Parse(x.ActionType.ToString()) == enumValue);

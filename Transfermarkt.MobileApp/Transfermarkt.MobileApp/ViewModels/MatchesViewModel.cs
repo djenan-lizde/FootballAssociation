@@ -24,21 +24,21 @@ namespace Transfermarkt.MobileApp.ViewModels
 
         public async void Init()
         {
-            var result = await _apiServiceMatches.Get<List<Match>>();
+            var result = await _apiServiceMatches.Get<List<Matches>>();
             if (result.Count() == 0)
             {
                 return;
             }
             MatchesList.Clear();
 
-            var league = await _aPIServiceLeagues.GetById<League>(result[0].LeagueId);
+            var league = await _aPIServiceLeagues.GetById<Leagues>(result[0].LeagueId);
 
             foreach (var item in result)
             {
-                var homeClub = await _apiServiceClubs.GetById<Club>(item.HomeClubId);
-                var awayClub = await _apiServiceClubs.GetById<Club>(item.AwayClubId);
+                var homeClub = await _apiServiceClubs.GetById<Clubs>(item.HomeClubId);
+                var awayClub = await _apiServiceClubs.GetById<Clubs>(item.AwayClubId);
 
-                var stadium = await _aPIServiceStadiums.GetById<Club>(homeClub.Id, "HomeStadium");
+                var stadium = await _aPIServiceStadiums.GetById<Clubs>(homeClub.Id, "HomeStadium");
 
                 var match = new MatchesView
                 {

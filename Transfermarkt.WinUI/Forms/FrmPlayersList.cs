@@ -18,7 +18,7 @@ namespace Transfermarkt.WinUI.Forms
 
         private async void BtnPlayersList_Click(object sender, EventArgs e)
         {
-            var result = await _aPIServicePlayer.Get<List<Player>>();
+            var result = await _aPIServicePlayer.Get<List<Players>>();
             if (result.Count() == 0)
             {
                 MessageBox.Show("We don't have players in database.");
@@ -42,7 +42,7 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void BtnUnsignedPlayers_Click(object sender, EventArgs e)
         {
-            var result = await _aPIServicePlayer.Get<List<Player>>(null, "UnsignedPlayers");
+            var result = await _aPIServicePlayer.Get<List<Players>>(null, "UnsignedPlayers");
 
             if (result.Count == 0)
             {
@@ -53,7 +53,7 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void BtnContractUpdate_Click(object sender, EventArgs e)
         {
-            var contracts = await _aPIServiceContract.Get<List<Contract>>("UnexpiredContracts");
+            var contracts = await _aPIServiceContract.Get<List<Contracts>>("UnexpiredContracts");
             if (contracts.Count == 0)
             {
                 MessageBox.Show("No expired contracts", "Information");
@@ -63,7 +63,7 @@ namespace Transfermarkt.WinUI.Forms
             {
                 if (DateTime.Now > item.ExpirationDate)
                 {
-                    var player = await _aPIServicePlayer.GetById<Player>(item.PlayerId);
+                    var player = await _aPIServicePlayer.GetById<Players>(item.PlayerId);
                     if (player == null)
                     {
                         MessageBox.Show("This player doesn't exist", "Error");
@@ -71,8 +71,8 @@ namespace Transfermarkt.WinUI.Forms
                     }
                     item.IsExpired = true;
                     player.IsSigned = false;
-                    await _aPIServiceContract.Update<Contract>(item);
-                    await _aPIServicePlayer.Update<Player>(player);
+                    await _aPIServiceContract.Update<Contracts>(item);
+                    await _aPIServicePlayer.Update<Players>(player);
                 }
             }
         }
@@ -80,7 +80,7 @@ namespace Transfermarkt.WinUI.Forms
         {
             if (string.IsNullOrEmpty(TxtSearchPlayer.Text))
             {
-                DgvPlayersList.DataSource = await _aPIServicePlayer.Get<List<Player>>(null);
+                DgvPlayersList.DataSource = await _aPIServicePlayer.Get<List<Players>>(null);
                 return;
             }
             var request = new PlayerSearchRequest
@@ -89,7 +89,7 @@ namespace Transfermarkt.WinUI.Forms
                 LastName = TxtSearchPlayer.Text.ToLower(),
                 IsSigned = ChcIsSigned.Checked
             };
-            var data = await _aPIServicePlayer.Get<List<Player>>(request, "PlayerSearch");
+            var data = await _aPIServicePlayer.Get<List<Players>>(request, "PlayerSearch");
 
             DgvPlayersList.DataSource = data;
         }

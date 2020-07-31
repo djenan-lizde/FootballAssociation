@@ -37,7 +37,7 @@ namespace Transfermarkt.MobileApp.ViewModels
                 FirstName = text,
                 LastName = text
             };
-            var searchResult = await _apiServicePlayers.Get<List<Player>>(searchObject, "PlayerSearch");
+            var searchResult = await _apiServicePlayers.Get<List<Players>>(searchObject, "PlayerSearch");
             foreach (var item in searchResult)
             {
                 var player = new PlayersClub
