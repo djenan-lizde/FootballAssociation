@@ -35,15 +35,14 @@ namespace Transfermarkt.MobileApp.ViewModels
             {
                 var player = await _apiServicePlayers.GetById<Players>(item.PlayerId);
 
-                var signedPlayer = new PlayersClub
+                Players.Add(new PlayersClub
                 {
                     Id = item.PlayerId,
                     Birthdate = player.Birthdate,
                     FirstName = player.FirstName,
                     Jersey = player.Jersey,
                     LastName = player.LastName
-                };
-                Players.Add(signedPlayer);
+                });
             }
         }
         public ICommand InitCommand { get; set; }

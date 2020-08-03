@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Transfermarkt.WebAPI.Database;
 using Transfermarkt.WebAPI.Services;
+using Transfermarkt.Models;
 
 namespace Transfermarkt.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CitiesController : BaseController<Cities> 
+    public class CitiesController : BaseController<Models.Cities, object>
     {
-        public CitiesController(IData<Cities> service):base(service){}
+        public CitiesController(IService<Models.Cities, object> service) : base(service){} 
     }
 }

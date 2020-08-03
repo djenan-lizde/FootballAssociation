@@ -48,7 +48,7 @@ namespace Transfermarkt.MobileApp.ViewModels
                 foreach (var item in clubInLeague)
                 {
                     var club = await _apiServiceClubs.GetById<Clubs>(item.ClubId);
-                    var clubPoints = new ClubPoints
+                    ClubsPoints.Add(new ClubPoints
                     {
                         Id = club.Id,
                         Abbreviation = club.Abbreviation,
@@ -56,8 +56,7 @@ namespace Transfermarkt.MobileApp.ViewModels
                         Name = club.Name,
                         Points = item.Points,
                         Position = counter + 1
-                    };
-                    ClubsPoints.Add(clubPoints);
+                    });
                 }
             }
         }

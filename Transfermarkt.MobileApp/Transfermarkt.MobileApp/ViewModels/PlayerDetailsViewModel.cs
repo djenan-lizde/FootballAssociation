@@ -35,7 +35,7 @@ namespace Transfermarkt.MobileApp.ViewModels
             foreach (var item in contracts)
             {
                 var club = await _apiServiceClubs.GetById<Clubs>(item.ClubId);
-                var playerClub = new PlayerContractsClubs
+                Contracts.Add(new PlayerContractsClubs
                 {
                     ClubName = club.Name,
                     ExpirationDate = item.ExpirationDate,
@@ -43,8 +43,7 @@ namespace Transfermarkt.MobileApp.ViewModels
                     RedemptionClause = item.RedemptionClause,
                     SignedDate = item.SignedDate,
                     Logo = club.Logo
-                };
-                Contracts.Add(playerClub);
+                });
             }
             var playerMatchDetails = await _apiServiceMatches.GetById<List<MatchDetails>>(Player.Id, "PlayerMatchDetails");
             var NumberOfGoals = playerMatchDetails.Count(x => x.ActionType == 3);

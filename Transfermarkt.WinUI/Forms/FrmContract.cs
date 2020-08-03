@@ -41,7 +41,7 @@ namespace Transfermarkt.WinUI.Forms
 
             if (contractInDb == null || contractInDb.IsExpired)
             {
-                Contracts contract = new Contracts
+                await _aPIServiceContracts.Insert<Contracts>(new Contracts
                 {
                     ClubId = int.Parse(CmbClubs.SelectedValue.ToString()),
                     ExpirationDate = DateTime.Parse(TxtExpirationDate.Text),
@@ -49,8 +49,7 @@ namespace Transfermarkt.WinUI.Forms
                     PlayerId = _id,
                     RedemptionClause = int.Parse(TxtRedemptionClause.Text),
                     SignedDate = DateTime.Now
-                };
-                await _aPIServiceContracts.Insert<Contracts>(contract);
+                });
                 MessageBox.Show("Player is successfully signed! ", "Error");
                 return;
             }

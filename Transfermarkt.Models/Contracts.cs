@@ -13,13 +13,7 @@ namespace Transfermarkt.Models
         public DateTime ExpirationDate { get; set; }
         public int RedemptionClause { get; set; }
         public bool IsExpired { get; set; }
-
-        [ForeignKey(nameof(Club))]
         public int ClubId { get; set; }
-        public Clubs Club { get; set; }
-
-        [ForeignKey(nameof(Player))]
         public int PlayerId { get; set; }
-        public Players Player { get; set; }
     }
 }

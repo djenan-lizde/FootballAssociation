@@ -111,7 +111,7 @@ namespace Transfermarkt.WinUI.Forms
         {
             var gameEnd = (int.Parse(TxtMatchStart.Text.Substring(0, 2)) + 2).ToString() + TxtMatchStart.Text.Substring(2, 3);
 
-            var match = new Matches
+            var addedMatch = await _aPIServiceMatch.Insert<Matches>(new Matches
             {
                 HomeClubId = int.Parse(CmbHomeClub.SelectedValue.ToString()),
                 AwayClubId = int.Parse(CmbAwayClub.SelectedValue.ToString()),
@@ -122,9 +122,7 @@ namespace Transfermarkt.WinUI.Forms
                 GameEnd = gameEnd,
                 LeagueId = int.Parse(CmbHomeClub.SelectedValue.ToString()),
                 SeasonId = SeasonId
-            };
-
-            var addedMatch = await _aPIServiceMatch.Insert<Matches>(match);
+            });
 
             var refereeMatch = new RefereeMatches
             {

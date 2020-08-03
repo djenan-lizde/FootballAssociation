@@ -52,13 +52,12 @@ namespace Transfermarkt.MobileApp.ViewModels
                 {
                     var player = await _aPIServicePlayers.GetById<Players>(item.PlayerId);
                     var club = await _aPIServiceClubs.GetById<Clubs>(item.ClubId);
-                    var goalscorer = new GoalScorer
+                    GoalScorers.Add(new GoalScorer
                     {
                         ClubName = club.Name,
                         Minute = item.Minute,
                         PlayerFullName = $"{player.FirstName} {player.LastName}"
-                    };
-                    GoalScorers.Add(goalscorer);
+                    });
                 }
             }
 
@@ -91,13 +90,12 @@ namespace Transfermarkt.MobileApp.ViewModels
                 {
                     var player = await _aPIServicePlayers.GetById<Players>(item.PlayerId);
                     var club = await _aPIServiceClubs.GetById<Clubs>(item.ClubId);
-                    var playerCorner = new PlayersCorners
+                    PlayersCorners.Add(new PlayersCorners
                     {
                         ClubName = club.Name,
                         PlayerFullName = $"{player.FirstName} {player.LastName}",
                         Minute = item.Minute
-                    };
-                    PlayersCorners.Add(playerCorner);
+                    });
                 }
             }
         }

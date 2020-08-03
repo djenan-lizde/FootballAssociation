@@ -18,7 +18,6 @@ namespace Transfermarkt.WinUI.Forms
         private readonly APIService _aPIServiceContract = new APIService("Contracts");
         private readonly APIService _aPIServicePlayer = new APIService("Players");
 
-
         public int? Id { get; set; }
         readonly Clubs club = new Clubs();
 
@@ -92,7 +91,7 @@ namespace Transfermarkt.WinUI.Forms
             {
                 var clubInDb = await _aPIServiceClub.GetById<Clubs>(club.Id);
                 club.Logo = clubInDb.Logo;
-                await _aPIServiceClub.Update<Clubs>(club);
+                await _aPIServiceClub.Update<Clubs>(club, club.Id.ToString());
                 MessageBox.Show("Successfully updated.", "Club update");
             }
             else

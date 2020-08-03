@@ -71,8 +71,8 @@ namespace Transfermarkt.WinUI.Forms
                     }
                     item.IsExpired = true;
                     player.IsSigned = false;
-                    await _aPIServiceContract.Update<Contracts>(item);
-                    await _aPIServicePlayer.Update<Players>(player);
+                    await _aPIServiceContract.Update<Contracts>(item,item.Id.ToString());
+                    await _aPIServicePlayer.Update<Players>(player,player.Id.ToString());
                 }
             }
         }
@@ -83,13 +83,13 @@ namespace Transfermarkt.WinUI.Forms
                 DgvPlayersList.DataSource = await _aPIServicePlayer.Get<List<Players>>(null);
                 return;
             }
-            var request = new PlayerSearchRequest
+
+            var data = await _aPIServicePlayer.Get<List<Players>>(new PlayerSearchRequest
             {
                 FirstName = TxtSearchPlayer.Text.ToLower(),
                 LastName = TxtSearchPlayer.Text.ToLower(),
                 IsSigned = ChcIsSigned.Checked
-            };
-            var data = await _aPIServicePlayer.Get<List<Players>>(request, "PlayerSearch");
+            });
 
             DgvPlayersList.DataSource = data;
         }

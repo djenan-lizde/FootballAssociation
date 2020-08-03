@@ -15,6 +15,7 @@ namespace Transfermarkt.WinUI.Forms
         private readonly APIService _aPIServiceMatches = new APIService("Matches");
         private readonly APIService _aPIServiceClubs = new APIService("Clubs");
         private readonly APIService _aPIServicePlayers = new APIService("Players");
+        private readonly APIService _aPIServiceContracts = new APIService("Contracts");
 
         public int Id { get; set; }
         public int HomeClubId { get; set; }
@@ -38,13 +39,13 @@ namespace Transfermarkt.WinUI.Forms
             var homeClub = await _aPIServiceClubs.GetById<Clubs>(match.HomeClubId);
             var awayClub = await _aPIServiceClubs.GetById<Clubs>(match.AwayClubId);
 
-            HomeClubId = homeClub.Id; 
+            HomeClubId = homeClub.Id;
             AwayClubId = awayClub.Id;
 
             if (homeClub != null)
             {
                 Image image = ImageResizer.ByteArrayToImage(homeClub.Logo);
-                var newImage = ImageResizer.ResizeImage(image,200,200);
+                var newImage = ImageResizer.ResizeImage(image, 200, 200);
                 pictureBox1.Image = newImage;
                 HomeClubName.Text = homeClub.Name;
             }
@@ -52,7 +53,7 @@ namespace Transfermarkt.WinUI.Forms
             if (awayClub != null)
             {
                 Image image = ImageResizer.ByteArrayToImage(awayClub.Logo);
-                var newImage = ImageResizer.ResizeImage(image,200,200);
+                var newImage = ImageResizer.ResizeImage(image, 200, 200);
                 pictureBox2.Image = newImage;
                 AwayClubName.Text = awayClub.Name;
             }
@@ -88,7 +89,7 @@ namespace Transfermarkt.WinUI.Forms
             }
 
             //cards
-            if ((matchDetails.Count(x => int.Parse(x.ActionType.ToString()) == 0) > 0) 
+            if ((matchDetails.Count(x => int.Parse(x.ActionType.ToString()) == 0) > 0)
                 || (matchDetails.Count(x => int.Parse(x.ActionType.ToString()) == 1) > 0))
             {
                 List<PlayersCards> cards = new List<PlayersCards>();
@@ -153,7 +154,7 @@ namespace Transfermarkt.WinUI.Forms
             if (DateTime.Now.Date >= match.DateGame.Date)
             {
                 match.IsFinished = true;
-                await _aPIServiceMatches.Update<Matches>(match);
+                await _aPIServiceMatches.Update<Matches>(match, match.Id.ToString());
 
                 var matchDetails = await _aPIServiceMatches.GetById<List<MatchDetails>>(Id, "MatchDetail");
 
@@ -185,7 +186,7 @@ namespace Transfermarkt.WinUI.Forms
             {
                 var clubLeaguePoints = await _aPIServiceClubs.GetById<ClubsLeague>(clubId, "ClubPoints");
                 clubLeaguePoints.Points += 3;
-                await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePoints, "ClubPoints");
+                await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePoints, clubLeaguePoints.Id.ToString(), "ClubPoints");
             }
             else
             {
@@ -195,9 +196,52 @@ namespace Transfermarkt.WinUI.Forms
                 clubLeaguePointsHome.Points += 1;
                 clubLeaguePointsAway.Points += 1;
 
-                await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePointsHome, "ClubPoints");
-                await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePointsAway, "ClubPoints");
+                await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePointsHome, clubLeaguePointsHome.Id.ToString(), "ClubPoints");
+                await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePointsAway, clubLeaguePointsHome.Id.ToString(), "ClubPoints");
             }
+        }
+
+        private async void BtnSimulate_Click(object sender, EventArgs e)
+        {
+            //random number of events
+            Random random = new Random();
+            int num = random.Next(1,10);
+
+            var homePlayers = await _aPIServiceContracts.GetById<List<Contracts>>(HomeClubId, "ClubContracts");
+            var awayPlayers = await _aPIServiceContracts.GetById<List<Contracts>>(AwayClubId, "ClubContracts");
+
+            for (int i = 1; i <= num; i++)
+            {
+                var matchDetail = new MatchDetails
+                {
+                    ActionType = random.Next(1, 4),
+                    MatchId = Id,
+                    Minute = random.Next(1, 95)
+                };
+                if (i % 2 == 0)
+                {
+                    matchDetail.ClubId = HomeClubId;
+                    var index = random.Next(homePlayers.Count());
+                    matchDetail.PlayerId = homePlayers[index].PlayerId;
+                }
+                else
+                {
+                    matchDetail.ClubId = AwayClubId;
+                    var index = random.Next(awayPlayers.Count());
+                    matchDetail.PlayerId = awayPlayers[index].PlayerId;
+                }
+                await _aPIServiceMatches.Insert<MatchDetails>(matchDetail, "NewDetailMatch");
+            }
+            BtnMatchFinish.Visible = false;
+            BtnNewEventMatch.Visible = false;
+            BtnSimulate.Visible = false;
+            var match = await _aPIServiceMatches.GetById<Matches>(Id);
+            match.IsFinished = true;
+            await _aPIServiceMatches.Update<Matches>(match, match.Id.ToString());
+            MessageBox.Show("Match simulated", "Information");
+            FrmMatchDetail frm = new FrmMatchDetail(Id);
+            frm.Show();
+            Close();
         }
     }
 }

@@ -43,6 +43,7 @@
             this.DgvPlayerCards = new System.Windows.Forms.DataGridView();
             this.label4 = new System.Windows.Forms.Label();
             this.DgvCorners = new System.Windows.Forms.DataGridView();
+            this.BtnSimulate = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgvGoalScorers)).BeginInit();
@@ -210,11 +211,25 @@
             this.DgvCorners.Size = new System.Drawing.Size(373, 107);
             this.DgvCorners.TabIndex = 14;
             // 
+            // BtnSimulate
+            // 
+            this.BtnSimulate.BackColor = System.Drawing.Color.RoyalBlue;
+            this.BtnSimulate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnSimulate.ForeColor = System.Drawing.Color.White;
+            this.BtnSimulate.Location = new System.Drawing.Point(527, 24);
+            this.BtnSimulate.Name = "BtnSimulate";
+            this.BtnSimulate.Size = new System.Drawing.Size(130, 46);
+            this.BtnSimulate.TabIndex = 15;
+            this.BtnSimulate.Text = "Simulate match";
+            this.BtnSimulate.UseVisualStyleBackColor = false;
+            this.BtnSimulate.Click += new System.EventHandler(this.BtnSimulate_Click);
+            // 
             // FrmMatchDetail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1160, 583);
+            this.Controls.Add(this.BtnSimulate);
             this.Controls.Add(this.DgvCorners);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.DgvPlayerCards);
@@ -260,5 +275,6 @@
         private System.Windows.Forms.DataGridView DgvPlayerCards;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridView DgvCorners;
+        private System.Windows.Forms.Button BtnSimulate;
     }
 }

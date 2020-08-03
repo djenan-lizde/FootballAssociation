@@ -53,7 +53,7 @@ namespace Transfermarkt.WinUI.Forms
             }
             else
             {
-                await _aPIServiceStadium.Update<Stadiums>(stadium);
+                await _aPIServiceStadium.Update<Stadiums>(stadium, stadium.Id.ToString());
                 MessageBox.Show("Successfully updated!", "Stadium updated");
                 Close();
             }

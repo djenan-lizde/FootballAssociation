@@ -26,6 +26,5 @@ namespace Transfermarkt.MobileApp.ViewModels
         }
 
         public ObservableCollection<Leagues> LeaguesList { get; set; } = new ObservableCollection<Leagues>();
-
     }
 }

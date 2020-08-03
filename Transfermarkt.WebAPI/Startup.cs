@@ -12,6 +12,8 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System;
 using System.Text;
+using Transfermarkt.Models;
+using Transfermarkt.Models.Requests;
 using Transfermarkt.WebAPI.Configuration;
 using Transfermarkt.WebAPI.Database;
 using Transfermarkt.WebAPI.Filters;
@@ -77,25 +79,42 @@ namespace Transfermarkt.WebAPI
                     };
                 });
 
-            services.AddScoped<IData<Cities>, Data<Cities>>();
-            services.AddScoped<IData<Clubs>, Data<Clubs>>();
-            services.AddScoped<IData<Leagues>, Data<Leagues>>();
-            services.AddScoped<IData<Stadiums>, Data<Stadiums>>();
-            services.AddScoped<IData<Players>, Data<Players>>();
-            services.AddScoped<IData<Contracts>, Data<Contracts>>();
-            services.AddScoped<IData<Seasons>, Data<Seasons>>();
-            services.AddScoped<IData<ClubsLeague>, Data<ClubsLeague>>();
-            services.AddScoped<IData<Matches>, Data<Matches>>();
-            services.AddScoped<IData<Positions>, Data<Positions>>();
-            services.AddScoped<IData<PlayerPositions>, Data<PlayerPositions>>();
-            services.AddScoped<IData<Referees>, Data<Referees>>();
-            services.AddScoped<IData<RefereeMatches>, Data<RefereeMatches>>();
-            services.AddScoped<IData<MatchDetails>, Data<MatchDetails>>();
-            services.AddScoped<IData<Users>, Data<Users>>();
-            services.AddScoped<IData<Roles>, Data<Roles>>();
-            services.AddScoped<IData<UsersRoles>, Data<UsersRoles>>();
+            //users
+            services.AddScoped<IData<Database.Users>, Data<Database.Users>>();
+            services.AddScoped<IData<Database.Roles>, Data<Database.Roles>>();
+            services.AddScoped<IData<Database.UsersRoles>, Data<Database.UsersRoles>>();
             services.AddScoped<IUserService, UserService>();
 
+            //queries
+            services.AddScoped<IData<Database.Cities>, Data<Database.Cities>>();
+            services.AddScoped<IData<Database.Clubs>, Data<Database.Clubs>>();
+            services.AddScoped<IData<Database.Leagues>, Data<Database.Leagues>>();
+            services.AddScoped<IData<Database.Seasons>, Data<Database.Seasons>>();
+            services.AddScoped<IData<Database.Referees>, Data<Database.Referees>>();
+            services.AddScoped<IData<Database.Positions>, Data<Database.Positions>>();
+            services.AddScoped<IData<Database.Stadiums>, Data<Database.Stadiums>>();
+            services.AddScoped<IData<Database.Players>, Data<Database.Players>>();
+            services.AddScoped<IData<Database.Contracts>, Data<Database.Contracts>>();
+            services.AddScoped<IData<Database.ClubsLeague>, Data<Database.ClubsLeague>>();
+            services.AddScoped<IData<Database.Matches>, Data<Database.Matches>>();
+            services.AddScoped<IData<Database.PlayerPositions>, Data<Database.PlayerPositions>>();
+            services.AddScoped<IData<Database.RefereeMatches>, Data<Database.RefereeMatches>>();
+            services.AddScoped<IData<Database.MatchDetails>, Data<Database.MatchDetails>>();
+
+            //get
+            services.AddScoped<IService<Models.Cities, object>, BaseService<Models.Cities, object, Database.Cities>>();
+            services.AddScoped<IService<Models.Positions, object>, BaseService<Models.Positions, object, Database.Positions>>();
+            services.AddScoped<IService<Models.Roles, object>, BaseService<Models.Roles, object, Database.Roles>>();
+
+            //CRUD
+            services.AddScoped<ICRUDService<Models.Clubs, ClubSearchRequest, Models.Clubs, Models.Clubs>, ClubsService>();
+            services.AddScoped<ICRUDService<Models.Players, PlayerSearchRequest, Models.Players, Models.Players>, PlayersService>();
+            services.AddScoped<ICRUDService<Models.Leagues, object, Models.Leagues, Models.Leagues>,LeaguesService>();
+            services.AddScoped<ICRUDService<Models.Referees, object, Models.Referees, Models.Referees>, RefereesService>();
+            services.AddScoped<ICRUDService<Models.Seasons, object, Models.Seasons, Models.Seasons>, SeasonsService>();
+            services.AddScoped<ICRUDService<Models.Stadiums, object, Models.Stadiums, Models.Stadiums>, StadiumsService>();
+            services.AddScoped<ICRUDService<Models.Contracts, object, Models.Contracts, Models.Contracts>, ContractsService>();
+            services.AddScoped<ICRUDService<Models.Matches, object, Models.Matches, Models.Matches>, MatchesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

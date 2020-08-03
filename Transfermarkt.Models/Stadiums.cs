@@ -11,8 +11,6 @@ namespace Transfermarkt.Models
         public string Name { get; set; }
         public DateTime DateBuilt { get; set; }
         public int Capacity { get; set; }
-        [ForeignKey(nameof(Club))]
         public int ClubId { get; set; }
-        public Clubs Club { get; set; }
     }
 }

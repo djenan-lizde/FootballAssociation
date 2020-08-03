@@ -91,15 +91,14 @@ namespace Transfermarkt.WinUI.Forms
                 }
             }
 
-            var matchDetail = new MatchDetails
+            await _aPIServiceMatches.Insert<MatchDetails>(new MatchDetails
             {
                 ClubId = int.Parse(CmbClubs.SelectedValue.ToString()),
                 MatchId = Id,
                 Minute = int.Parse(TxtMinute.Text),
                 PlayerId = int.Parse(CmbPlayers.SelectedValue.ToString()),
                 ActionType = int.Parse(CmbEvent.SelectedIndex.ToString())
-            };
-            await _aPIServiceMatches.Insert<MatchDetails>(matchDetail, "NewDetailMatch");
+            }, "NewDetailMatch");
             FrmMatchDetail frm = new FrmMatchDetail(Id);
             frm.Show();
             Close();

@@ -97,14 +97,14 @@ namespace Transfermarkt.WinUI
             }
         }
 
-        public async Task<T> Update<T>(object insert, string relativeRoute = null)
+        public async Task<T> Update<T>(object insert, string Id, string relativeRoute = null)
         {
             try
             {
                 string url;
                 if (string.IsNullOrEmpty(relativeRoute))
                 {
-                    url = $"{Properties.Settings.Default.APIUrl}/{_route}";
+                    url = $"{Properties.Settings.Default.APIUrl}/{_route}/{Id}";
                 }
                 else
                 {

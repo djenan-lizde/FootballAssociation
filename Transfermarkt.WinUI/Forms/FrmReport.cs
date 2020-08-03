@@ -62,22 +62,20 @@ namespace Transfermarkt.WinUI.Forms
                     foreach (var item2 in clubContracts)
                     {
                         var player = await _apiServicePlayers.GetById<Players>(item2.PlayerId);
-                        var transfer = new Transfers
+                        transfers.Add(new Transfers
                         {
                             ClubName = club.Name,
                             ContractExpirationDate = item2.ExpirationDate,
                             PlayerFullName = $"{player.FirstName} {player.LastName}",
                             RedemptionClause = item2.RedemptionClause
-                        };
-                        transfers.Add(transfer);
+                        });
                     }
                     var contractsSum = clubContracts.Sum(x => x.RedemptionClause);
-                    var clubContractInfo = new ClubContracts
+                    clubContractsMoneySpent.Add(new ClubContracts
                     {
                         ClubName = club.Name,
                         Sum = contractsSum
-                    };
-                    clubContractsMoneySpent.Add(clubContractInfo);
+                    });
                 }
 
                 ChrPie.Series["s1"].IsValueShownAsLabel = true;

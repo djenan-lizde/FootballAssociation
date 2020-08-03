@@ -14,9 +14,9 @@ namespace Transfermarkt.WebAPI.Controllers
     {
         private readonly IUserService _userService;
         private readonly IData<Roles> _serviceRole;
-        private readonly IData<Database.UsersRoles> _serviceUsersRoles;
+        private readonly IData<UsersRoles> _serviceUsersRoles;
 
-        public UsersController(IUserService userService, IData<Roles> serviceRole, IData<Database.UsersRoles> serviceUsersRoles)
+        public UsersController(IUserService userService, IData<Roles> serviceRole, IData<UsersRoles> serviceUsersRoles)
         {
             _userService = userService;
             _serviceRole = serviceRole;

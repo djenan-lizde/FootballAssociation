@@ -6,8 +6,8 @@ namespace Transfermarkt.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RolesController : BaseController<Roles>
+    public class RolesController : BaseController<Models.Roles, object>
     {
-        public RolesController(IData<Roles> service) : base(service) { }
+        public RolesController(IService<Models.Roles, object> service) : base(service) { }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using Transfermarkt.WebAPI.Database;
 using Transfermarkt.WebAPI.Services;
 
@@ -6,18 +8,28 @@ namespace Transfermarkt.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StadiumsController : BaseController<Stadiums>
+    public class StadiumsController : BaseCRUDController<Models.Stadiums, object, Models.Stadiums, Models.Stadiums>
     {
         private readonly IData<Stadiums> _serviceStadium;
-
-        public StadiumsController(IData<Stadiums> serviceStadium, IData<Stadiums> service) : base(service)
+        private readonly IMapper _mapper;
+        public StadiumsController(ICRUDService<Models.Stadiums, object, Models.Stadiums, Models.Stadiums> service,
+            IData<Stadiums> serviceStadium, IMapper mapper) : base(service)
         {
             _serviceStadium = serviceStadium;
+            _mapper = mapper;
         }
+
         [HttpGet("HomeStadium/{ClubId}")]
         public Stadiums GetStadium(int clubId)
         {
-            return _serviceStadium.GetTByCondition(x => x.ClubId == clubId);
+            var homeClubStadium = _serviceStadium.GetTByCondition(x => x.ClubId == clubId);
+
+            if (homeClubStadium == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return _mapper.Map<Stadiums>(homeClubStadium);
         }
     }
 }

@@ -45,10 +45,6 @@ namespace Transfermarkt.WebAPI.Services
             }
             return entity;
         }
-        public T GetLast()
-        {
-            return _context.Set<T>().LastOrDefault();
-        }
         public T Insert(T obj)
         {
             if (obj == null)

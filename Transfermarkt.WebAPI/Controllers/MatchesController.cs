@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Mvc;
 using Transfermarkt.Models.Requests;
 using Transfermarkt.WebAPI.Database;
@@ -8,9 +7,7 @@ using Transfermarkt.WebAPI.Services;
 
 namespace Transfermarkt.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class MatchesController : BaseController<Matches>
+    public class MatchesController : BaseCRUDController<Models.Matches, object, Models.Matches, Models.Matches>
     {
         private readonly IData<RefereeMatches> _serviceRefereeMatch;
         private readonly IData<MatchDetails> _serviceMatchDetail;
@@ -19,13 +16,13 @@ namespace Transfermarkt.WebAPI.Controllers
         private readonly IData<Clubs> _serviceClub;
         private readonly IData<ClubsLeague> _serviceClubLeague;
 
-
-        public MatchesController(IData<Matches> service, IData<RefereeMatches> serviceRefereeMatch,
-            IData<MatchDetails> serviceMatchDetail, IData<Seasons> serviceSeason, IData<Matches> serviceMatch,
+        public MatchesController(ICRUDService<Models.Matches, object, Models.Matches, Models.Matches> service,
+             IData<MatchDetails> serviceMatchDetail, IData<RefereeMatches> serviceRefereeMatch,
+            IData<Seasons> serviceSeason, IData<Matches> serviceMatch,
             IData<Clubs> serviceClub, IData<ClubsLeague> serviceClubLeague) : base(service)
         {
-            _serviceRefereeMatch = serviceRefereeMatch;
             _serviceMatchDetail = serviceMatchDetail;
+            _serviceRefereeMatch = serviceRefereeMatch;
             _serviceMatch = serviceMatch;
             _serviceSeason = serviceSeason;
             _serviceClub = serviceClub;
@@ -47,26 +44,15 @@ namespace Transfermarkt.WebAPI.Controllers
         [HttpGet("ClubMatches/{leagueId}")]
         public List<Matches> GetClubsInLeague(int leagueId)
         {
-            var list = _serviceSeason.Get();
-            var lastSeason = list.LastOrDefault();
-            return _serviceMatch.GetByCondition(x => x.LeagueId == leagueId && x.SeasonId == lastSeason.Id).ToList();
+            var season = LastSeason();
+            return _serviceMatch.GetByCondition(x => x.LeagueId == leagueId && x.SeasonId == season.Id).ToList();
         }
 
         [HttpGet("SeasonMatches/{seasonId}")]
         public List<Matches> GetMatchesSeason(int seasonId)
         {
-            var list = _serviceSeason.Get();
-            var lastSeason = list.LastOrDefault();
-            return _serviceMatch.GetByCondition(x => x.SeasonId == lastSeason.Id).ToList();
-        }
-
-        [HttpGet("Season")]
-        public Seasons LastSeason()
-        {
-            var list = _serviceSeason.Get();
-            var lastSeason = list.LastOrDefault();
-
-            return lastSeason;
+            var season = LastSeason();
+            return _serviceMatch.GetByCondition(x => x.SeasonId == season.Id).ToList();
         }
 
         [HttpPost("RefereeMatch")]
@@ -120,6 +106,12 @@ namespace Transfermarkt.WebAPI.Controllers
             }
 
             return null;
+        }
+
+        private Seasons LastSeason()
+        {
+            var seasons = _serviceSeason.Get();
+            return seasons.LastOrDefault();
         }
     }
 }

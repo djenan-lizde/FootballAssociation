@@ -14,6 +14,8 @@ namespace Transfermarkt.MobileApp.ViewModels
     public class LeagueDetailsViewModel : BaseViewModel
     {
         private readonly APIService _apiServiceClubs = new APIService("Clubs");
+        private readonly APIService _apiServiceSeasons = new APIService("Seasons");
+
 
         public LeagueDetailsViewModel()
         {
@@ -40,7 +42,7 @@ namespace Transfermarkt.MobileApp.ViewModels
 
         public async Task Init()
         {
-            var seasons = await _apiServiceClubs.Get<List<Seasons>>(null, "AllSeasons");
+            var seasons = await _apiServiceSeasons.Get<List<Seasons>>(null);
             var counter = 0;
 
             foreach (var item in seasons)
@@ -55,7 +57,7 @@ namespace Transfermarkt.MobileApp.ViewModels
                 foreach (var item in clubLeague.Where(x => x.SeasonId == SelectedSeason.Id).OrderByDescending(x => x.Points))
                 {
                     var club = await _apiServiceClubs.GetById<Clubs>(item.ClubId);
-                    var clubPoint = new ClubPoints
+                    ClubsList.Add(new ClubPoints
                     {
                         Points = item.Points,
                         Id = club.Id,
@@ -63,8 +65,7 @@ namespace Transfermarkt.MobileApp.ViewModels
                         Name = club.Name,
                         Abbreviation = club.Abbreviation,
                         Position = int.Parse(counter.ToString()) + 1
-                    };
-                    ClubsList.Add(clubPoint);
+                    });
                 }
             }
         }

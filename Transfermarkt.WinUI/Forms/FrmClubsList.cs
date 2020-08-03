@@ -11,6 +11,7 @@ namespace Transfermarkt.WinUI.Forms
     {
         private readonly APIService _apiServiceClubs = new APIService("Clubs");
         private readonly APIService _apiServiceMatch = new APIService("Matches");
+        private readonly APIService _apiServiceSeasons = new APIService("Seasons");
 
         public int? LeagueId { get; set; }
 
@@ -34,7 +35,7 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void FrmClubsList_Load(object sender, EventArgs e)
         {
-            CmbSeasons.DataSource = await _apiServiceClubs.Get<List<Seasons>>(null, "AllSeasons");
+            CmbSeasons.DataSource = await _apiServiceSeasons.Get<List<Seasons>>();
             CmbSeasons.DisplayMember = "SeasonYear";
             CmbSeasons.ValueMember = "Id";
             var match = await _apiServiceMatch.GetById<Matches>(LeagueId, "RecommendMatch");
@@ -53,15 +54,15 @@ namespace Transfermarkt.WinUI.Forms
                 GenerateClubs();
                 return;
             }
-            var request = new ClubSearchRequest
+
+            var list = await _apiServiceClubs.Get<List<Clubs>>(new ClubSearchRequest
             {
                 Name = TxtSearch.Text.ToLower()
-            };
-            var list = await _apiServiceClubs.Get<List<Clubs>>(request, "ClubSearch");
+            });
             List<ClubView> clubViews = new List<ClubView>();
             foreach (var item in list)
             {
-                var club = new ClubView
+                clubViews.Add(new ClubView
                 {
                     Abbreviation = item.Abbreviation,
                     Founded = item.Founded,
@@ -69,8 +70,7 @@ namespace Transfermarkt.WinUI.Forms
                     Nickname = item.Nickname,
                     MarketValue = item.MarketValue,
                     Id = item.Id
-                };
-                clubViews.Add(club);
+                });
             }
             DgvClubList.DataSource = clubViews;
         }
@@ -83,7 +83,7 @@ namespace Transfermarkt.WinUI.Forms
             foreach (var item in clubLeague)
             {
                 var club = await _apiServiceClubs.GetById<Clubs>(item.ClubId);
-                var clubView = new ClubPoints
+                clubs.Add(new ClubPoints
                 {
                     Abbreviation = club.Abbreviation,
                     Id = club.Id,
@@ -91,8 +91,7 @@ namespace Transfermarkt.WinUI.Forms
                     Name = club.Name,
                     Points = item.Points,
                     Position = int.Parse(counter.ToString()) + 1
-                };
-                clubs.Add(clubView);
+                });
             }
             DgvClubList.DataSource = clubs;
         }
@@ -106,15 +105,14 @@ namespace Transfermarkt.WinUI.Forms
             foreach (var item in clubsInSeason.Where(x => x.LeagueId == LeagueId).OrderByDescending(x => x.Points))
             {
                 var club = await _apiServiceClubs.GetById<Clubs>(item.ClubId);
-                var clubView = new ClubPoints
+                clubPoints.Add(new ClubPoints
                 {
                     Abbreviation = club.Abbreviation,
                     Logo = club.Logo,
                     Name = club.Name,
                     Points = item.Points,
                     Id = club.Id
-                };
-                clubPoints.Add(clubView);
+                });
             }
             DgvClubList.DataSource = clubPoints;
         }

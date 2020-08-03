@@ -14,8 +14,6 @@ namespace Transfermarkt.Models
         public DateTime Founded { get; set; }
         public byte[] Logo { get; set; }
         public int MarketValue { get; set; }
-        [ForeignKey(nameof(City))]
         public int CityId { get; set; }
-        public Cities City { get; set; }
     }
 }

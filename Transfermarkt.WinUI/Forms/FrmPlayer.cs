@@ -17,6 +17,8 @@ namespace Transfermarkt.WinUI.Forms
     public partial class FrmPlayer : Form
     {
         private readonly APIService _aPIServicePlayer = new APIService("Players");
+        private readonly APIService _aPIServicePositions = new APIService("Positions");
+
 
         public int? Id { get; set; }
 
@@ -33,7 +35,7 @@ namespace Transfermarkt.WinUI.Forms
             CmbStrongerFoot.DisplayMember = "Value";
             CmbStrongerFoot.ValueMember = "Key";
 
-            var positions = await _aPIServicePlayer.Get<List<Positions>>(null, "Positions");
+            var positions = await _aPIServicePositions.Get<List<Positions>>();
 
             listBox1.DataSource = positions.ToList();
             listBox1.DisplayMember = "Name";
@@ -63,7 +65,6 @@ namespace Transfermarkt.WinUI.Forms
             Players player = new Players
             {
                 FirstName = txtFirstName.Text,
-                MiddleName = txtMiddleName.Text,
                 LastName = txtLastName.Text,
                 Birthdate = DateTime.Parse(txtBirthDate.Text.ToString()),
                 Height = int.Parse(txtHeight.Text.ToString()),
@@ -73,6 +74,11 @@ namespace Transfermarkt.WinUI.Forms
                 StrongerFoot = int.Parse(CmbStrongerFoot.SelectedIndex.ToString()),
                 Id = Id ?? 0
             };
+            if (string.IsNullOrEmpty(txtMiddleName.Text))
+                player.MiddleName = "N/A";
+            else
+                player.MiddleName = txtMiddleName.Text;
+
             if (ChBoxSign.Checked)
             {
                 player.IsSigned = true;
@@ -83,7 +89,7 @@ namespace Transfermarkt.WinUI.Forms
             }
             Players lastAdded = null;
             if (Id.HasValue)
-                lastAdded = await _aPIServicePlayer.Update<Players>(player);
+                lastAdded = await _aPIServicePlayer.Update<Players>(player, player.Id.ToString());
             else
                 lastAdded = await _aPIServicePlayer.Insert<Players>(player);
 
@@ -92,12 +98,11 @@ namespace Transfermarkt.WinUI.Forms
                 var selectedValues = listBox1.SelectedItems.Cast<Positions>().Select(x => x.Id).ToList();
                 for (int i = 0; i < selectedValues.Count(); i++)
                 {
-                    PlayerPositions playerPosition = new PlayerPositions
+                    await _aPIServicePlayer.Insert<PlayerPositions>(new PlayerPositions
                     {
                         PlayerId = lastAdded.Id,
                         PositionId = selectedValues[i]
-                    };
-                    await _aPIServicePlayer.Insert<PlayerPositions>(playerPosition, "InsertPlayerPosition");
+                    }, "InsertPlayerPosition");
                 }
             }
             if (ChBoxSign.Checked)

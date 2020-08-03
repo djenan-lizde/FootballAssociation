@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Transfermarkt.Models;
 
@@ -50,9 +44,15 @@ namespace Transfermarkt.WinUI.Forms
                 CityId = int.Parse(CmbCities.SelectedValue.ToString()),
                 Id = Id ?? 0
             };
+
+            if (string.IsNullOrEmpty(TxtMiddleName.Text))
+                referee.MiddleName = "N/A";
+            else
+                referee.MiddleName = TxtMiddleName.Text;
+
             if (Id.HasValue)
             {
-                await _aPIServiceReferee.Update<Referees>(referee);
+                await _aPIServiceReferee.Update<Referees>(referee, referee.Id.ToString());
                 MessageBox.Show("Referee updated", "Information");
             }
             else

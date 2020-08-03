@@ -10,7 +10,6 @@ namespace Transfermarkt.WebAPI.Services
     {
         List<T> Get();
         T GetById(int id);
-        T GetLast();
         IQueryable<T> GetByCondition(Expression<Func<T, bool>> predicate);
         T GetTByCondition(Expression<Func<T, bool>> predicate);
         T Insert(T entity);

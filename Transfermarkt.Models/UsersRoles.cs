@@ -8,13 +8,7 @@ namespace Transfermarkt.Models
     public class UsersRoles
     {
         public int Id { get; set; }
-
-        [ForeignKey(nameof(User))]
         public int UserId { get; set; }
-        public Users User { get; set; }
-
-        [ForeignKey(nameof(Role))]
         public int RoleId { get; set; }
-        public Roles Role { get; set; }
     }
 }

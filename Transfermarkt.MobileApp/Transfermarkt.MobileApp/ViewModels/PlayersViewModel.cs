@@ -32,23 +32,21 @@ namespace Transfermarkt.MobileApp.ViewModels
         public async Task Search(string text)
         {
             Players.Clear();
-            var searchObject = new PlayerSearchRequest
+            var searchResult = await _apiServicePlayers.Get<List<Players>>(new PlayerSearchRequest
             {
-                FirstName = text,
-                LastName = text
-            };
-            var searchResult = await _apiServicePlayers.Get<List<Players>>(searchObject, "PlayerSearch");
+                FirstName = text.ToLower(),
+                LastName = text.ToLower()
+            });
             foreach (var item in searchResult)
             {
-                var player = new PlayersClub
+                Players.Add(new PlayersClub
                 {
                     Birthdate = item.Birthdate,
                     FirstName = item.FirstName,
                     Id = item.Id,
                     Jersey = item.Jersey,
                     LastName = item.LastName
-                };
-                Players.Add(player);
+                });
             }
         }
     }

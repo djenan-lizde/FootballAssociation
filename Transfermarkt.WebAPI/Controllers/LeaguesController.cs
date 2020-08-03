@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Transfermarkt.WebAPI.Database;
+using Transfermarkt.Models;
 using Transfermarkt.WebAPI.Services;
 
 namespace Transfermarkt.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LeaguesController : BaseController<Leagues>
+    public class LeaguesController : BaseCRUDController<Models.Leagues, object, Models.Leagues, Models.Leagues>
     {
-        public LeaguesController(IData<Leagues> service) : base(service) { }
+        public LeaguesController(ICRUDService<Leagues, object, Leagues, Leagues> service) : base(service){}
     }
 }

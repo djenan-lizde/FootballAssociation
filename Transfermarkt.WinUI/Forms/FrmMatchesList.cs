@@ -40,7 +40,7 @@ namespace Transfermarkt.WinUI.Forms
 
                 var stadium = await _aPIServiceStadiums.GetById<Clubs>(homeClub.Id, "HomeStadium");
 
-                var match = new MatchesView
+                list.Add(new MatchesView
                 {
                     Id = item.Id,
                     HomeClub = homeClub.Name,
@@ -51,8 +51,7 @@ namespace Transfermarkt.WinUI.Forms
                     IsFinished = false,
                     StadiumName = stadium.Name,
                     LeagueName = league.Name
-                };
-                list.Add(match);
+                });
             }
             DgvMatches.DataSource = list;
         }
@@ -65,7 +64,8 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void BtnNewSeason_Click(object sender, EventArgs e)
         {
-            var lastSeason = await _aPIServiceClubs.Get<Seasons>(null, "Season");
+            var seasons = await _aPIServiceClubs.Get<List<Seasons>>(null);
+            var lastSeason = seasons.LastOrDefault();
             var matchesSeason = await _aPIServiceMatches.GetById<List<Matches>>(lastSeason.Id, "SeasonMatches");
             foreach (var item in matchesSeason)
             {
@@ -75,6 +75,7 @@ namespace Transfermarkt.WinUI.Forms
                     return;
                 }
             }
+
             var seasonYearFirstPart = (int.Parse(lastSeason.SeasonYear.Substring(2, 2)) + 1).ToString();
             var seasonYearSecondPart = (int.Parse(lastSeason.SeasonYear.Substring(7, 2)) + 1).ToString();
 
@@ -118,14 +119,13 @@ namespace Transfermarkt.WinUI.Forms
             List<ClubsLeague> clubsLeagueMatches = new List<ClubsLeague>();
             foreach (var item in clubLeagues)
             {
-                var clubLeague = new ClubsLeague
+                var lastAdded = await _aPIServiceClubs.Insert<ClubsLeague>(new ClubsLeague
                 {
                     ClubId = item.ClubId,
                     LeagueId = leagueId,
                     Points = 0,
                     SeasonId = seasonId
-                };
-                var lastAdded = await _aPIServiceClubs.Insert<ClubsLeague>(clubLeague, "ClubLeague");
+                }, "ClubLeague");
                 clubsLeagueMatches.Add(lastAdded);
             }
             GenerateGames(clubsLeagueMatches);
@@ -143,7 +143,7 @@ namespace Transfermarkt.WinUI.Forms
                 {
                     if (homeClub.ClubId == awayClub.ClubId)
                         continue;
-                    var match = new Matches
+                    var lastAddedMatch = await _aPIServiceMatches.Insert<Matches>(new Matches
                     {
                         HomeClubId = homeClub.ClubId,
                         AwayClubId = awayClub.ClubId,
@@ -152,17 +152,15 @@ namespace Transfermarkt.WinUI.Forms
                         IsFinished = false,
                         StadiumId = stadium.Id,
                         DateGame = DateTime.Now.AddDays(days)
-                    };
-                    var lastAddedMatch = await _aPIServiceMatches.Insert<Matches>(match);
+                    });
                     days += 7;
 
                     var randomReferee = random.Next(0, refeeres.Count() - 1);
-                    var matchReferee = new RefereeMatches
+                    await _aPIServiceMatches.Insert<RefereeMatches>(new RefereeMatches
                     {
                         MatchId = lastAddedMatch.Id,
                         RefereeId = refeeres[randomReferee].Id
-                    };
-                    await _aPIServiceMatches.Insert<RefereeMatches>(matchReferee, "RefereeMatch");
+                    }, "RefereeMatch");
                 }
             }
         }

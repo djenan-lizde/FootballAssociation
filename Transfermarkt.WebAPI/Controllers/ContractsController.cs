@@ -10,15 +10,12 @@ using Transfermarkt.WebAPI.Services;
 
 namespace Transfermarkt.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ContractsController : BaseController<Contracts>
+    public class ContractsController : BaseCRUDController<Models.Contracts, object, Models.Contracts, Models.Contracts>
     {
         private readonly IData<Contracts> _serviceContract;
-        public ContractsController(IData<Contracts> serviceContract, IData<Contracts> service) : base(service)
-        {
-            _serviceContract = serviceContract;
-        }
+        public ContractsController(ICRUDService<Models.Contracts, object, Models.Contracts, Models.Contracts> service,
+            IData<Contracts> serviceContract) : base(service) { _serviceContract = serviceContract; }
+
 
         [HttpGet("PlayerContracts/{PlayerId}")]
         public List<Contracts> GetContracts(int playerId)

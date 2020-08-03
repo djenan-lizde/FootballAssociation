@@ -40,7 +40,7 @@ namespace Transfermarkt.MobileApp.ViewModels
 
                 var stadium = await _aPIServiceStadiums.GetById<Clubs>(homeClub.Id, "HomeStadium");
 
-                var match = new MatchesView
+                MatchesList.Add(new MatchesView
                 {
                     Id = item.Id,
                     HomeClub = homeClub.Name,
@@ -51,8 +51,7 @@ namespace Transfermarkt.MobileApp.ViewModels
                     IsFinished = false,
                     StadiumName = stadium.Name,
                     LeagueName = league.Name
-                };
-                MatchesList.Add(match);
+                });
             }
         }
     }
