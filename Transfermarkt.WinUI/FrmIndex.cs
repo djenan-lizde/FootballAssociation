@@ -112,10 +112,7 @@ namespace Transfermarkt.WinUI
 
         private void AddClubToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmClub frm = new FrmClub
-            {
-                MdiParent = this
-            };
+            FrmClub frm = new FrmClub();
             frm.Show();
         }
 

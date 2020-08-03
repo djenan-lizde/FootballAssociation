@@ -65,26 +65,30 @@ namespace Transfermarkt.WinUI.Forms
         private async void BtnNewSeason_Click(object sender, EventArgs e)
         {
             var seasons = await _aPIServiceClubs.Get<List<Seasons>>(null);
-            var lastSeason = seasons.LastOrDefault();
-            var matchesSeason = await _aPIServiceMatches.GetById<List<Matches>>(lastSeason.Id, "SeasonMatches");
-            foreach (var item in matchesSeason)
+            var season = new Seasons();
+            if (seasons.Count == 0)
             {
-                if (!item.IsFinished)
+                season.SeasonYear = $"{DateTime.Now.Year}/{DateTime.Now.AddYears(1)}";
+            }
+            else
+            {
+                var lastSeason = seasons.LastOrDefault();
+                var seasonYearFirstPart = (int.Parse(lastSeason.SeasonYear.Substring(2, 2)) + 1).ToString();
+                var seasonYearSecondPart = (int.Parse(lastSeason.SeasonYear.Substring(7, 2)) + 1).ToString();
+                season.SeasonYear = $"20{seasonYearFirstPart}/20{seasonYearSecondPart}";
+
+                var matchesSeason = await _aPIServiceMatches.GetById<List<Matches>>(lastSeason.Id, "SeasonMatches");
+                foreach (var item in matchesSeason)
                 {
-                    MessageBox.Show("We can't create new season beacuse matches are not finished yet", "Information");
-                    return;
+                    if (!item.IsFinished)
+                    {
+                        MessageBox.Show("We can't create new season beacuse matches are not finished yet", "Information");
+                        return; 
+                    }
                 }
             }
 
-            var seasonYearFirstPart = (int.Parse(lastSeason.SeasonYear.Substring(2, 2)) + 1).ToString();
-            var seasonYearSecondPart = (int.Parse(lastSeason.SeasonYear.Substring(7, 2)) + 1).ToString();
-
-            var season = new Seasons
-            {
-                SeasonYear = $"20{seasonYearFirstPart}/20{seasonYearSecondPart}"
-            };
-            var newSeason = await _aPIServiceClubs.Insert<Seasons>(season, "NewSeason");
-
+            var newSeason = await _aPIServiceClubs.Insert<Seasons>(season);
 
             //points part
             var leagues = await _aPIServiceLeagues.Get<List<Leagues>>(null);

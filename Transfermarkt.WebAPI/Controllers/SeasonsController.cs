@@ -10,7 +10,6 @@ namespace Transfermarkt.WebAPI.Controllers
 {
     public class SeasonsController : BaseCRUDController<Models.Seasons, object, Models.Seasons, Models.Seasons>
     {
-        public SeasonsController(ICRUDService<Models.Seasons, object, Models.Seasons, Models.Seasons> service) : base(service) { }
-
+        public SeasonsController(ICRUDService<Models.Seasons, object, Models.Seasons, Models.Seasons> service) : base(service){}
     }
 }

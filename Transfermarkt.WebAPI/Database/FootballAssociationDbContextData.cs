@@ -385,6 +385,406 @@ namespace Transfermarkt.WebAPI.Database
                 LastName = "Welz",
                 MiddleName = "N/A"
             });
+
+            //players
+            modelBuilder.Entity<Players>().HasData(new WebAPI.Database.Players()
+            {
+                Id = 1,
+                Birthdate = DateTime.Now,
+                FirstName = "Mats",
+                LastName = "Hummels",
+                Height = 200,
+                IsSigned = true,
+                Jersey = 5,
+                MiddleName = "N/A",
+                StrongerFoot = 1,
+                Value = 100000,
+                Weight = 90
+            });
+            modelBuilder.Entity<Players>().HasData(new WebAPI.Database.Players()
+            {
+                Id = 2,
+                Birthdate = DateTime.Now,
+                FirstName = "Marco",
+                LastName = "Reus",
+                Height = 180,
+                IsSigned = true,
+                Jersey = 17,
+                MiddleName = "N/A",
+                StrongerFoot = 2,
+                Value = 100000,
+                Weight = 85
+            });
+            modelBuilder.Entity<Players>().HasData(new WebAPI.Database.Players()
+            {
+                Id = 3,
+                Birthdate = DateTime.Now,
+                FirstName = "Robert",
+                LastName = "Lewandovski",
+                Height = 180,
+                IsSigned = true,
+                Jersey = 7,
+                MiddleName = "N/A",
+                StrongerFoot = 2,
+                Value = 100000,
+                Weight = 85
+            });
+            modelBuilder.Entity<Players>().HasData(new WebAPI.Database.Players()
+            {
+                Id = 4,
+                Birthdate = DateTime.Now,
+                FirstName = "Thomas",
+                LastName = "Muller",
+                Height = 180,
+                IsSigned = true,
+                Jersey = 7,
+                MiddleName = "N/A",
+                StrongerFoot = 2,
+                Value = 100000,
+                Weight = 85
+            });
+            modelBuilder.Entity<Players>().HasData(new WebAPI.Database.Players()
+            {
+                Id = 5,
+                Birthdate = DateTime.Now,
+                FirstName = "Vedad",
+                LastName = "Ibisevic",
+                Height = 190,
+                IsSigned = true,
+                Jersey = 7,
+                MiddleName = "N/A",
+                StrongerFoot = 2,
+                Value = 100000,
+                Weight = 85
+            });
+            modelBuilder.Entity<Players>().HasData(new WebAPI.Database.Players()
+            {
+                Id = 6,
+                Birthdate = DateTime.Now,
+                FirstName = "Dodi",
+                LastName = "Lukebakio",
+                Height = 200,
+                IsSigned = true,
+                Jersey = 7,
+                MiddleName = "N/A",
+                StrongerFoot = 0,
+                Value = 200000,
+                Weight = 85
+            });
+            modelBuilder.Entity<Players>().HasData(new WebAPI.Database.Players()
+            {
+                Id = 7,
+                Birthdate = DateTime.Now,
+                FirstName = "Charles",
+                LastName = "Aranguiz",
+                Height = 180,
+                IsSigned = true,
+                Jersey = 7,
+                MiddleName = "N/A",
+                StrongerFoot = 2,
+                Value = 100000,
+                Weight = 85
+            });
+            modelBuilder.Entity<Players>().HasData(new WebAPI.Database.Players()
+            {
+                Id = 8,
+                Birthdate = DateTime.Now,
+                FirstName = "Kai",
+                LastName = "Havertz",
+                Height = 180,
+                IsSigned = true,
+                Jersey = 7,
+                MiddleName = "N/A",
+                StrongerFoot = 1,
+                Value = 100000,
+                Weight = 85
+            });
+            modelBuilder.Entity<Players>().HasData(new WebAPI.Database.Players()
+            {
+                Id = 9,
+                Birthdate = DateTime.Now,
+                FirstName = "Robin",
+                LastName = "Hack",
+                Height = 180,
+                IsSigned = true,
+                Jersey = 7,
+                MiddleName = "N/A",
+                StrongerFoot = 1,
+                Value = 20000,
+                Weight = 85
+            });
+            modelBuilder.Entity<Players>().HasData(new WebAPI.Database.Players()
+            {
+                Id = 10,
+                Birthdate = DateTime.Now,
+                FirstName = "Patric",
+                LastName = "Erras",
+                Height = 180,
+                IsSigned = true,
+                Jersey = 7,
+                MiddleName = "N/A",
+                StrongerFoot = 1,
+                Value = 20000,
+                Weight = 85
+            });
+            modelBuilder.Entity<Players>().HasData(new WebAPI.Database.Players()
+            {
+                Id = 11,
+                Birthdate = DateTime.Now,
+                FirstName = "Henk",
+                LastName = "Veerman",
+                Height = 180,
+                IsSigned = true,
+                Jersey = 14,
+                MiddleName = "N/A",
+                StrongerFoot = 1,
+                Value = 204000,
+                Weight = 77
+            });
+            modelBuilder.Entity<Players>().HasData(new WebAPI.Database.Players()
+            {
+                Id = 12,
+                Birthdate = DateTime.Now,
+                FirstName = "Marvin",
+                LastName = "Senger",
+                Height = 205,
+                IsSigned = true,
+                Jersey = 7,
+                MiddleName = "N/A",
+                StrongerFoot = 0,
+                Value = 444000,
+                Weight = 100
+            });
+            modelBuilder.Entity<Players>().HasData(new WebAPI.Database.Players()
+            {
+                Id = 13,
+                Birthdate = DateTime.Now,
+                FirstName = "Neven",
+                LastName = "Subotic",
+                Height = 195,
+                IsSigned = true,
+                Jersey = 2,
+                MiddleName = "N/A",
+                StrongerFoot = 0,
+                Value = 10000,
+                Weight = 93
+            });
+            modelBuilder.Entity<Players>().HasData(new WebAPI.Database.Players()
+            {
+                Id = 14,
+                Birthdate = DateTime.Now,
+                FirstName = "Felix",
+                LastName = "Kroos",
+                Height = 176,
+                IsSigned = true,
+                Jersey = 99,
+                MiddleName = "N/A",
+                StrongerFoot = 0,
+                Value = 444000,
+                Weight = 77
+            });
+            modelBuilder.Entity<Players>().HasData(new WebAPI.Database.Players()
+            {
+                Id = 15,
+                Birthdate = DateTime.Now,
+                FirstName = "Manuel",
+                LastName = "Schaffler",
+                Height = 186,
+                IsSigned = true,
+                Jersey = 99,
+                MiddleName = "N/A",
+                StrongerFoot = 0,
+                Value = 444000,
+                Weight = 77
+            });
+            modelBuilder.Entity<Players>().HasData(new WebAPI.Database.Players()
+            {
+                Id = 16,
+                Birthdate = DateTime.Now,
+                FirstName = "Paterson",
+                LastName = "Chato",
+                Height = 197,
+                IsSigned = true,
+                Jersey = 99,
+                MiddleName = "N/A",
+                StrongerFoot = 2,
+                Value = 444000,
+                Weight = 77
+            });
+
+            //contracts
+            modelBuilder.Entity<Contracts>().HasData(new WebAPI.Database.Contracts()
+            {
+                Id = 1,
+                ClubId = 1,
+                ExpirationDate = DateTime.Now.AddYears(3),
+                IsExpired = false,
+                PlayerId = 1,
+                RedemptionClause = 50000,
+                SignedDate = DateTime.Now
+            });
+            modelBuilder.Entity<Contracts>().HasData(new WebAPI.Database.Contracts()
+            {
+                Id = 2,
+                ClubId = 2,
+                ExpirationDate = DateTime.Now.AddYears(3),
+                IsExpired = false,
+                PlayerId = 2,
+                RedemptionClause = 50000,
+                SignedDate = DateTime.Now
+            });
+            modelBuilder.Entity<Contracts>().HasData(new WebAPI.Database.Contracts()
+            {
+                Id = 3,
+                ClubId = 4,
+                ExpirationDate = DateTime.Now.AddYears(3),
+                IsExpired = false,
+                PlayerId = 3,
+                RedemptionClause = 50000,
+                SignedDate = DateTime.Now
+            });
+            modelBuilder.Entity<Contracts>().HasData(new WebAPI.Database.Contracts()
+            {
+                Id = 4,
+                ClubId = 4,
+                ExpirationDate = DateTime.Now.AddYears(3),
+                IsExpired = false,
+                PlayerId = 4,
+                RedemptionClause = 50000,
+                SignedDate = DateTime.Now
+            });
+            modelBuilder.Entity<Contracts>().HasData(new WebAPI.Database.Contracts()
+            {
+                Id = 5,
+                ClubId = 2,
+                ExpirationDate = DateTime.Now.AddYears(3),
+                IsExpired = false,
+                PlayerId = 5,
+                RedemptionClause = 50000,
+                SignedDate = DateTime.Now
+            });
+            modelBuilder.Entity<Contracts>().HasData(new WebAPI.Database.Contracts()
+            {
+                Id = 6,
+                ClubId = 2,
+                ExpirationDate = DateTime.Now.AddYears(3),
+                IsExpired = false,
+                PlayerId = 6,
+                RedemptionClause = 50000,
+                SignedDate = DateTime.Now
+            });
+            modelBuilder.Entity<Contracts>().HasData(new WebAPI.Database.Contracts()
+            {
+                Id = 7,
+                ClubId = 3,
+                ExpirationDate = DateTime.Now.AddYears(3),
+                IsExpired = false,
+                PlayerId = 7,
+                RedemptionClause = 50000,
+                SignedDate = DateTime.Now
+            });
+            modelBuilder.Entity<Contracts>().HasData(new WebAPI.Database.Contracts()
+            {
+                Id = 8,
+                ClubId = 3,
+                ExpirationDate = DateTime.Now.AddYears(3),
+                IsExpired = false,
+                PlayerId = 8,
+                RedemptionClause = 50000,
+                SignedDate = DateTime.Now
+            });
+            modelBuilder.Entity<Contracts>().HasData(new WebAPI.Database.Contracts()
+            {
+                Id = 9,
+                ClubId = 5,
+                ExpirationDate = DateTime.Now.AddYears(3),
+                IsExpired = false,
+                PlayerId = 9,
+                RedemptionClause = 50000,
+                SignedDate = DateTime.Now
+            });
+            modelBuilder.Entity<Contracts>().HasData(new WebAPI.Database.Contracts()
+            {
+                Id = 10,
+                ClubId = 5,
+                ExpirationDate = DateTime.Now.AddYears(3),
+                IsExpired = false,
+                PlayerId = 10,
+                RedemptionClause = 50000,
+                SignedDate = DateTime.Now
+            });
+            modelBuilder.Entity<Contracts>().HasData(new WebAPI.Database.Contracts()
+            {
+                Id = 11,
+                ClubId = 6,
+                ExpirationDate = DateTime.Now.AddYears(3),
+                IsExpired = false,
+                PlayerId = 11,
+                RedemptionClause = 50000,
+                SignedDate = DateTime.Now
+            });
+            modelBuilder.Entity<Contracts>().HasData(new WebAPI.Database.Contracts()
+            {
+                Id = 12,
+                ClubId = 6,
+                ExpirationDate = DateTime.Now.AddYears(3),
+                IsExpired = false,
+                PlayerId = 12,
+                RedemptionClause = 50000,
+                SignedDate = DateTime.Now
+            });
+            modelBuilder.Entity<Contracts>().HasData(new WebAPI.Database.Contracts()
+            {
+                Id = 13,
+                ClubId = 7,
+                ExpirationDate = DateTime.Now.AddYears(3),
+                IsExpired = false,
+                PlayerId = 13,
+                RedemptionClause = 50000,
+                SignedDate = DateTime.Now
+            });
+            modelBuilder.Entity<Contracts>().HasData(new WebAPI.Database.Contracts()
+            {
+                Id = 14,
+                ClubId = 7,
+                ExpirationDate = DateTime.Now.AddYears(3),
+                IsExpired = false,
+                PlayerId = 14,
+                RedemptionClause = 50000,
+                SignedDate = DateTime.Now
+            });
+            modelBuilder.Entity<Contracts>().HasData(new WebAPI.Database.Contracts()
+            {
+                Id = 15,
+                ClubId = 8,
+                ExpirationDate = DateTime.Now.AddYears(3),
+                IsExpired = false,
+                PlayerId = 15,
+                RedemptionClause = 50000,
+                SignedDate = DateTime.Now
+            });
+            modelBuilder.Entity<Contracts>().HasData(new WebAPI.Database.Contracts()
+            {
+                Id = 16,
+                ClubId = 8,
+                ExpirationDate = DateTime.Now.AddYears(3),
+                IsExpired = false,
+                PlayerId = 16,
+                RedemptionClause = 50000,
+                SignedDate = DateTime.Now
+            });
+
+            //playerPositions
+            var rand = new Random();
+            for (int i = 1; i <= 16; i++)
+            {
+                modelBuilder.Entity<PlayerPositions>().HasData(new WebAPI.Database.PlayerPositions()
+                {
+                    Id = i,
+                    PlayerId = i,
+                    PositionId = rand.Next(1, 4)
+                });
+            }
         }
     }
 }
