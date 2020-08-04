@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Transfermarkt.Models;
 using Transfermarkt.Models.Extensions;
@@ -18,7 +13,6 @@ namespace Transfermarkt.WinUI.Forms
     {
         private readonly APIService _aPIServicePlayer = new APIService("Players");
         private readonly APIService _aPIServicePositions = new APIService("Positions");
-
 
         public int? Id { get; set; }
 
@@ -36,7 +30,11 @@ namespace Transfermarkt.WinUI.Forms
             CmbStrongerFoot.ValueMember = "Key";
 
             var positions = await _aPIServicePositions.Get<List<Positions>>();
-
+            if(positions.Count == 0)
+            {
+                MessageBox.Show("We don't have positions,", "Information");
+                return;
+            }
             listBox1.DataSource = positions.ToList();
             listBox1.DisplayMember = "Name";
             listBox1.ValueMember = "Id";
@@ -111,17 +109,13 @@ namespace Transfermarkt.WinUI.Forms
                 {
                     return;
                 }
-                else if (Id.HasValue)
-                {
-                    FrmContract frm = new FrmContract(lastAdded.FirstName, lastAdded.LastName, lastAdded.Id);
-                    frm.Show();
-                }
                 else
                 {
                     FrmContract frm = new FrmContract(lastAdded.FirstName, lastAdded.LastName, lastAdded.Id);
                     frm.Show();
                 }
             }
+            Close();
         }
     }
 }

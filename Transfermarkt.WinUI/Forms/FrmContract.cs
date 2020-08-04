@@ -50,8 +50,8 @@ namespace Transfermarkt.WinUI.Forms
                     RedemptionClause = int.Parse(TxtRedemptionClause.Text),
                     SignedDate = DateTime.Now
                 });
-                MessageBox.Show("Player is successfully signed! ", "Error");
-                return;
+                MessageBox.Show("Player is successfully signed! ", "Information");
+                Close();
             }
             else
             {

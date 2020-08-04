@@ -33,7 +33,7 @@ namespace Transfermarkt.WinUI.Forms
 
             if ((int)id == 0)
             {
-                MessageBox.Show("You need to select a club.", "Error", MessageBoxButtons.OK);
+                MessageBox.Show("You need to select a player.", "Error", MessageBoxButtons.OK);
                 return;
             }
 
@@ -71,8 +71,8 @@ namespace Transfermarkt.WinUI.Forms
                     }
                     item.IsExpired = true;
                     player.IsSigned = false;
-                    await _aPIServiceContract.Update<Contracts>(item,item.Id.ToString());
-                    await _aPIServicePlayer.Update<Players>(player,player.Id.ToString());
+                    await _aPIServiceContract.Update<Contracts>(item, item.Id.ToString());
+                    await _aPIServicePlayer.Update<Players>(player, player.Id.ToString());
                 }
             }
         }

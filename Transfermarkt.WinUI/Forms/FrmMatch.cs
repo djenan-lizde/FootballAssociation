@@ -26,6 +26,11 @@ namespace Transfermarkt.WinUI.Forms
         private async void FrmMatch_Load(object sender, EventArgs e)
         {
             var leagues = await _aPIServiceLeagues.Get<List<Leagues>>();
+            if (leagues.Count == 0)
+            {
+                MessageBox.Show("We don't have leagues", "Error");
+                return;
+            }
             CmbLeagues.DataSource = leagues;
             CmbLeagues.DisplayMember = "Name";
             CmbLeagues.ValueMember = "Id";
@@ -68,6 +73,11 @@ namespace Transfermarkt.WinUI.Forms
             CmbAwayClub.ValueMember = "Id";
 
             var referees = await _aPIServiceReferee.Get<List<Referees>>();
+            if (referees.Count == 0)
+            {
+                MessageBox.Show("We don't have refeeres.", "Error");
+                return;
+            }
             CmbReferees.DataSource = referees;
             CmbReferees.DisplayMember = "FirstName";
             CmbReferees.ValueMember = "Id";
@@ -82,18 +92,17 @@ namespace Transfermarkt.WinUI.Forms
             if (homeClub != null)
             {
                 Image image = ImageResizer.ByteArrayToImage(homeClub.Logo);
-                var newImage = ImageResizer.ResizeImage(image,200,200);
+                var newImage = ImageResizer.ResizeImage(image, 200, 200);
                 pictureBox1.Image = newImage;
+                var homeStadium = await _aPIServiceStadium.GetById<Stadiums>(homeClub.Id, "HomeStadium");
+                if (homeStadium == null)
+                {
+                    TxtStadium.Text = "Home club doesn't have home stadium.";
+                    return;
+                }
+                StadiumId = homeStadium.Id;
+                TxtStadium.Text = homeStadium.Name;
             }
-
-            var homeStadium = await _aPIServiceStadium.GetById<Stadiums>(homeClub.Id, "HomeStadium");
-            if (homeStadium == null)
-            {
-                TxtStadium.Text = "Home club doesn't have home stadium.";
-                return;
-            }
-            StadiumId = homeStadium.Id;
-            TxtStadium.Text = homeStadium.Name;
         }
         private async void CmbAwayClub_SelectionChangeCommitted(object sender, EventArgs e)
         {
@@ -103,7 +112,7 @@ namespace Transfermarkt.WinUI.Forms
             if (awayClub != null)
             {
                 Image image = ImageResizer.ByteArrayToImage(awayClub.Logo);
-                var newImage = ImageResizer.ResizeImage(image,200,200);
+                var newImage = ImageResizer.ResizeImage(image, 200, 200);
                 pictureBox2.Image = newImage;
             }
         }

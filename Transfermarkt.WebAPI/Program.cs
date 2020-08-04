@@ -11,15 +11,15 @@ namespace Transfermarkt.WebAPI
     {
         public static void Main(string[] args)
         {
-            //CreateWebHostBuilder(args).Build().Run();
+            CreateWebHostBuilder(args).Build().Run();
 
-            var host = CreateWebHostBuilder(args).Build();
-            using (var scope = host.Services.CreateScope())
-            {
-                var service = scope.ServiceProvider.GetRequiredService<FootballAssociationDbContext>();
-                Data.Seed(service);
-            }
-            host.Run();
+            //var host = CreateWebHostBuilder(args).Build();
+            //using (var scope = host.Services.CreateScope())
+            //{
+            //    var service = scope.ServiceProvider.GetRequiredService<FootballAssociationDbContext>();
+            //    Data.Seed(service);
+            //}
+            //host.Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

@@ -35,10 +35,16 @@ namespace Transfermarkt.WinUI.Forms
 
             var match = await _aPIServiceMatches.GetById<Matches>(Id);
 
+            if (match == null)
+            {
+                MessageBox.Show("Match not selected", "Error");
+                return;
+            }
             var homeClub = await _aPIServiceClubs.GetById<Clubs>(match.HomeClubId);
             var awayClub = await _aPIServiceClubs.GetById<Clubs>(match.AwayClubId);
             if (homeClub == null || awayClub == null)
             {
+                MessageBox.Show("Club not existing", "Error");
                 return;
             }
 
@@ -56,12 +62,16 @@ namespace Transfermarkt.WinUI.Forms
         {
             CmbPlayers.SelectedItem = null;
             CmbPlayers.SelectedText = "--select--";
-            List<Players> players = new List<Players>();
 
             var clubId = int.Parse(CmbClubs.SelectedValue.ToString());
-
+            if (clubId == 0)
+            {
+                MessageBox.Show("Club not selected", "Error", MessageBoxButtons.OK);
+                return;
+            }
             var playerContract = await _aPIServiceContracts.GetById<List<Contracts>>(clubId, "ClubContracts");
 
+            List<Players> players = new List<Players>();
             foreach (var item in playerContract)
             {
                 var player = await _aPIServicePlayers.GetById<Players>(item.PlayerId);

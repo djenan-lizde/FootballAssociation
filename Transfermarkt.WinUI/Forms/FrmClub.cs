@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Transfermarkt.Models;
 using Transfermarkt.Models.Requests;
 using Transfermarkt.WinUI.Helper;
+using System.Data;
 
 namespace Transfermarkt.WinUI.Forms
 {
@@ -19,7 +20,7 @@ namespace Transfermarkt.WinUI.Forms
         private readonly APIService _aPIServicePlayer = new APIService("Players");
 
         public int? Id { get; set; }
-        readonly Clubs club = new Clubs();
+        Clubs club = new Clubs();
 
         public FrmClub(int? id = null)
         {
@@ -57,9 +58,14 @@ namespace Transfermarkt.WinUI.Forms
                     pictureBox1.Image = newImage;
                 }
                 label9.Visible = true;
+                var contracts = await _aPIServiceContract.GetById<List<Contracts>>(Id, "ClubContracts");
+                if(contracts.Count == 0)
+                {
+                    MessageBox.Show("This clubs doesn't have players yet.", "Information");
+                    return;
+                }
                 DgvPlayers.Visible = true;
                 BtnMatchSchedule.Visible = true;
-                var contracts = await _aPIServiceContract.GetById<List<Contracts>>(Id, "ClubContracts");
                 List<PlayersClub> playersClubs = new List<PlayersClub>();
                 foreach (var item in contracts)
                 {
@@ -96,10 +102,13 @@ namespace Transfermarkt.WinUI.Forms
             }
             else
             {
-                await _aPIServiceClub.Insert<Clubs>(club);
-                MessageBox.Show("Successfully added. You can click assign stadium button for" +
-                    " adding stadium!", "Club add");
+                club = await _aPIServiceClub.Insert<Clubs>(club);
+                Id = club.Id;
+                MessageBox.Show("Successfully added.", "Information");
+                FrmStadium frm = new FrmStadium(club.Id, club.Name);
+                frm.Show();
             }
+            Close();
         }
         private void BtnAddLogo_Click(object sender, EventArgs e)
         {
@@ -117,28 +126,6 @@ namespace Transfermarkt.WinUI.Forms
                 Image image = Image.FromFile(fileName);
                 Image newImage = ImageResizer.ResizeImage(image, 200, 200);
                 pictureBox1.Image = newImage;
-            }
-        }
-        private async void BtnAddStadium_Click(object sender, EventArgs e)
-        {
-            var clubs = await _aPIServiceClub.Get<List<Clubs>>();
-            var clubStadium = clubs.Find(x => x.Name == club.Name);
-
-            if (Id.HasValue)
-            {
-                var clubInDb = await _aPIServiceClub.GetById<Clubs>(Id);
-                FrmStadium frm = new FrmStadium(clubInDb.Id, clubInDb.Name);
-                frm.Show();
-            }
-            else if (clubStadium != null && clubStadium.Id != 0)
-            {
-                FrmStadium frm = new FrmStadium(clubStadium.Id, clubStadium.Name);
-                frm.Show();
-            }
-            else
-            {
-                MessageBox.Show("You need to insert new club" +
-                    " to be able to assing stadium!", "Error");
             }
         }
         private void BtnMatchSchedule_Click(object sender, EventArgs e)

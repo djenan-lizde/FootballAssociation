@@ -22,14 +22,21 @@ namespace Transfermarkt.WinUI.Forms
         private async void FrmStadium_Load(object sender, EventArgs e)
         {
             lblClubName.Text = ClubName;
-            var stadiumsList = await _aPIServiceStadium.Get<List<Stadiums>>();
-            var _stadium = stadiumsList.FirstOrDefault(x => x.ClubId == Id);
-            if (_stadium != null)
+
+            try
             {
-                txtCapacity.Text = _stadium.Capacity.ToString();
-                txtDateBuilt.Text = _stadium.DateBuilt.ToString();
-                txtStadiumName.Text = _stadium.Name;
-                txtStadiumId.Text = _stadium.Id.ToString();
+                var _stadium = await _aPIServiceStadium.GetById<Stadiums>(Id, "HomeStadium");
+                if (_stadium != null)
+                {
+                    txtCapacity.Text = _stadium.Capacity.ToString();
+                    txtDateBuilt.Text = _stadium.DateBuilt.ToString();
+                    txtStadiumName.Text = _stadium.Name;
+                    txtStadiumId.Text = _stadium.Id.ToString();
+                }
+            }
+            catch (Exception)
+            {
+                return;
             }
         }
 

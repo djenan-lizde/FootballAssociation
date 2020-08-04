@@ -125,7 +125,7 @@ namespace Transfermarkt.WinUI.Forms
             {
                 var lastAdded = await _aPIServiceClubs.Insert<ClubsLeague>(new ClubsLeague
                 {
-                    ClubId = item.ClubId,
+                    ClubId = item.ClubId,   
                     LeagueId = leagueId,
                     Points = 0,
                     SeasonId = seasonId

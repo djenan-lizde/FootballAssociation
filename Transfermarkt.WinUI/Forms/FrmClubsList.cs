@@ -20,6 +20,32 @@ namespace Transfermarkt.WinUI.Forms
             InitializeComponent();
             LeagueId = leagueId;
         }
+
+        private async void FrmClubsList_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                TxtRecomMatch.ReadOnly = true;
+                CmbSeasons.DataSource = await _apiServiceSeasons.Get<List<Seasons>>();
+                CmbSeasons.DisplayMember = "SeasonYear";
+                CmbSeasons.ValueMember = "Id";
+                var match = await _apiServiceMatch.GetById<Matches>(LeagueId, "RecommendMatch");
+
+                var homeClub = await _apiServiceClubs.GetById<Clubs>(match.HomeClubId);
+                var awayClub = await _apiServiceClubs.GetById<Clubs>(match.AwayClubId);
+
+                TxtRecomMatch.Text = $"{homeClub.Name} - vs - {awayClub.Name} -- date: {match.DateGame.Date} {match.GameStart}";
+
+                GenerateClubs();
+            }
+            catch (Exception)
+            {
+                TxtSearch.ReadOnly = true;
+                MessageBox.Show("There is no ongoing or upcoming matches", "Information", MessageBoxButtons.OK);
+                return;
+            }
+
+        }
         private void DgvClubList_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             var id = DgvClubList.SelectedRows[0].Cells[0].Value;
@@ -33,20 +59,7 @@ namespace Transfermarkt.WinUI.Forms
             FrmClub frm = new FrmClub(int.Parse(id.ToString()));
             frm.Show();
         }
-        private async void FrmClubsList_Load(object sender, EventArgs e)
-        {
-            CmbSeasons.DataSource = await _apiServiceSeasons.Get<List<Seasons>>();
-            CmbSeasons.DisplayMember = "SeasonYear";
-            CmbSeasons.ValueMember = "Id";
-            var match = await _apiServiceMatch.GetById<Matches>(LeagueId, "RecommendMatch");
 
-            var homeClub = await _apiServiceClubs.GetById<Clubs>(match.HomeClubId);
-            var awayClub = await _apiServiceClubs.GetById<Clubs>(match.AwayClubId);
-
-            TxtRecomMatch.Text = $"{homeClub.Name} - vs - {awayClub.Name} -- date: {match.DateGame.Date} {match.GameStart}";
-
-            GenerateClubs();
-        }
         private async void TxtSearch_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(TxtSearch.Text))
@@ -82,6 +95,7 @@ namespace Transfermarkt.WinUI.Forms
             var clubLeague = await _apiServiceClubs.GetById<List<ClubsLeague>>(LeagueId, "ClubsInLeague");
             foreach (var item in clubLeague)
             {
+                counter += 1;
                 var club = await _apiServiceClubs.GetById<Clubs>(item.ClubId);
                 clubs.Add(new ClubPoints
                 {
@@ -90,7 +104,7 @@ namespace Transfermarkt.WinUI.Forms
                     Logo = club.Logo,
                     Name = club.Name,
                     Points = item.Points,
-                    Position = int.Parse(counter.ToString()) + 1
+                    Position = counter
                 });
             }
             DgvClubList.DataSource = clubs;
@@ -101,6 +115,11 @@ namespace Transfermarkt.WinUI.Forms
             if (seasonId == 0)
                 return;
             var clubsInSeason = await _apiServiceClubs.GetById<List<ClubsLeague>>(seasonId, "ClubsInSeason");
+            if (clubsInSeason.Count == 0)
+            {
+                MessageBox.Show("There is no clubs in this season", "Information");
+                return;
+            }
             List<ClubPoints> clubPoints = new List<ClubPoints>();
             foreach (var item in clubsInSeason.Where(x => x.LeagueId == LeagueId).OrderByDescending(x => x.Points))
             {

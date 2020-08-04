@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -9,6 +10,7 @@ using Transfermarkt.WebAPI.Services;
 
 namespace Transfermarkt.WebAPI.Controllers
 {
+    [Authorize]
     public class BaseCRUDController<TModel, TSearch, TInsert, TUpdate> : BaseController<TModel, TSearch>
     {
         private readonly ICRUDService<TModel, TSearch, TInsert, TUpdate> _service = null;
@@ -16,6 +18,7 @@ namespace Transfermarkt.WebAPI.Controllers
         {
             _service = service;
         }
+
         [HttpPost]
         public TModel Insert(TInsert request)
         {

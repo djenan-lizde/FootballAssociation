@@ -46,7 +46,6 @@
             this.txtPhotoInput = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.BtnAddStadium = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.CmbLeagues = new System.Windows.Forms.ComboBox();
             this.DgvPlayers = new System.Windows.Forms.DataGridView();
@@ -61,7 +60,7 @@
             this.BtnSaveClub.BackColor = System.Drawing.Color.RoyalBlue;
             this.BtnSaveClub.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnSaveClub.ForeColor = System.Drawing.Color.White;
-            this.BtnSaveClub.Location = new System.Drawing.Point(748, 349);
+            this.BtnSaveClub.Location = new System.Drawing.Point(658, 330);
             this.BtnSaveClub.Name = "BtnSaveClub";
             this.BtnSaveClub.Size = new System.Drawing.Size(139, 37);
             this.BtnSaveClub.TabIndex = 0;
@@ -222,19 +221,6 @@
             this.pictureBox1.TabIndex = 20;
             this.pictureBox1.TabStop = false;
             // 
-            // BtnAddStadium
-            // 
-            this.BtnAddStadium.BackColor = System.Drawing.Color.RoyalBlue;
-            this.BtnAddStadium.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnAddStadium.ForeColor = System.Drawing.Color.White;
-            this.BtnAddStadium.Location = new System.Drawing.Point(603, 349);
-            this.BtnAddStadium.Name = "BtnAddStadium";
-            this.BtnAddStadium.Size = new System.Drawing.Size(139, 37);
-            this.BtnAddStadium.TabIndex = 21;
-            this.BtnAddStadium.Text = "Assign stadium";
-            this.BtnAddStadium.UseVisualStyleBackColor = false;
-            this.BtnAddStadium.Click += new System.EventHandler(this.BtnAddStadium_Click);
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -283,7 +269,7 @@
             this.BtnMatchSchedule.BackColor = System.Drawing.Color.RoyalBlue;
             this.BtnMatchSchedule.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnMatchSchedule.ForeColor = System.Drawing.Color.White;
-            this.BtnMatchSchedule.Location = new System.Drawing.Point(603, 428);
+            this.BtnMatchSchedule.Location = new System.Drawing.Point(381, 330);
             this.BtnMatchSchedule.Name = "BtnMatchSchedule";
             this.BtnMatchSchedule.Size = new System.Drawing.Size(139, 37);
             this.BtnMatchSchedule.TabIndex = 27;
@@ -302,7 +288,6 @@
             this.Controls.Add(this.DgvPlayers);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.CmbLeagues);
-            this.Controls.Add(this.BtnAddStadium);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.txtPhotoInput);
@@ -350,7 +335,6 @@
         private System.Windows.Forms.TextBox txtPhotoInput;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button BtnAddStadium;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox CmbLeagues;
         private System.Windows.Forms.DataGridView DgvPlayers;

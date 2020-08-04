@@ -21,6 +21,12 @@ namespace Transfermarkt.WinUI.Forms
         {
             var resultCity = await _aPIServiceCity.Get<List<Cities>>();
 
+            if (resultCity.Count == 0)
+            {
+                MessageBox.Show("We don't have cities", "Error");
+                return;
+            }
+
             CmbCities.DataSource = resultCity;
             CmbCities.DisplayMember = "Name";
             CmbCities.ValueMember = "Id";
@@ -60,6 +66,7 @@ namespace Transfermarkt.WinUI.Forms
                 await _aPIServiceReferee.Insert<Referees>(referee);
                 MessageBox.Show("Referee added", "Information");
             }
+            Close();
         }
     }
 }
