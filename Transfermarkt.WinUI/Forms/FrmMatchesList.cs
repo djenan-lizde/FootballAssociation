@@ -69,6 +69,26 @@ namespace Transfermarkt.WinUI.Forms
             if (seasons.Count == 0)
             {
                 season.SeasonYear = $"{DateTime.Now.Year}/{DateTime.Now.AddYears(1)}";
+
+                var leagues2 = await _aPIServiceLeagues.Get<List<Leagues>>(null);
+
+                if (leagues2.Count <= 0)
+                {
+                    var newSeason2 = await _aPIServiceClubs.Insert<Seasons>(season);
+                    var clubs2 = await _aPIServiceClubs.Get<List<Clubs>>(null);
+                    var numClubs = clubs2.Count;
+                    for (int i = 0; i < clubs2.Count; i++)
+                    {
+                        var clubLeague2 = new ClubsLeague
+                        {
+                            ClubId = clubs2[i].Id,
+                            LastUpdate = DateTime.Now.TimeOfDay,
+                            Points = 0,
+                            SeasonId = newSeason2.Id
+                        };
+
+                    }
+                }
             }
             else
             {
@@ -83,27 +103,58 @@ namespace Transfermarkt.WinUI.Forms
                     if (!item.IsFinished)
                     {
                         MessageBox.Show("We can't create new season beacuse matches are not finished yet", "Information");
-                        return; 
+                        return;
                     }
                 }
             }
 
-            var newSeason = await _aPIServiceClubs.Insert<Seasons>(season);
-
-            //points part
             var leagues = await _aPIServiceLeagues.Get<List<Leagues>>(null);
+            if (leagues.Count == 0 || leagues.Count == 1)
+            {
+                MessageBox.Show("We need at least two leagues, so we could create new season. Please insert league/s.", "Information",
+                     MessageBoxButtons.OK);
+                return;
+            }
 
             //hard coded
             var bundesligaClubs = await _aPIServiceClubs.GetById<List<ClubsLeague>>(leagues[0].Id, "ClubsInLeague");
             var bundesliga2Clubs = await _aPIServiceClubs.GetById<List<ClubsLeague>>(leagues[1].Id, "ClubsInLeague");
 
-            //sort po bodovima
-            bundesligaClubs.OrderByDescending(x => x.Points);
-            bundesliga2Clubs.OrderBy(x => x.Points);
+            var newSeason = await _aPIServiceClubs.Insert<Seasons>(season);
 
-            //sacuvamo zadnjeg i prvog na tabeli u ligama
-            var lastBundesligaClub = bundesligaClubs.Last();
-            var first2BundesligaClub = bundesliga2Clubs.Last();
+            if (bundesligaClubs.Count == 0 && bundesliga2Clubs.Count == 0)
+            {
+                var clubs = await _aPIServiceClubs.Get<List<Clubs>>(null);
+                if (clubs.Count % 2 == 0)
+                {
+                    List<ClubsLeague> clubsLeagueMatches = new List<ClubsLeague>();
+                    for (int i = 0; i < clubs.Count; i++)
+                    { 
+                        var clubLeagueSeason = new ClubsLeague
+                        {
+                            ClubId = clubs[i].Id,
+                            Points = 0,
+                            SeasonId = newSeason.Id,
+                            LastUpdate = DateTime.Now.TimeOfDay
+                        };
+                        if (i <= clubs.Count / 2)
+                        {
+                            clubLeagueSeason.LeagueId = leagues[0].Id;
+                        }
+                        else
+                        {
+                            clubLeagueSeason.LeagueId = leagues[1].Id;
+                        }
+                        var clubsLeague = await _aPIServiceClubs.Insert<ClubsLeague>(clubLeagueSeason, "ClubLeague");
+                        clubsLeagueMatches.Add(clubsLeague);
+                    }
+                    GenerateGames(clubsLeagueMatches);
+                }
+            }
+
+            //sort po bodovima
+            var lastBundesligaClub = bundesligaClubs.OrderByDescending(x => x.Points).Last();
+            var first2BundesligaClub = bundesliga2Clubs.OrderBy(x => x.Points).Last();
 
             //uklonimo zadnjeg na tabeli
             bundesligaClubs.RemoveAt(bundesligaClubs.Count() - 1);
@@ -125,7 +176,7 @@ namespace Transfermarkt.WinUI.Forms
             {
                 var lastAdded = await _aPIServiceClubs.Insert<ClubsLeague>(new ClubsLeague
                 {
-                    ClubId = item.ClubId,   
+                    ClubId = item.ClubId,
                     LeagueId = leagueId,
                     Points = 0,
                     SeasonId = seasonId
@@ -138,9 +189,10 @@ namespace Transfermarkt.WinUI.Forms
         {
             Random random = new Random();
             var refeeres = await _aPIServiceRefeeres.Get<List<Referees>>(null);
+            double days = 7;
+
             foreach (var homeClub in clubsLeagueMatches)
             {
-                double days = 7;
                 var stadium = await _aPIServiceStadiums.GetById<Stadiums>(homeClub.ClubId, "HomeStadium");
 
                 foreach (var awayClub in clubsLeagueMatches)

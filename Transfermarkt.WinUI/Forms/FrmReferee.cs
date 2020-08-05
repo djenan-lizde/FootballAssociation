@@ -42,31 +42,71 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void BtnSaveReferee_Click(object sender, EventArgs e)
         {
-            Referees referee = new Referees
+            if (ValidateChildren())
             {
-                FirstName = TxtFirstName.Text,
-                LastName = TxtLastName.Text,
-                MiddleName = TxtMiddleName.Text,
-                CityId = int.Parse(CmbCities.SelectedValue.ToString()),
-                Id = Id ?? 0
-            };
+                Referees referee = new Referees
+                {
+                    FirstName = TxtFirstName.Text,
+                    LastName = TxtLastName.Text,
+                    MiddleName = TxtMiddleName.Text,
+                    CityId = int.Parse(CmbCities.SelectedValue.ToString()),
+                    Id = Id ?? 0
+                };
 
-            if (string.IsNullOrEmpty(TxtMiddleName.Text))
-                referee.MiddleName = "N/A";
-            else
-                referee.MiddleName = TxtMiddleName.Text;
+                if (string.IsNullOrEmpty(TxtMiddleName.Text))
+                    referee.MiddleName = "N/A";
+                else
+                    referee.MiddleName = TxtMiddleName.Text;
 
-            if (Id.HasValue)
+                if (Id.HasValue)
+                {
+                    await _aPIServiceReferee.Update<Referees>(referee, referee.Id.ToString());
+                    MessageBox.Show("Referee updated", "Information");
+                }
+                else
+                {
+                    await _aPIServiceReferee.Insert<Referees>(referee);
+                    MessageBox.Show("Referee added", "Information");
+                }
+                Close();
+            }
+        }
+
+        private void TxtFirstName_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(TxtFirstName.Text))
             {
-                await _aPIServiceReferee.Update<Referees>(referee, referee.Id.ToString());
-                MessageBox.Show("Referee updated", "Information");
+                errorProvider.SetError(TxtFirstName, "Input can not be an empty string.");
+                e.Cancel = true;
             }
             else
             {
-                await _aPIServiceReferee.Insert<Referees>(referee);
-                MessageBox.Show("Referee added", "Information");
+                errorProvider.SetError(TxtFirstName, null);
             }
-            Close();
+        }
+        private void TxtLastName_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(TxtLastName.Text))
+            {
+                errorProvider.SetError(TxtLastName, "Input can not be an empty string.");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(TxtLastName, null);
+            }
+        }
+        private void CmbCities_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (CmbCities.SelectedIndex == 0 || CmbCities.SelectedIndex == -1)
+            {
+                errorProvider.SetError(CmbCities, "You need to select option from combo box");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(CmbCities, null);
+            }
         }
     }
 }

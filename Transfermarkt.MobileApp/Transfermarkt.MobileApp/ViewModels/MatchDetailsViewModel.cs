@@ -30,81 +30,89 @@ namespace Transfermarkt.MobileApp.ViewModels
             var match = await _apiServiceMatches.GetById<Matches>(Match.Id);
             var matchDetails = await _apiServiceMatches.GetById<List<MatchDetails>>(Match.Id, "MatchDetail");
 
-            var HomeClubName = await _aPIServiceClubs.GetById<Clubs>(match.HomeClubId);
-            var AwayClubName = await _aPIServiceClubs.GetById<Clubs>(match.AwayClubId);
-            var HomeClubGoals = GetMatchDetails(matchDetails, match.HomeClubId, 3);
-            var AwayClubGoals = GetMatchDetails(matchDetails, match.AwayClubId, 3);
-
-            if (match.IsFinished)
-                TeamsMatchResult = $"{HomeClubName.Name} {HomeClubGoals} : {AwayClubGoals} {AwayClubName.Name}";
-            else
-                TeamsMatchResult = $"{HomeClubName.Name} - : - {AwayClubName.Name}";
-
-
-            GoalScorers.Clear();
-            PlayersCards.Clear();
-            PlayersCorners.Clear();
-
-            //goals
-            if (matchDetails.Count(x => int.Parse(x.ActionType.ToString()) == 3) > 0)
+            if (matchDetails.Count > 0)
             {
-                foreach (var item in matchDetails)
+                var HomeClubName = await _aPIServiceClubs.GetById<Clubs>(match.HomeClubId);
+                var AwayClubName = await _aPIServiceClubs.GetById<Clubs>(match.AwayClubId);
+                if (HomeClubName != null && AwayClubName != null)
                 {
-                    var player = await _aPIServicePlayers.GetById<Players>(item.PlayerId);
-                    var club = await _aPIServiceClubs.GetById<Clubs>(item.ClubId);
-                    GoalScorers.Add(new GoalScorer
-                    {
-                        ClubName = club.Name,
-                        Minute = item.Minute,
-                        PlayerFullName = $"{player.FirstName} {player.LastName}"
-                    });
-                }
-            }
+                    var HomeClubGoals = matchDetails.Count(x => x.ClubId == HomeClubName.Id && x.ActionType == 3);
+                    var AwayClubGoals = matchDetails.Count(x => x.ClubId == AwayClubName.Id && x.ActionType == 3);
 
-            //cards
-            if ((matchDetails.Count(x => int.Parse(x.ActionType.ToString()) == 0) > 0)
-                || (matchDetails.Count(x => int.Parse(x.ActionType.ToString()) == 1) > 0))
-            {
-                foreach (var item in matchDetails)
-                {
-                    var player = await _aPIServicePlayers.GetById<Players>(item.PlayerId);
-                    var club = await _aPIServiceClubs.GetById<Clubs>(item.ClubId);
-                    var playerCard = new PlayersCards
-                    {
-                        ClubName = club.Name,
-                        PlayerFullName = $"{player.FirstName} {player.LastName}",
-                        Minute = item.Minute
-                    };
-                    if (item.ActionType == 0)
-                        playerCard.Card = "Yellow card";
+                    if (match.IsFinished)
+                        TeamsMatchResult = $"{HomeClubName.Name} {HomeClubGoals} : {AwayClubGoals} {AwayClubName.Name}";
                     else
-                        playerCard.Card = "Red card";
-                    PlayersCards.Add(playerCard);
-                }
-            }
+                        TeamsMatchResult = $"{HomeClubName.Name} - : - {AwayClubName.Name}";
 
-            //corners
-            if (matchDetails.Count(x => int.Parse(x.ActionType.ToString()) == 2) >= 0)
-            {
-                foreach (var item in matchDetails)
-                {
-                    var player = await _aPIServicePlayers.GetById<Players>(item.PlayerId);
-                    var club = await _aPIServiceClubs.GetById<Clubs>(item.ClubId);
-                    PlayersCorners.Add(new PlayersCorners
+
+                    GoalScorers.Clear();
+                    PlayersCards.Clear();
+                    PlayersCorners.Clear();
+
+                    //goals
+                    if (matchDetails.Count(x => x.ActionType == 3) > 0)
                     {
-                        ClubName = club.Name,
-                        PlayerFullName = $"{player.FirstName} {player.LastName}",
-                        Minute = item.Minute
-                    });
+                        foreach (var item in matchDetails.Where(x => x.ActionType == 3))
+                        {
+                            var player = await _aPIServicePlayers.GetById<Players>(item.PlayerId);
+                            var club = await _aPIServiceClubs.GetById<Clubs>(item.ClubId);
+                            if (player != null && club != null)
+                            {
+                                GoalScorers.Add(new GoalScorer
+                                {
+                                    ClubName = club.Name,
+                                    Minute = item.Minute,
+                                    PlayerFullName = $"{player.FirstName} {player.LastName}"
+                                });
+                            }
+                        }
+                    }
+
+                    //cards
+                    if ((matchDetails.Count(x => x.ActionType == 0) > 0)
+                        || (matchDetails.Count(x => x.ActionType == 1) > 0))
+                    {
+                        foreach (var item in matchDetails.Where(x => x.ActionType == 0 || x.ActionType == 1))
+                        {
+                            var player = await _aPIServicePlayers.GetById<Players>(item.PlayerId);
+                            var club = await _aPIServiceClubs.GetById<Clubs>(item.ClubId);
+                            if (player != null && club != null)
+                            {
+                                var playerCard = new PlayersCards
+                                {
+                                    ClubName = club.Name,
+                                    PlayerFullName = $"{player.FirstName} {player.LastName}",
+                                    Minute = item.Minute
+                                };
+                                if (item.ActionType == 0)
+                                    playerCard.Card = "Yellow card";
+                                else
+                                    playerCard.Card = "Red card";
+                                PlayersCards.Add(playerCard);
+                            }
+                        }
+                    }
+
+                    //corners
+                    if (matchDetails.Count(x => x.ActionType == 2) >= 0)
+                    {
+                        foreach (var item in matchDetails.Where(x => x.ActionType == 2))
+                        {
+                            var player = await _aPIServicePlayers.GetById<Players>(item.PlayerId);
+                            var club = await _aPIServiceClubs.GetById<Clubs>(item.ClubId);
+                            if (player != null && club != null)
+                            {
+                                PlayersCorners.Add(new PlayersCorners
+                                {
+                                    ClubName = club.Name,
+                                    PlayerFullName = $"{player.FirstName} {player.LastName}",
+                                    Minute = item.Minute
+                                });
+                            }
+                        }
+                    }
                 }
             }
-        }
-
-        private int GetMatchDetails(List<MatchDetails> list, int clubId, int enumValue)
-        {
-            var clubStats = list.Count(x => x.ClubId == clubId
-                && int.Parse(x.ActionType.ToString()) == enumValue);
-            return int.Parse(clubStats.ToString());
         }
     }
 }

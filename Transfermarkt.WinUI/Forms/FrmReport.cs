@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 using Transfermarkt.Models;
 using Transfermarkt.Models.Requests;
-using System.Xml.Linq;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -31,6 +24,11 @@ namespace Transfermarkt.WinUI.Forms
         private async void FrmReport_Load(object sender, EventArgs e)
         {
             var leagues = await _apiServiceLeagues.Get<List<Leagues>>();
+            if (leagues.Count == 0)
+            {
+                MessageBox.Show("We don't have leagues", "Information", MessageBoxButtons.OK);
+                return;
+            }
             CmbLeagues.DataSource = leagues;
             CmbLeagues.DisplayMember = "Name";
             CmbLeagues.ValueMember = "Id";

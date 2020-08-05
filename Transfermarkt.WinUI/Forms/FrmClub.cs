@@ -44,11 +44,11 @@ namespace Transfermarkt.WinUI.Forms
             if (Id.HasValue)
             {
                 var clubLoad = await _aPIServiceClub.GetById<Clubs>(Id);
-                txtAbbreviation.Text = clubLoad.Abbreviation;
-                txtClubName.Text = clubLoad.Name;
-                txtDateFounded.Text = clubLoad.Founded.ToString();
-                txtMarketValue.Text = clubLoad.MarketValue.ToString();
-                txtNickname.Text = clubLoad.Nickname;
+                TxtAbbreviation.Text = clubLoad.Abbreviation;
+                TxtClubName.Text = clubLoad.Name;
+                TxtDateFounded.Text = clubLoad.Founded.ToString();
+                TxtMarketValue.Text = clubLoad.MarketValue.ToString();
+                TxtNickname.Text = clubLoad.Nickname;
                 CmbCities.SelectedIndex = clubLoad.CityId - 1;
                 CmbLeagues.Enabled = false;
                 if (clubLoad.Logo != null)
@@ -59,7 +59,7 @@ namespace Transfermarkt.WinUI.Forms
                 }
                 label9.Visible = true;
                 var contracts = await _aPIServiceContract.GetById<List<Contracts>>(Id, "ClubContracts");
-                if(contracts.Count == 0)
+                if (contracts.Count == 0)
                 {
                     MessageBox.Show("This clubs doesn't have players yet.", "Information");
                     return;
@@ -85,30 +85,33 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void BtnSaveClub_Click(object sender, EventArgs e)
         {
-            club.MarketValue = int.Parse(txtMarketValue.Text);
-            club.Name = txtClubName.Text;
-            club.Nickname = txtNickname.Text;
-            club.CityId = int.Parse(CmbCities.SelectedValue.ToString());
-            club.Founded = DateTime.Parse(txtDateFounded.Text.ToString());
-            club.Abbreviation = txtAbbreviation.Text;
-            club.Id = Id ?? 0;
+            if (ValidateChildren())
+            {
+                club.MarketValue = int.Parse(TxtMarketValue.Text);
+                club.Name = TxtClubName.Text;
+                club.Nickname = TxtNickname.Text;
+                club.CityId = int.Parse(CmbCities.SelectedValue.ToString());
+                club.Founded = DateTime.Parse(TxtDateFounded.Text.ToString());
+                club.Abbreviation = TxtAbbreviation.Text;
+                club.Id = Id ?? 0;
 
-            if (Id.HasValue)
-            {
-                var clubInDb = await _aPIServiceClub.GetById<Clubs>(club.Id);
-                club.Logo = clubInDb.Logo;
-                await _aPIServiceClub.Update<Clubs>(club, club.Id.ToString());
-                MessageBox.Show("Successfully updated.", "Club update");
+                if (Id.HasValue)
+                {
+                    var clubInDb = await _aPIServiceClub.GetById<Clubs>(club.Id);
+                    club.Logo = clubInDb.Logo;
+                    await _aPIServiceClub.Update<Clubs>(club, club.Id.ToString());
+                    MessageBox.Show("Successfully updated.", "Club update");
+                }
+                else
+                {
+                    club = await _aPIServiceClub.Insert<Clubs>(club);
+                    Id = club.Id;
+                    MessageBox.Show("Successfully added.", "Information");
+                    FrmStadium frm = new FrmStadium(club.Id, club.Name);
+                    frm.Show();
+                }
+                Close();
             }
-            else
-            {
-                club = await _aPIServiceClub.Insert<Clubs>(club);
-                Id = club.Id;
-                MessageBox.Show("Successfully added.", "Information");
-                FrmStadium frm = new FrmStadium(club.Id, club.Name);
-                frm.Show();
-            }
-            Close();
         }
         private void BtnAddLogo_Click(object sender, EventArgs e)
         {
@@ -121,7 +124,7 @@ namespace Transfermarkt.WinUI.Forms
                 var file = File.ReadAllBytes(fileName);
 
                 club.Logo = file;
-                txtPhotoInput.Text = fileName;
+                TxtPhotoInput.Text = fileName;
 
                 Image image = Image.FromFile(fileName);
                 Image newImage = ImageResizer.ResizeImage(image, 200, 200);
@@ -132,6 +135,104 @@ namespace Transfermarkt.WinUI.Forms
         {
             FrmClubMatchSchedule frm = new FrmClubMatchSchedule(Id);
             frm.Show();
+        }
+        private void TxtClubName_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(TxtClubName.Text))
+            {
+                errorProvider.SetError(TxtClubName, "Input can not be an empty string.");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(TxtClubName, null);
+            }
+        }
+        private void TxtNickname_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(TxtNickname.Text))
+            {
+                errorProvider.SetError(TxtNickname, "Input can not be an empty string.");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(TxtNickname, null);
+            }
+        }
+        private void TxtAbbreviation_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(TxtAbbreviation.Text))
+            {
+                errorProvider.SetError(TxtAbbreviation, "Input can not be an empty string.");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(TxtAbbreviation, null);
+            }
+        }
+        private void TxtPhotoInput_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(TxtPhotoInput.Text))
+            {
+                errorProvider.SetError(TxtPhotoInput, "Please insert logo");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(TxtPhotoInput, null);
+            }
+        }
+        private void TxtMarketValue_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            bool success = int.TryParse(TxtMarketValue.Text, out _);
+            if (string.IsNullOrWhiteSpace(TxtMarketValue.Text) || !success)
+            {
+                errorProvider.SetError(TxtMarketValue, "Please insert number");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(TxtMarketValue, null);
+            }
+        }
+        private void TxtDateFounded_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            bool success = DateTime.TryParse(TxtDateFounded.Text, out _);
+            if (string.IsNullOrWhiteSpace(TxtDateFounded.Text) || !success)
+            {
+                errorProvider.SetError(TxtDateFounded, "Please insert date");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(TxtDateFounded, null);
+            }
+        }
+        private void CmbCities_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (CmbCities.SelectedIndex == 0 || CmbCities.SelectedIndex == -1)
+            {
+                errorProvider.SetError(CmbCities, "You need to select option from combo box");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(CmbCities, null);
+            }
+        }
+        private void CmbLeagues_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (CmbLeagues.SelectedIndex == 0 || CmbLeagues.SelectedIndex == -1)
+            {
+                errorProvider.SetError(CmbLeagues, "You need to select option from combo box");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(CmbLeagues, null);
+            }
         }
     }
 }

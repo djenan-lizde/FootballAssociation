@@ -53,6 +53,12 @@ namespace Transfermarkt.WinUI.Forms
 
             var clubs = await _aPIServiceClub.GetById<List<ClubsLeague>>(leagueId, "ClubsInLeague");
 
+            if (clubs.Count == 0)
+            {
+                MessageBox.Show("There are no clubs in league", "Information");
+                return;
+            }
+
             List<Clubs> comboHomeTeam = new List<Clubs>();
             List<Clubs> comboAwayTeam = new List<Clubs>();
 
@@ -118,27 +124,91 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void BtnSave_Click(object sender, EventArgs e)
         {
-            var gameEnd = (int.Parse(TxtMatchStart.Text.Substring(0, 2)) + 2).ToString() + TxtMatchStart.Text.Substring(2, 3);
-
-            var addedMatch = await _aPIServiceMatch.Insert<Matches>(new Matches
+            if (ValidateChildren())
             {
-                HomeClubId = int.Parse(CmbHomeClub.SelectedValue.ToString()),
-                AwayClubId = int.Parse(CmbAwayClub.SelectedValue.ToString()),
-                DateGame = DateTime.Parse(TxtDateGame.Text),
-                IsFinished = false,
-                StadiumId = StadiumId,
-                GameStart = TxtMatchStart.Text,
-                GameEnd = gameEnd,
-                LeagueId = int.Parse(CmbHomeClub.SelectedValue.ToString()),
-                SeasonId = SeasonId
-            });
+                var gameEnd = (int.Parse(TxtMatchStart.Text.Substring(0, 2)) + 2).ToString() + TxtMatchStart.Text.Substring(2, 3);
 
-            var refereeMatch = new RefereeMatches
+                var addedMatch = await _aPIServiceMatch.Insert<Matches>(new Matches
+                {
+                    HomeClubId = int.Parse(CmbHomeClub.SelectedValue.ToString()),
+                    AwayClubId = int.Parse(CmbAwayClub.SelectedValue.ToString()),
+                    DateGame = DateTime.Parse(TxtDateGame.Text),
+                    IsFinished = false,
+                    StadiumId = StadiumId,
+                    GameStart = TxtMatchStart.Text,
+                    GameEnd = gameEnd,
+                    LeagueId = int.Parse(CmbHomeClub.SelectedValue.ToString()),
+                    SeasonId = SeasonId
+                });
+
+                var refereeMatch = new RefereeMatches
+                {
+                    RefereeId = int.Parse(CmbReferees.SelectedValue.ToString()),
+                    MatchId = addedMatch.Id
+                };
+                await _aPIServiceMatch.Insert<RefereeMatches>(refereeMatch, "RefereeMatch");
+            }
+        }
+        private void TxtDateGame_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            bool success = DateTime.TryParse(TxtDateGame.Text, out _);
+            if (string.IsNullOrWhiteSpace(TxtDateGame.Text) || !success)
             {
-                RefereeId = int.Parse(CmbReferees.SelectedValue.ToString()),
-                MatchId = addedMatch.Id
-            };
-            await _aPIServiceMatch.Insert<RefereeMatches>(refereeMatch, "RefereeMatch");
+                errorProvider.SetError(TxtDateGame, "Please insert date");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(TxtDateGame, null);
+            }
+        }
+        private void TxtMatchStart_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(TxtMatchStart.Text))
+            {
+                errorProvider.SetError(TxtMatchStart, "Please insert when match is going to start HH:MM");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(TxtMatchStart, null);
+            }
+        }
+        private void CmbReferees_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (CmbReferees.SelectedIndex == 0 || CmbReferees.SelectedIndex == -1)
+            {
+                errorProvider.SetError(CmbReferees, "You need to select option from combo box");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(CmbReferees, null);
+            }
+        }
+        private void CmbHomeClub_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (CmbHomeClub.SelectedIndex == 0 || CmbHomeClub.SelectedIndex == -1)
+            {
+                errorProvider.SetError(CmbHomeClub, "You need to select option from combo box");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(CmbHomeClub, null);
+            }
+        }
+        private void CmbAwayClub_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (CmbAwayClub.SelectedIndex == 0 || CmbAwayClub.SelectedIndex == -1)
+            {
+                errorProvider.SetError(CmbAwayClub, "You need to select option from combo box");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(CmbAwayClub, null);
+            }
         }
     }
 }

@@ -34,29 +34,46 @@ namespace Transfermarkt.MobileApp.ViewModels
             if (LeaguesList.Count == 0)
             {
                 var leagues = await _apiServiceLeagues.Get<List<Leagues>>(null);
-                foreach (var item in leagues)
+                if (leagues.Count > 0)
                 {
-                    LeaguesList.Add(item);
+                    foreach (var item in leagues)
+                    {
+                        LeaguesList.Add(item);
+                    }
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Information", "We don't have leagues.", "OK");
                 }
             }
 
             if (SelectedLeague != null)
             {
                 var clubInLeague = await _apiServiceClubs.GetById<List<ClubsLeague>>(SelectedLeague.Id, "ClubsInLeague");
-                ClubsPoints.Clear();
-                var counter = 0;
-                foreach (var item in clubInLeague)
+                if (clubInLeague.Count > 0)
                 {
-                    var club = await _apiServiceClubs.GetById<Clubs>(item.ClubId);
-                    ClubsPoints.Add(new ClubPoints
+                    ClubsPoints.Clear();
+                    var counter = 0;
+                    foreach (var item in clubInLeague)
                     {
-                        Id = club.Id,
-                        Abbreviation = club.Abbreviation,
-                        Logo = club.Logo,
-                        Name = club.Name,
-                        Points = item.Points,
-                        Position = counter + 1
-                    });
+                        var club = await _apiServiceClubs.GetById<Clubs>(item.ClubId);
+                        if (club != null)
+                        {
+                            ClubsPoints.Add(new ClubPoints
+                            {
+                                Id = club.Id,
+                                Abbreviation = club.Abbreviation,
+                                Logo = club.Logo,
+                                Name = club.Name,
+                                Points = item.Points,
+                                Position = counter + 1
+                            });
+                        }
+                    }
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Information", "We don't have clubs in leagues", "OK");
                 }
             }
         }

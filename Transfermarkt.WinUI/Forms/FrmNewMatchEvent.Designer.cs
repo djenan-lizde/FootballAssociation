@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.CmbEvent = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -38,6 +39,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.TxtMinute = new System.Windows.Forms.TextBox();
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // CmbEvent
@@ -48,6 +51,7 @@
             this.CmbEvent.Name = "CmbEvent";
             this.CmbEvent.Size = new System.Drawing.Size(208, 28);
             this.CmbEvent.TabIndex = 0;
+            this.CmbEvent.Validating += new System.ComponentModel.CancelEventHandler(this.CmbEvent_Validating);
             // 
             // label1
             // 
@@ -77,6 +81,7 @@
             this.CmbPlayers.Name = "CmbPlayers";
             this.CmbPlayers.Size = new System.Drawing.Size(208, 28);
             this.CmbPlayers.TabIndex = 2;
+            this.CmbPlayers.Validating += new System.ComponentModel.CancelEventHandler(this.CmbPlayers_Validating);
             // 
             // label3
             // 
@@ -97,6 +102,7 @@
             this.CmbClubs.Size = new System.Drawing.Size(208, 28);
             this.CmbClubs.TabIndex = 4;
             this.CmbClubs.SelectionChangeCommitted += new System.EventHandler(this.CmbClubs_SelectionChangeCommitted);
+            this.CmbClubs.Validating += new System.ComponentModel.CancelEventHandler(this.CmbClubs_Validating);
             // 
             // BtnSaveDetail
             // 
@@ -138,6 +144,11 @@
             this.TxtMinute.Name = "TxtMinute";
             this.TxtMinute.Size = new System.Drawing.Size(208, 26);
             this.TxtMinute.TabIndex = 9;
+            this.TxtMinute.Validating += new System.ComponentModel.CancelEventHandler(this.TxtMinute_Validating);
+            // 
+            // errorProvider
+            // 
+            this.errorProvider.ContainerControl = this;
             // 
             // FrmNewMatchEvent
             // 
@@ -157,6 +168,7 @@
             this.Name = "FrmNewMatchEvent";
             this.Text = "FrmNewMatchEvent";
             this.Load += new System.EventHandler(this.FrmNewMatchEvent_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -174,5 +186,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox TxtMinute;
+        private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.TxtDateGame = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -46,8 +47,10 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.CmbLeagues = new System.Windows.Forms.ComboBox();
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // TxtDateGame
@@ -57,16 +60,17 @@
             this.TxtDateGame.Name = "TxtDateGame";
             this.TxtDateGame.Size = new System.Drawing.Size(180, 24);
             this.TxtDateGame.TabIndex = 0;
+            this.TxtDateGame.Validating += new System.ComponentModel.CancelEventHandler(this.TxtDateGame_Validating);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(501, 38);
+            this.label1.Location = new System.Drawing.Point(450, 38);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(81, 18);
+            this.label1.Size = new System.Drawing.Size(187, 18);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Match date";
+            this.label1.Text = "Match date (MM.DD.YYYY)";
             // 
             // label3
             // 
@@ -85,6 +89,7 @@
             this.TxtMatchStart.Name = "TxtMatchStart";
             this.TxtMatchStart.Size = new System.Drawing.Size(180, 24);
             this.TxtMatchStart.TabIndex = 4;
+            this.TxtMatchStart.Validating += new System.ComponentModel.CancelEventHandler(this.TxtMatchStart_Validating);
             // 
             // label2
             // 
@@ -105,6 +110,7 @@
             this.CmbHomeClub.Size = new System.Drawing.Size(200, 26);
             this.CmbHomeClub.TabIndex = 7;
             this.CmbHomeClub.SelectionChangeCommitted += new System.EventHandler(this.CmbHomeClub_SelectionChangeCommitted);
+            this.CmbHomeClub.Validating += new System.ComponentModel.CancelEventHandler(this.CmbHomeClub_Validating);
             // 
             // CmbAwayClub
             // 
@@ -115,6 +121,7 @@
             this.CmbAwayClub.Size = new System.Drawing.Size(200, 26);
             this.CmbAwayClub.TabIndex = 11;
             this.CmbAwayClub.SelectionChangeCommitted += new System.EventHandler(this.CmbAwayClub_SelectionChangeCommitted);
+            this.CmbAwayClub.Validating += new System.ComponentModel.CancelEventHandler(this.CmbAwayClub_Validating);
             // 
             // label5
             // 
@@ -195,6 +202,7 @@
             this.CmbReferees.Name = "CmbReferees";
             this.CmbReferees.Size = new System.Drawing.Size(180, 26);
             this.CmbReferees.TabIndex = 17;
+            this.CmbReferees.Validating += new System.ComponentModel.CancelEventHandler(this.CmbReferees_Validating);
             // 
             // label7
             // 
@@ -226,6 +234,10 @@
             this.CmbLeagues.TabIndex = 19;
             this.CmbLeagues.SelectionChangeCommitted += new System.EventHandler(this.CmbLeagues_SelectionChangeCommitted);
             // 
+            // errorProvider
+            // 
+            this.errorProvider.ContainerControl = this;
+            // 
             // FrmMatch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -254,6 +266,7 @@
             this.Load += new System.EventHandler(this.FrmMatch_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -279,5 +292,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox CmbLeagues;
+        private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }

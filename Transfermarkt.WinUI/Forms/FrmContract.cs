@@ -26,6 +26,12 @@ namespace Transfermarkt.WinUI.Forms
         {
             var clubs = await _aPIServiceClubs.Get<List<Clubs>>();
 
+            if (clubs.Count == 0)
+            {
+                MessageBox.Show("We don't have clubs.", "Information");
+                return;
+            }
+
             CmbClubs.DataSource = clubs;
             CmbClubs.DisplayMember = "Name";
             CmbClubs.ValueMember = "Id";
@@ -35,28 +41,70 @@ namespace Transfermarkt.WinUI.Forms
 
         private async void BtnSignContract_Click(object sender, EventArgs e)
         {
-            var contracts = await _aPIServiceContracts.GetById<List<Contracts>>(_id, "PlayerContracts");
-
-            var contractInDb = contracts.LastOrDefault(x => x.PlayerId == _id);
-
-            if (contractInDb == null || contractInDb.IsExpired)
+            if (ValidateChildren())
             {
-                await _aPIServiceContracts.Insert<Contracts>(new Contracts
+                var contracts = await _aPIServiceContracts.GetById<List<Contracts>>(_id, "PlayerContracts");
+
+                var contractInDb = contracts.LastOrDefault(x => x.PlayerId == _id);
+
+                if (contractInDb == null || contractInDb.IsExpired)
                 {
-                    ClubId = int.Parse(CmbClubs.SelectedValue.ToString()),
-                    ExpirationDate = DateTime.Parse(TxtExpirationDate.Text),
-                    IsExpired = false,
-                    PlayerId = _id,
-                    RedemptionClause = int.Parse(TxtRedemptionClause.Text),
-                    SignedDate = DateTime.Now
-                });
-                MessageBox.Show("Player is successfully signed! ", "Information");
-                Close();
+                    await _aPIServiceContracts.Insert<Contracts>(new Contracts
+                    {
+                        ClubId = int.Parse(CmbClubs.SelectedValue.ToString()),
+                        ExpirationDate = DateTime.Parse(TxtExpirationDate.Text),
+                        IsExpired = false,
+                        PlayerId = _id,
+                        RedemptionClause = int.Parse(TxtRedemptionClause.Text),
+                        SignedDate = DateTime.Now
+                    });
+                    MessageBox.Show("Player is successfully signed! ", "Information");
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show("Players contract is not expired yet!", "Error");
+                    return;
+                }
+            }
+        }
+
+        private void TxtExpirationDate_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            bool success = DateTime.TryParse(TxtExpirationDate.Text, out _);
+            if (string.IsNullOrWhiteSpace(TxtExpirationDate.Text) || !success)
+            {
+                errorProvider.SetError(TxtExpirationDate, "Please insert date.");
+                e.Cancel = true;
             }
             else
             {
-                MessageBox.Show("Players contract is not expired yet!", "Error");
-                return;
+                errorProvider.SetError(TxtExpirationDate, null);
+            }
+        }
+        private void TxtRedemptionClause_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            bool success = int.TryParse(TxtRedemptionClause.Text, out _);
+            if (string.IsNullOrWhiteSpace(TxtRedemptionClause.Text) || !success)
+            {
+                errorProvider.SetError(TxtRedemptionClause, "Please insert an integer number.");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(TxtRedemptionClause, null);
+            }
+        }
+        private void CmbClubs_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (CmbClubs.SelectedIndex == 0 || CmbClubs.SelectedIndex == -1)
+            {
+                errorProvider.SetError(CmbClubs, "You need to select option from combo box");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(CmbClubs, null);
             }
         }
     }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.TxtFirstName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -37,6 +38,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.CmbCities = new System.Windows.Forms.ComboBox();
             this.BtnSaveReferee = new System.Windows.Forms.Button();
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // TxtFirstName
@@ -46,6 +49,7 @@
             this.TxtFirstName.Name = "TxtFirstName";
             this.TxtFirstName.Size = new System.Drawing.Size(158, 24);
             this.TxtFirstName.TabIndex = 0;
+            this.TxtFirstName.Validating += new System.ComponentModel.CancelEventHandler(this.TxtFirstName_Validating);
             // 
             // label1
             // 
@@ -92,6 +96,7 @@
             this.TxtLastName.Name = "TxtLastName";
             this.TxtLastName.Size = new System.Drawing.Size(158, 24);
             this.TxtLastName.TabIndex = 4;
+            this.TxtLastName.Validating += new System.ComponentModel.CancelEventHandler(this.TxtLastName_Validating);
             // 
             // label4
             // 
@@ -105,11 +110,13 @@
             // 
             // CmbCities
             // 
+            this.CmbCities.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CmbCities.FormattingEnabled = true;
             this.CmbCities.Location = new System.Drawing.Point(43, 179);
             this.CmbCities.Name = "CmbCities";
-            this.CmbCities.Size = new System.Drawing.Size(158, 21);
+            this.CmbCities.Size = new System.Drawing.Size(158, 26);
             this.CmbCities.TabIndex = 7;
+            this.CmbCities.Validating += new System.ComponentModel.CancelEventHandler(this.CmbCities_Validating);
             // 
             // BtnSaveReferee
             // 
@@ -123,6 +130,10 @@
             this.BtnSaveReferee.Text = "Save";
             this.BtnSaveReferee.UseVisualStyleBackColor = false;
             this.BtnSaveReferee.Click += new System.EventHandler(this.BtnSaveReferee_Click);
+            // 
+            // errorProvider
+            // 
+            this.errorProvider.ContainerControl = this;
             // 
             // FrmReferee
             // 
@@ -141,6 +152,7 @@
             this.Name = "FrmReferee";
             this.Text = "FrmReferee";
             this.Load += new System.EventHandler(this.FrmReferee_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -157,5 +169,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox CmbCities;
         private System.Windows.Forms.Button BtnSaveReferee;
+        private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }

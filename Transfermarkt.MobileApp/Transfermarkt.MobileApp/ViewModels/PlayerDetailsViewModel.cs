@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Transfermarkt.Models;
 using Transfermarkt.Models.Requests;
+using Xamarin.Forms;
+
 
 namespace Transfermarkt.MobileApp.ViewModels
 {
@@ -31,25 +31,38 @@ namespace Transfermarkt.MobileApp.ViewModels
         public async Task PlayerContracts()
         {
             var contracts = await _apiServiceContracts.GetById<List<Contracts>>(Player.Id, "PlayerContracts");
-            Contracts.Clear();
-            foreach (var item in contracts)
+            if (contracts.Count > 0)
             {
-                var club = await _apiServiceClubs.GetById<Clubs>(item.ClubId);
-                Contracts.Add(new PlayerContractsClubs
+                Contracts.Clear();
+                foreach (var item in contracts)
                 {
-                    ClubName = club.Name,
-                    ExpirationDate = item.ExpirationDate,
-                    Id = item.PlayerId,
-                    RedemptionClause = item.RedemptionClause,
-                    SignedDate = item.SignedDate,
-                    Logo = club.Logo
-                });
+                    var club = await _apiServiceClubs.GetById<Clubs>(item.ClubId);
+                    if (club != null)
+                    {
+                        Contracts.Add(new PlayerContractsClubs
+                        {
+                            ClubName = club.Name,
+                            ExpirationDate = item.ExpirationDate,
+                            Id = item.PlayerId,
+                            RedemptionClause = item.RedemptionClause,
+                            SignedDate = item.SignedDate,
+                            Logo = club.Logo
+                        });
+                    }
+                }
+                var playerMatchDetails = await _apiServiceMatches.GetById<List<MatchDetails>>(Player.Id, "PlayerMatchDetails");
+                if (playerMatchDetails.Count > 0)
+                {
+                    var NumberOfGoals = playerMatchDetails.Count(x => x.ActionType == 3);
+                    var NumberOfYellowCards = playerMatchDetails.Count(x => x.ActionType == 0);
+                    var NumberOfRedCards = playerMatchDetails.Count(x => x.ActionType == 1);
+                    Stats = $"Scored goals: {NumberOfGoals}, yellow cards: {NumberOfYellowCards}, red cards: {NumberOfRedCards}";
+                }
             }
-            var playerMatchDetails = await _apiServiceMatches.GetById<List<MatchDetails>>(Player.Id, "PlayerMatchDetails");
-            var NumberOfGoals = playerMatchDetails.Count(x => x.ActionType == 3);
-            var NumberOfYellowCards = playerMatchDetails.Count(x => x.ActionType == 0);
-            var NumberOfRedCards = playerMatchDetails.Count(x => x.ActionType == 1);
-            Stats = $"Scored goals: {NumberOfGoals}, yellow cards: {NumberOfYellowCards}, red cards: {NumberOfRedCards}";
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Information", "We don't have leagues.", "OK");
+            }
         }
     }
 }

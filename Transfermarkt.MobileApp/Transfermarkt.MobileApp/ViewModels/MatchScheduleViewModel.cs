@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Transfermarkt.Models;
 using Transfermarkt.Models.Requests;
+using Xamarin.Forms;
 
 namespace Transfermarkt.MobileApp.ViewModels
 {
@@ -19,29 +20,39 @@ namespace Transfermarkt.MobileApp.ViewModels
         public async Task Init()
         {
             var matches = await _apiServiceMatches.GetById<List<Matches>>(ClubId, "ClubSchedule");
-            Matches.Clear();
-
-            foreach (var item in matches)
+            if (matches.Count > 0)
             {
-                var matchDetails = await _apiServiceMatches.GetById<List<MatchDetails>>(item.Id, "MatchDetail");
-                var homeClub = await _apiServiceClubs.GetById<Clubs>(item.HomeClubId);
-                var awayClub = await _apiServiceClubs.GetById<Clubs>(item.AwayClubId);
-                var matchSchedule = new MatchSchedule
+                Matches.Clear();
+
+                foreach (var item in matches)
                 {
-                    GameDate = item.DateGame,
-                    Id = item.Id
-                };
-                if (matchDetails.Count() == 0)
-                {
-                    matchSchedule.MatchGame = $"{homeClub.Name} - vs - {awayClub.Name}";
+                    var matchDetails = await _apiServiceMatches.GetById<List<MatchDetails>>(item.Id, "MatchDetail");
+                    var homeClub = await _apiServiceClubs.GetById<Clubs>(item.HomeClubId);
+                    var awayClub = await _apiServiceClubs.GetById<Clubs>(item.AwayClubId);
+                    if (homeClub != null && awayClub != null)
+                    {
+                        var matchSchedule = new MatchSchedule
+                        {
+                            GameDate = item.DateGame,
+                            Id = item.Id
+                        };
+                        if (matchDetails.Count == 0)
+                        {
+                            matchSchedule.MatchGame = $"{homeClub.Name} - vs - {awayClub.Name}";
+                        }
+                        else
+                        {
+                            var homeClubGoals = matchDetails.Count(x => x.ClubId == homeClub.Id && x.ActionType == 3);
+                            var awayClubGoals = matchDetails.Count(x => x.ClubId == awayClub.Id && x.ActionType == 3);
+                            matchSchedule.MatchGame = $"{homeClub.Name} {homeClubGoals} vs {awayClubGoals} {awayClub.Name}";
+                        }
+                        Matches.Add(matchSchedule);
+                    }
                 }
-                else
-                {
-                    var homeClubGoals = matchDetails.Count(x => x.ClubId == homeClub.Id && x.ActionType == 3);
-                    var awayClubGoals = matchDetails.Count(x => x.ClubId == awayClub.Id && x.ActionType == 3);
-                    matchSchedule.MatchGame = $"{homeClub.Name} {homeClubGoals} vs {awayClubGoals} {awayClub.Name}";
-                }
-                Matches.Add(matchSchedule);
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Infromation", "We don't have matches for this club", "OK");
             }
         }
     }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.TxtExpirationDate = new System.Windows.Forms.TextBox();
             this.BtnSignContract = new System.Windows.Forms.Button();
@@ -36,6 +37,8 @@
             this.CmbClubs = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.PlayerName = new System.Windows.Forms.Label();
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -44,9 +47,9 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(30, 71);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(105, 18);
+            this.label1.Size = new System.Drawing.Size(211, 18);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Expiration date";
+            this.label1.Text = "Expiration date (MM.DD.YYYY)";
             // 
             // TxtExpirationDate
             // 
@@ -55,6 +58,7 @@
             this.TxtExpirationDate.Name = "TxtExpirationDate";
             this.TxtExpirationDate.Size = new System.Drawing.Size(200, 26);
             this.TxtExpirationDate.TabIndex = 1;
+            this.TxtExpirationDate.Validating += new System.ComponentModel.CancelEventHandler(this.TxtExpirationDate_Validating);
             // 
             // BtnSignContract
             // 
@@ -76,6 +80,7 @@
             this.TxtRedemptionClause.Name = "TxtRedemptionClause";
             this.TxtRedemptionClause.Size = new System.Drawing.Size(200, 26);
             this.TxtRedemptionClause.TabIndex = 4;
+            this.TxtRedemptionClause.Validating += new System.ComponentModel.CancelEventHandler(this.TxtRedemptionClause_Validating);
             // 
             // label2
             // 
@@ -95,6 +100,7 @@
             this.CmbClubs.Name = "CmbClubs";
             this.CmbClubs.Size = new System.Drawing.Size(200, 26);
             this.CmbClubs.TabIndex = 5;
+            this.CmbClubs.Validating += new System.ComponentModel.CancelEventHandler(this.CmbClubs_Validating);
             // 
             // label3
             // 
@@ -116,6 +122,10 @@
             this.PlayerName.TabIndex = 7;
             this.PlayerName.Text = "label4";
             // 
+            // errorProvider
+            // 
+            this.errorProvider.ContainerControl = this;
+            // 
             // FrmContract
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -132,6 +142,7 @@
             this.Name = "FrmContract";
             this.Text = "FrmContract";
             this.Load += new System.EventHandler(this.FrmContract_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -147,5 +158,6 @@
         private System.Windows.Forms.ComboBox CmbClubs;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label PlayerName;
+        private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }

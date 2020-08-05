@@ -24,11 +24,11 @@ namespace Transfermarkt.WebAPI
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .ConfigureLogging(options =>
-                {
-                    options.AddConsole();
-                    options.AddLog4Net("log4net.config");
-                })
+                //.ConfigureLogging(options =>
+                //{
+                //    options.AddConsole();
+                //    options.AddLog4Net("log4net.config");
+                //})
                 .UseStartup<Startup>();
     }
 }

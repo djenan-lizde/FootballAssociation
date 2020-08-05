@@ -28,24 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtStadiumName = new System.Windows.Forms.TextBox();
+            this.components = new System.ComponentModel.Container();
+            this.TxtStadiumName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtCapacity = new System.Windows.Forms.TextBox();
+            this.TxtCapacity = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtDateBuilt = new System.Windows.Forms.TextBox();
+            this.TxtDateBuilt = new System.Windows.Forms.TextBox();
             this.lblClubName = new System.Windows.Forms.Label();
             this.BtnSaveStadium = new System.Windows.Forms.Button();
             this.txtStadiumId = new System.Windows.Forms.TextBox();
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
-            // txtStadiumName
+            // TxtStadiumName
             // 
-            this.txtStadiumName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtStadiumName.Location = new System.Drawing.Point(44, 135);
-            this.txtStadiumName.Name = "txtStadiumName";
-            this.txtStadiumName.Size = new System.Drawing.Size(203, 24);
-            this.txtStadiumName.TabIndex = 0;
+            this.TxtStadiumName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtStadiumName.Location = new System.Drawing.Point(44, 135);
+            this.TxtStadiumName.Name = "TxtStadiumName";
+            this.TxtStadiumName.Size = new System.Drawing.Size(203, 24);
+            this.TxtStadiumName.TabIndex = 0;
+            this.TxtStadiumName.Validating += new System.ComponentModel.CancelEventHandler(this.TxtStadiumName_Validating);
             // 
             // label1
             // 
@@ -67,31 +71,33 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Capacity";
             // 
-            // txtCapacity
+            // TxtCapacity
             // 
-            this.txtCapacity.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCapacity.Location = new System.Drawing.Point(44, 228);
-            this.txtCapacity.Name = "txtCapacity";
-            this.txtCapacity.Size = new System.Drawing.Size(203, 24);
-            this.txtCapacity.TabIndex = 2;
+            this.TxtCapacity.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtCapacity.Location = new System.Drawing.Point(44, 228);
+            this.TxtCapacity.Name = "TxtCapacity";
+            this.TxtCapacity.Size = new System.Drawing.Size(203, 24);
+            this.TxtCapacity.TabIndex = 2;
+            this.TxtCapacity.Validating += new System.ComponentModel.CancelEventHandler(this.TxtCapacity_Validating);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(310, 105);
+            this.label3.Location = new System.Drawing.Point(332, 105);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(69, 18);
+            this.label3.Size = new System.Drawing.Size(175, 18);
             this.label3.TabIndex = 5;
-            this.label3.Text = "Date built";
+            this.label3.Text = "Date built (MM.DD.YYYY)";
             // 
-            // txtDateBuilt
+            // TxtDateBuilt
             // 
-            this.txtDateBuilt.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDateBuilt.Location = new System.Drawing.Point(313, 135);
-            this.txtDateBuilt.Name = "txtDateBuilt";
-            this.txtDateBuilt.Size = new System.Drawing.Size(203, 24);
-            this.txtDateBuilt.TabIndex = 4;
+            this.TxtDateBuilt.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtDateBuilt.Location = new System.Drawing.Point(313, 135);
+            this.TxtDateBuilt.Name = "TxtDateBuilt";
+            this.TxtDateBuilt.Size = new System.Drawing.Size(203, 24);
+            this.TxtDateBuilt.TabIndex = 4;
+            this.TxtDateBuilt.Validating += new System.ComponentModel.CancelEventHandler(this.TxtDateBuilt_Validating);
             // 
             // lblClubName
             // 
@@ -124,6 +130,10 @@
             this.txtStadiumId.TabIndex = 8;
             this.txtStadiumId.Visible = false;
             // 
+            // errorProvider
+            // 
+            this.errorProvider.ContainerControl = this;
+            // 
             // FrmStadium
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -133,14 +143,15 @@
             this.Controls.Add(this.BtnSaveStadium);
             this.Controls.Add(this.lblClubName);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.txtDateBuilt);
+            this.Controls.Add(this.TxtDateBuilt);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.txtCapacity);
+            this.Controls.Add(this.TxtCapacity);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtStadiumName);
+            this.Controls.Add(this.TxtStadiumName);
             this.Name = "FrmStadium";
             this.Text = "FrmStadium";
             this.Load += new System.EventHandler(this.FrmStadium_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -148,14 +159,15 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtStadiumName;
+        private System.Windows.Forms.TextBox TxtStadiumName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtCapacity;
+        private System.Windows.Forms.TextBox TxtCapacity;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtDateBuilt;
+        private System.Windows.Forms.TextBox TxtDateBuilt;
         private System.Windows.Forms.Label lblClubName;
         private System.Windows.Forms.Button BtnSaveStadium;
         private System.Windows.Forms.TextBox txtStadiumId;
+        private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }

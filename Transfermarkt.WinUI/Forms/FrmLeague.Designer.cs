@@ -28,22 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtLeagueName = new System.Windows.Forms.TextBox();
+            this.components = new System.ComponentModel.Container();
+            this.TxtLeagueName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtDateEstablished = new System.Windows.Forms.TextBox();
+            this.TxtDateEstablished = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtOrganizer = new System.Windows.Forms.TextBox();
+            this.TxtOrganizer = new System.Windows.Forms.TextBox();
             this.BtnAddLeague = new System.Windows.Forms.Button();
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
-            // txtLeagueName
+            // TxtLeagueName
             // 
-            this.txtLeagueName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLeagueName.Location = new System.Drawing.Point(69, 93);
-            this.txtLeagueName.Name = "txtLeagueName";
-            this.txtLeagueName.Size = new System.Drawing.Size(205, 24);
-            this.txtLeagueName.TabIndex = 0;
+            this.TxtLeagueName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtLeagueName.Location = new System.Drawing.Point(69, 93);
+            this.TxtLeagueName.Name = "TxtLeagueName";
+            this.TxtLeagueName.Size = new System.Drawing.Size(205, 24);
+            this.TxtLeagueName.TabIndex = 0;
+            this.TxtLeagueName.Validating += new System.ComponentModel.CancelEventHandler(this.TxtLeagueName_Validating);
             // 
             // label1
             // 
@@ -61,17 +65,18 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(66, 152);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(117, 18);
+            this.label2.Size = new System.Drawing.Size(223, 18);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Date established";
+            this.label2.Text = "Date established (MM.DD.YYYY)";
             // 
-            // txtDateEstablished
+            // TxtDateEstablished
             // 
-            this.txtDateEstablished.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDateEstablished.Location = new System.Drawing.Point(69, 186);
-            this.txtDateEstablished.Name = "txtDateEstablished";
-            this.txtDateEstablished.Size = new System.Drawing.Size(205, 24);
-            this.txtDateEstablished.TabIndex = 2;
+            this.TxtDateEstablished.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtDateEstablished.Location = new System.Drawing.Point(69, 186);
+            this.TxtDateEstablished.Name = "TxtDateEstablished";
+            this.TxtDateEstablished.Size = new System.Drawing.Size(205, 24);
+            this.TxtDateEstablished.TabIndex = 2;
+            this.TxtDateEstablished.Validating += new System.ComponentModel.CancelEventHandler(this.TxtDateEstablished_Validating);
             // 
             // label3
             // 
@@ -83,13 +88,14 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "Organizer";
             // 
-            // txtOrganizer
+            // TxtOrganizer
             // 
-            this.txtOrganizer.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtOrganizer.Location = new System.Drawing.Point(334, 93);
-            this.txtOrganizer.Name = "txtOrganizer";
-            this.txtOrganizer.Size = new System.Drawing.Size(205, 24);
-            this.txtOrganizer.TabIndex = 4;
+            this.TxtOrganizer.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtOrganizer.Location = new System.Drawing.Point(334, 93);
+            this.TxtOrganizer.Name = "TxtOrganizer";
+            this.TxtOrganizer.Size = new System.Drawing.Size(205, 24);
+            this.TxtOrganizer.TabIndex = 4;
+            this.TxtOrganizer.Validating += new System.ComponentModel.CancelEventHandler(this.TxtOrganizer_Validating);
             // 
             // BtnAddLeague
             // 
@@ -104,6 +110,10 @@
             this.BtnAddLeague.UseVisualStyleBackColor = false;
             this.BtnAddLeague.Click += new System.EventHandler(this.BtnAddLeague_Click);
             // 
+            // errorProvider
+            // 
+            this.errorProvider.ContainerControl = this;
+            // 
             // FrmLeague
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -111,13 +121,14 @@
             this.ClientSize = new System.Drawing.Size(610, 288);
             this.Controls.Add(this.BtnAddLeague);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.txtOrganizer);
+            this.Controls.Add(this.TxtOrganizer);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.txtDateEstablished);
+            this.Controls.Add(this.TxtDateEstablished);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtLeagueName);
+            this.Controls.Add(this.TxtLeagueName);
             this.Name = "FrmLeague";
             this.Text = "FrmLegue";
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -125,12 +136,13 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtLeagueName;
+        private System.Windows.Forms.TextBox TxtLeagueName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtDateEstablished;
+        private System.Windows.Forms.TextBox TxtDateEstablished;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtOrganizer;
+        private System.Windows.Forms.TextBox TxtOrganizer;
         private System.Windows.Forms.Button BtnAddLeague;
+        private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }

@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Transfermarkt.Models;
 using Transfermarkt.Models.Extensions;
@@ -85,33 +81,85 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void BtnSaveDetail_Click(object sender, EventArgs e)
         {
-            if (int.Parse(TxtMinute.Text) < 0 || int.Parse(TxtMinute.Text) > 95)
+            if (ValidateChildren())
             {
-                MessageBox.Show("Minutes can't be under 0 or higher than 95 minutes.", "Error");
-                return;
-            }
-            var matchDetails = await _aPIServiceMatches.GetById<List<MatchDetails>>(Id, "MatchDetail");
-            if (matchDetails.Count != 0)
-            {
-                var lastRecord = matchDetails.LastOrDefault();
-                if (lastRecord.Minute > int.Parse(TxtMinute.Text))
+                if (int.Parse(TxtMinute.Text) < 0 || int.Parse(TxtMinute.Text) > 95)
                 {
-                    MessageBox.Show("Last added detail have lower minute.", "Error");
+                    MessageBox.Show("Minutes can't be under 0 or higher than 95 minutes.", "Error");
                     return;
                 }
-            }
+                var matchDetails = await _aPIServiceMatches.GetById<List<MatchDetails>>(Id, "MatchDetail");
+                if (matchDetails.Count != 0)
+                {
+                    var lastRecord = matchDetails.LastOrDefault();
+                    if (lastRecord.Minute > int.Parse(TxtMinute.Text))
+                    {
+                        MessageBox.Show("Last added detail have lower minute.", "Error");
+                        return;
+                    }
+                }
 
-            await _aPIServiceMatches.Insert<MatchDetails>(new MatchDetails
+                await _aPIServiceMatches.Insert<MatchDetails>(new MatchDetails
+                {
+                    ClubId = int.Parse(CmbClubs.SelectedValue.ToString()),
+                    MatchId = Id,
+                    Minute = int.Parse(TxtMinute.Text),
+                    PlayerId = int.Parse(CmbPlayers.SelectedValue.ToString()),
+                    ActionType = int.Parse(CmbEvent.SelectedIndex.ToString())
+                }, "NewDetailMatch");
+                FrmMatchDetail frm = new FrmMatchDetail(Id);
+                frm.Show();
+                Close();
+            }
+        }
+        private void TxtMinute_Validating(object sender, CancelEventArgs e)
+        {
+            bool success = int.TryParse(TxtMinute.Text, out _);
+            if (string.IsNullOrWhiteSpace(TxtMinute.Text) || !success)
             {
-                ClubId = int.Parse(CmbClubs.SelectedValue.ToString()),
-                MatchId = Id,
-                Minute = int.Parse(TxtMinute.Text),
-                PlayerId = int.Parse(CmbPlayers.SelectedValue.ToString()),
-                ActionType = int.Parse(CmbEvent.SelectedIndex.ToString())
-            }, "NewDetailMatch");
-            FrmMatchDetail frm = new FrmMatchDetail(Id);
-            frm.Show();
-            Close();
+                errorProvider.SetError(TxtMinute, "Please insert date");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(TxtMinute, null);
+            }
+        }
+        private void CmbEvent_Validating(object sender, CancelEventArgs e)
+        {
+            if (CmbEvent.SelectedIndex == 0 || CmbEvent.SelectedIndex == -1)
+            {
+                errorProvider.SetError(CmbEvent, "You need to select option from combo box");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(CmbEvent, null);
+            }
+        }
+        private void CmbClubs_Validating(object sender, CancelEventArgs e)
+        {
+            if (CmbClubs.SelectedIndex == 0 || CmbClubs.SelectedIndex == -1)
+            {
+                errorProvider.SetError(CmbClubs, "You need to select option from combo box");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(CmbClubs, null);
+            }
+        }
+        private void CmbPlayers_Validating(object sender, CancelEventArgs e)
+        {
+            if (CmbPlayers.SelectedIndex == 0 || CmbPlayers.SelectedIndex == -1)
+            {
+                errorProvider.SetError(CmbPlayers, "You need to select option from combo box");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(CmbPlayers, null);
+            }
         }
     }
 }

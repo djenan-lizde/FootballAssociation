@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Transfermarkt.Models;
@@ -43,29 +41,37 @@ namespace Transfermarkt.MobileApp.ViewModels
         public async Task Init()
         {
             var seasons = await _apiServiceSeasons.Get<List<Seasons>>(null);
-            var counter = 0;
-
-            foreach (var item in seasons)
+            if (seasons.Count > 0)
             {
-                SeasonsList.Add(item);
+                foreach (var item in seasons)
+                {
+                    SeasonsList.Add(item);
+                }
             }
+
+            var counter = 0;
 
             if (SelectedSeason != null)
             {
                 var clubLeague = await _apiServiceClubs.GetById<List<ClubsLeague>>(selectedLeague.Id, "ClubsInLeague");
-
-                foreach (var item in clubLeague.Where(x => x.SeasonId == SelectedSeason.Id).OrderByDescending(x => x.Points))
+                if (clubLeague.Count > 0)
                 {
-                    var club = await _apiServiceClubs.GetById<Clubs>(item.ClubId);
-                    ClubsList.Add(new ClubPoints
+                    foreach (var item in clubLeague.Where(x => x.SeasonId == SelectedSeason.Id).OrderByDescending(x => x.Points))
                     {
-                        Points = item.Points,
-                        Id = club.Id,
-                        Logo = club.Logo,
-                        Name = club.Name,
-                        Abbreviation = club.Abbreviation,
-                        Position = int.Parse(counter.ToString()) + 1
-                    });
+                        var club = await _apiServiceClubs.GetById<Clubs>(item.ClubId);
+                        if (club != null)
+                        {
+                            ClubsList.Add(new ClubPoints
+                            {
+                                Points = item.Points,
+                                Id = club.Id,
+                                Logo = club.Logo,
+                                Name = club.Name,
+                                Abbreviation = club.Abbreviation,
+                                Position = int.Parse(counter.ToString()) + 1
+                            });
+                        }
+                    }
                 }
             }
         }

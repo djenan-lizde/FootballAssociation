@@ -25,33 +25,40 @@ namespace Transfermarkt.MobileApp.ViewModels
         public async void Init()
         {
             var result = await _apiServiceMatches.Get<List<Matches>>();
-            if (result.Count() == 0)
+            if (result.Count >= 0)
             {
-                return;
-            }
-            MatchesList.Clear();
+                MatchesList.Clear();
 
-            var league = await _aPIServiceLeagues.GetById<Leagues>(result[0].LeagueId);
-
-            foreach (var item in result)
-            {
-                var homeClub = await _apiServiceClubs.GetById<Clubs>(item.HomeClubId);
-                var awayClub = await _apiServiceClubs.GetById<Clubs>(item.AwayClubId);
-
-                var stadium = await _aPIServiceStadiums.GetById<Clubs>(homeClub.Id, "HomeStadium");
-
-                MatchesList.Add(new MatchesView
+                var league = await _aPIServiceLeagues.GetById<Leagues>(result[0].LeagueId);
+                if (league != null)
                 {
-                    Id = item.Id,
-                    HomeClub = homeClub.Name,
-                    AwayClub = awayClub.Name,
-                    GameDate = item.DateGame,
-                    GameEnd = item.GameEnd,
-                    GameStart = item.GameEnd,
-                    IsFinished = false,
-                    StadiumName = stadium.Name,
-                    LeagueName = league.Name
-                });
+                    foreach (var item in result)
+                    {
+                        var homeClub = await _apiServiceClubs.GetById<Clubs>(item.HomeClubId);
+                        var awayClub = await _apiServiceClubs.GetById<Clubs>(item.AwayClubId);
+
+                        if (homeClub != null && awayClub != null)
+                        {
+                            var stadium = await _aPIServiceStadiums.GetById<Clubs>(homeClub.Id, "HomeStadium");
+
+                            if (stadium != null)
+                            {
+                                MatchesList.Add(new MatchesView
+                                {
+                                    Id = item.Id,
+                                    HomeClub = homeClub.Name,
+                                    AwayClub = awayClub.Name,
+                                    GameDate = item.DateGame,
+                                    GameEnd = item.GameEnd,
+                                    GameStart = item.GameEnd,
+                                    IsFinished = false,
+                                    StadiumName = stadium.Name,
+                                    LeagueName = league.Name
+                                });
+                            }
+                        }
+                    }
+                }
             }
         }
     }

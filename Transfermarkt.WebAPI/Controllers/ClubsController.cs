@@ -36,6 +36,10 @@ namespace Transfermarkt.WebAPI.Controllers
         public List<Database.ClubsLeague> ClubLeaguesCondition(int LeagueId)
         {
             var lastSeason = LastSeason();
+            if (lastSeason == null)
+            {
+                return _serviceClubLeague.GetByCondition(x => x.LeagueId == LeagueId).ToList();
+            }
             return _serviceClubLeague.GetByCondition(x => x.LeagueId == LeagueId
             && x.SeasonId == lastSeason.Id).ToList();
         }

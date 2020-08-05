@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Transfermarkt.WebAPI.Database
 {
@@ -11,7 +12,6 @@ namespace Transfermarkt.WebAPI.Database
         public int PlayerId { get; set; }
         public int ClubId { get; set; }
         public int Minute { get; set; }
-
         public virtual Matches Match { get; set; }
     }
 }

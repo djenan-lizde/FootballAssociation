@@ -60,7 +60,7 @@ namespace Transfermarkt.WinUI.Forms
                 }
 
                 var matchDetails = await _aPIServiceMatches.GetById<List<MatchDetails>>(Id, "MatchDetail");
-                if (matchDetails.Count() == 0)
+                if (matchDetails.Count == 0)
                 {
                     HomeClubGoal.Text = "0";
                     AwayClubGoal.Text = "0";
@@ -68,12 +68,12 @@ namespace Transfermarkt.WinUI.Forms
                 }
 
                 //goals
-                if (matchDetails.Count(x => int.Parse(x.ActionType.ToString()) == 3) > 0)
+                if (matchDetails.Count(x => x.ActionType == 3) > 0)
                 {
-                    HomeClubGoal.Text = GetMatchDetails(matchDetails, homeClub.Id, 3).ToString();
-                    AwayClubGoal.Text = GetMatchDetails(matchDetails, awayClub.Id, 3).ToString();
+                    HomeClubGoal.Text = matchDetails.Count(x => x.ClubId == homeClub.Id && x.ActionType == 3).ToString();
+                    AwayClubGoal.Text = matchDetails.Count(x => x.ClubId == awayClub.Id && x.ActionType == 3).ToString();
                     List<GoalScorer> goalScorers = new List<GoalScorer>();
-                    foreach (var item in matchDetails)
+                    foreach (var item in matchDetails.Where(x => x.ActionType == 3))
                     {
                         var player = await _aPIServicePlayers.GetById<Players>(item.PlayerId);
                         var club = await _aPIServiceClubs.GetById<Clubs>(item.ClubId);
@@ -88,11 +88,11 @@ namespace Transfermarkt.WinUI.Forms
                 }
 
                 //cards
-                if ((matchDetails.Count(x => int.Parse(x.ActionType.ToString()) == 0) > 0)
-                    || (matchDetails.Count(x => int.Parse(x.ActionType.ToString()) == 1) > 0))
+                if ((matchDetails.Count(x => x.ActionType == 0) > 0)
+                    || (matchDetails.Count(x => x.ActionType == 1) > 0))
                 {
                     List<PlayersCards> cards = new List<PlayersCards>();
-                    foreach (var item in matchDetails)
+                    foreach (var item in matchDetails.Where(x => x.ActionType == 0 || x.ActionType == 1))
                     {
                         var player = await _aPIServicePlayers.GetById<Players>(item.PlayerId);
                         var club = await _aPIServiceClubs.GetById<Clubs>(item.ClubId);
@@ -112,10 +112,10 @@ namespace Transfermarkt.WinUI.Forms
                 }
 
                 //corners
-                if (matchDetails.Count(x => int.Parse(x.ActionType.ToString()) == 2) != 0)
+                if (matchDetails.Count(x => x.ActionType == 2) > 0)
                 {
                     List<PlayersCorners> corners = new List<PlayersCorners>();
-                    foreach (var item in matchDetails)
+                    foreach (var item in matchDetails.Where(x => x.ActionType == 2))
                     {
                         var player = await _aPIServicePlayers.GetById<Players>(item.PlayerId);
                         var club = await _aPIServiceClubs.GetById<Clubs>(item.ClubId);
@@ -135,12 +135,6 @@ namespace Transfermarkt.WinUI.Forms
                 return;
             }
             
-        }
-        private int GetMatchDetails(List<MatchDetails> list, int clubId, int enumValue)
-        {
-            var clubStats = list.Count(x => x.ClubId == clubId
-                && int.Parse(x.ActionType.ToString()) == enumValue);
-            return int.Parse(clubStats.ToString());
         }
         private void BtnNewEventMatch_Click(object sender, EventArgs e)
         {
@@ -163,10 +157,10 @@ namespace Transfermarkt.WinUI.Forms
 
                 //counting goals
                 var homeClubGoals = matchDetails.Count(x => x.ClubId == HomeClubId
-                    && int.Parse(x.ActionType.ToString()) == 3);
+                    && x.ActionType == 3);
 
                 var awayClubGoals = matchDetails.Count(x => x.ClubId == AwayClubId
-                    && int.Parse(x.ActionType.ToString()) == 3);
+                    && x.ActionType == 3);
 
                 if (homeClubGoals > awayClubGoals)
                     UpdatePoints(HomeClubId);

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Transfermarkt.MobileApp.Views;
 using Transfermarkt.Models;
 using Transfermarkt.Models.Requests;
 using Xamarin.Forms;
@@ -29,20 +25,30 @@ namespace Transfermarkt.MobileApp.ViewModels
         public async Task ClubPlayers()
         {
             var contracts = await _apiServiceContracts.GetById<List<Contracts>>(Club.Id, "ClubContracts");
-            Players.Clear();
-
-            foreach (var item in contracts)
+            if (contracts.Count > 0)
             {
-                var player = await _apiServicePlayers.GetById<Players>(item.PlayerId);
+                Players.Clear();
 
-                Players.Add(new PlayersClub
+                foreach (var item in contracts)
                 {
-                    Id = item.PlayerId,
-                    Birthdate = player.Birthdate,
-                    FirstName = player.FirstName,
-                    Jersey = player.Jersey,
-                    LastName = player.LastName
-                });
+                    var player = await _apiServicePlayers.GetById<Players>(item.PlayerId);
+                    if (player != null)
+                    {
+
+                        Players.Add(new PlayersClub
+                        {
+                            Id = item.PlayerId,
+                            Birthdate = player.Birthdate,
+                            FirstName = player.FirstName,
+                            Jersey = player.Jersey,
+                            LastName = player.LastName
+                        });
+                    }
+                }
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Information", "We don't have contracts.", "OK");
             }
         }
         public ICommand InitCommand { get; set; }

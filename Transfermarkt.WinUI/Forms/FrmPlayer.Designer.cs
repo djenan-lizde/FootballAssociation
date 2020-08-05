@@ -28,37 +28,41 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtFirstName = new System.Windows.Forms.TextBox();
+            this.components = new System.ComponentModel.Container();
+            this.TxtFirstName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtLastName = new System.Windows.Forms.TextBox();
+            this.TxtLastName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtMiddleName = new System.Windows.Forms.TextBox();
+            this.TxtMiddleName = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.txtJerseyNumber = new System.Windows.Forms.TextBox();
+            this.TxtJerseyNumber = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.txtMarketValue = new System.Windows.Forms.TextBox();
+            this.TxtMarketValue = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.txtHeight = new System.Windows.Forms.TextBox();
+            this.TxtHeight = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.txtWeight = new System.Windows.Forms.TextBox();
+            this.TxtWeight = new System.Windows.Forms.TextBox();
             this.CmbStrongerFoot = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.BtnAddPlayer = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
-            this.txtBirthDate = new System.Windows.Forms.TextBox();
+            this.TxtBirthDate = new System.Windows.Forms.TextBox();
             this.ChBoxSign = new System.Windows.Forms.CheckBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
-            // txtFirstName
+            // TxtFirstName
             // 
-            this.txtFirstName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFirstName.Location = new System.Drawing.Point(58, 59);
-            this.txtFirstName.Name = "txtFirstName";
-            this.txtFirstName.Size = new System.Drawing.Size(190, 24);
-            this.txtFirstName.TabIndex = 0;
+            this.TxtFirstName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtFirstName.Location = new System.Drawing.Point(58, 59);
+            this.TxtFirstName.Name = "TxtFirstName";
+            this.TxtFirstName.Size = new System.Drawing.Size(190, 24);
+            this.TxtFirstName.TabIndex = 0;
+            this.TxtFirstName.Validating += new System.ComponentModel.CancelEventHandler(this.TxtFirstName_Validating);
             // 
             // label1
             // 
@@ -80,13 +84,14 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Last name";
             // 
-            // txtLastName
+            // TxtLastName
             // 
-            this.txtLastName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLastName.Location = new System.Drawing.Point(548, 59);
-            this.txtLastName.Name = "txtLastName";
-            this.txtLastName.Size = new System.Drawing.Size(190, 24);
-            this.txtLastName.TabIndex = 2;
+            this.TxtLastName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtLastName.Location = new System.Drawing.Point(548, 59);
+            this.TxtLastName.Name = "TxtLastName";
+            this.TxtLastName.Size = new System.Drawing.Size(190, 24);
+            this.TxtLastName.TabIndex = 2;
+            this.TxtLastName.Validating += new System.ComponentModel.CancelEventHandler(this.TxtLastName_Validating);
             // 
             // label3
             // 
@@ -98,13 +103,13 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "Middle name";
             // 
-            // txtMiddleName
+            // TxtMiddleName
             // 
-            this.txtMiddleName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMiddleName.Location = new System.Drawing.Point(300, 59);
-            this.txtMiddleName.Name = "txtMiddleName";
-            this.txtMiddleName.Size = new System.Drawing.Size(190, 24);
-            this.txtMiddleName.TabIndex = 4;
+            this.TxtMiddleName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtMiddleName.Location = new System.Drawing.Point(300, 59);
+            this.TxtMiddleName.Name = "TxtMiddleName";
+            this.TxtMiddleName.Size = new System.Drawing.Size(190, 24);
+            this.TxtMiddleName.TabIndex = 4;
             // 
             // label4
             // 
@@ -116,13 +121,14 @@
             this.label4.TabIndex = 7;
             this.label4.Text = "Jersey number";
             // 
-            // txtJerseyNumber
+            // TxtJerseyNumber
             // 
-            this.txtJerseyNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtJerseyNumber.Location = new System.Drawing.Point(548, 144);
-            this.txtJerseyNumber.Name = "txtJerseyNumber";
-            this.txtJerseyNumber.Size = new System.Drawing.Size(190, 24);
-            this.txtJerseyNumber.TabIndex = 6;
+            this.TxtJerseyNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtJerseyNumber.Location = new System.Drawing.Point(548, 138);
+            this.TxtJerseyNumber.Name = "TxtJerseyNumber";
+            this.TxtJerseyNumber.Size = new System.Drawing.Size(190, 24);
+            this.TxtJerseyNumber.TabIndex = 6;
+            this.TxtJerseyNumber.Validating += new System.ComponentModel.CancelEventHandler(this.TxtJerseyNumber_Validating);
             // 
             // label5
             // 
@@ -134,13 +140,14 @@
             this.label5.TabIndex = 9;
             this.label5.Text = "Market value";
             // 
-            // txtMarketValue
+            // TxtMarketValue
             // 
-            this.txtMarketValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMarketValue.Location = new System.Drawing.Point(58, 227);
-            this.txtMarketValue.Name = "txtMarketValue";
-            this.txtMarketValue.Size = new System.Drawing.Size(190, 24);
-            this.txtMarketValue.TabIndex = 8;
+            this.TxtMarketValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtMarketValue.Location = new System.Drawing.Point(58, 227);
+            this.TxtMarketValue.Name = "TxtMarketValue";
+            this.TxtMarketValue.Size = new System.Drawing.Size(190, 24);
+            this.TxtMarketValue.TabIndex = 8;
+            this.TxtMarketValue.Validating += new System.ComponentModel.CancelEventHandler(this.TxtMarketValue_Validating);
             // 
             // label6
             // 
@@ -152,13 +159,14 @@
             this.label6.TabIndex = 11;
             this.label6.Text = "Height (cm)";
             // 
-            // txtHeight
+            // TxtHeight
             // 
-            this.txtHeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtHeight.Location = new System.Drawing.Point(58, 138);
-            this.txtHeight.Name = "txtHeight";
-            this.txtHeight.Size = new System.Drawing.Size(190, 24);
-            this.txtHeight.TabIndex = 10;
+            this.TxtHeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtHeight.Location = new System.Drawing.Point(58, 138);
+            this.TxtHeight.Name = "TxtHeight";
+            this.TxtHeight.Size = new System.Drawing.Size(190, 24);
+            this.TxtHeight.TabIndex = 10;
+            this.TxtHeight.Validating += new System.ComponentModel.CancelEventHandler(this.TxtHeight_Validating);
             // 
             // label7
             // 
@@ -170,13 +178,14 @@
             this.label7.TabIndex = 13;
             this.label7.Text = "Weight (kg)";
             // 
-            // txtWeight
+            // TxtWeight
             // 
-            this.txtWeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtWeight.Location = new System.Drawing.Point(300, 138);
-            this.txtWeight.Name = "txtWeight";
-            this.txtWeight.Size = new System.Drawing.Size(190, 24);
-            this.txtWeight.TabIndex = 12;
+            this.TxtWeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtWeight.Location = new System.Drawing.Point(300, 138);
+            this.TxtWeight.Name = "TxtWeight";
+            this.TxtWeight.Size = new System.Drawing.Size(190, 24);
+            this.TxtWeight.TabIndex = 12;
+            this.TxtWeight.Validating += new System.ComponentModel.CancelEventHandler(this.TxtWeight_Validating);
             // 
             // CmbStrongerFoot
             // 
@@ -186,6 +195,7 @@
             this.CmbStrongerFoot.Name = "CmbStrongerFoot";
             this.CmbStrongerFoot.Size = new System.Drawing.Size(190, 26);
             this.CmbStrongerFoot.TabIndex = 14;
+            this.CmbStrongerFoot.Validating += new System.ComponentModel.CancelEventHandler(this.CmbStrongerFoot_Validating);
             // 
             // label8
             // 
@@ -216,17 +226,18 @@
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(545, 188);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(70, 18);
+            this.label9.Size = new System.Drawing.Size(176, 18);
             this.label9.TabIndex = 18;
-            this.label9.Text = "Birth date";
+            this.label9.Text = "Birth date (MM.DD.YYYY)";
             // 
-            // txtBirthDate
+            // TxtBirthDate
             // 
-            this.txtBirthDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBirthDate.Location = new System.Drawing.Point(548, 221);
-            this.txtBirthDate.Name = "txtBirthDate";
-            this.txtBirthDate.Size = new System.Drawing.Size(190, 24);
-            this.txtBirthDate.TabIndex = 17;
+            this.TxtBirthDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtBirthDate.Location = new System.Drawing.Point(548, 227);
+            this.TxtBirthDate.Name = "TxtBirthDate";
+            this.TxtBirthDate.Size = new System.Drawing.Size(190, 24);
+            this.TxtBirthDate.TabIndex = 17;
+            this.TxtBirthDate.Validating += new System.ComponentModel.CancelEventHandler(this.TxtBirthDate_Validating);
             // 
             // ChBoxSign
             // 
@@ -260,6 +271,10 @@
             this.label10.TabIndex = 21;
             this.label10.Text = "Choose positions";
             // 
+            // errorProvider
+            // 
+            this.errorProvider.ContainerControl = this;
+            // 
             // FrmPlayer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -269,27 +284,28 @@
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.ChBoxSign);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.txtBirthDate);
+            this.Controls.Add(this.TxtBirthDate);
             this.Controls.Add(this.BtnAddPlayer);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.CmbStrongerFoot);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.txtWeight);
+            this.Controls.Add(this.TxtWeight);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.txtHeight);
+            this.Controls.Add(this.TxtHeight);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.txtMarketValue);
+            this.Controls.Add(this.TxtMarketValue);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.txtJerseyNumber);
+            this.Controls.Add(this.TxtJerseyNumber);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.txtMiddleName);
+            this.Controls.Add(this.TxtMiddleName);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.txtLastName);
+            this.Controls.Add(this.TxtLastName);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtFirstName);
+            this.Controls.Add(this.TxtFirstName);
             this.Name = "FrmPlayer";
             this.Text = "FrmPlayers";
             this.Load += new System.EventHandler(this.FrmPlayers_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -297,27 +313,28 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtFirstName;
+        private System.Windows.Forms.TextBox TxtFirstName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtLastName;
+        private System.Windows.Forms.TextBox TxtLastName;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtMiddleName;
+        private System.Windows.Forms.TextBox TxtMiddleName;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txtJerseyNumber;
+        private System.Windows.Forms.TextBox TxtJerseyNumber;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txtMarketValue;
+        private System.Windows.Forms.TextBox TxtMarketValue;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox txtHeight;
+        private System.Windows.Forms.TextBox TxtHeight;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox txtWeight;
+        private System.Windows.Forms.TextBox TxtWeight;
         private System.Windows.Forms.ComboBox CmbStrongerFoot;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button BtnAddPlayer;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox txtBirthDate;
+        private System.Windows.Forms.TextBox TxtBirthDate;
         private System.Windows.Forms.CheckBox ChBoxSign;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }

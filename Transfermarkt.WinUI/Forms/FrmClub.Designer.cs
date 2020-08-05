@@ -28,22 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.BtnSaveClub = new System.Windows.Forms.Button();
-            this.txtClubName = new System.Windows.Forms.TextBox();
+            this.TxtClubName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtAbbreviation = new System.Windows.Forms.TextBox();
+            this.TxtAbbreviation = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtNickname = new System.Windows.Forms.TextBox();
+            this.TxtNickname = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.txtDateFounded = new System.Windows.Forms.TextBox();
+            this.TxtDateFounded = new System.Windows.Forms.TextBox();
             this.CmbCities = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.txtMarketValue = new System.Windows.Forms.TextBox();
+            this.TxtMarketValue = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.BtnAddLogo = new System.Windows.Forms.Button();
-            this.txtPhotoInput = new System.Windows.Forms.TextBox();
+            this.TxtPhotoInput = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -51,8 +52,10 @@
             this.DgvPlayers = new System.Windows.Forms.DataGridView();
             this.label9 = new System.Windows.Forms.Label();
             this.BtnMatchSchedule = new System.Windows.Forms.Button();
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgvPlayers)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // BtnSaveClub
@@ -68,13 +71,14 @@
             this.BtnSaveClub.UseVisualStyleBackColor = false;
             this.BtnSaveClub.Click += new System.EventHandler(this.BtnSaveClub_Click);
             // 
-            // txtClubName
+            // TxtClubName
             // 
-            this.txtClubName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtClubName.Location = new System.Drawing.Point(302, 40);
-            this.txtClubName.Name = "txtClubName";
-            this.txtClubName.Size = new System.Drawing.Size(218, 24);
-            this.txtClubName.TabIndex = 1;
+            this.TxtClubName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtClubName.Location = new System.Drawing.Point(302, 40);
+            this.TxtClubName.Name = "TxtClubName";
+            this.TxtClubName.Size = new System.Drawing.Size(218, 24);
+            this.TxtClubName.TabIndex = 1;
+            this.TxtClubName.Validating += new System.ComponentModel.CancelEventHandler(this.TxtClubName_Validating);
             // 
             // label1
             // 
@@ -96,13 +100,14 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "Abbreviation";
             // 
-            // txtAbbreviation
+            // TxtAbbreviation
             // 
-            this.txtAbbreviation.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtAbbreviation.Location = new System.Drawing.Point(302, 111);
-            this.txtAbbreviation.Name = "txtAbbreviation";
-            this.txtAbbreviation.Size = new System.Drawing.Size(218, 24);
-            this.txtAbbreviation.TabIndex = 3;
+            this.TxtAbbreviation.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtAbbreviation.Location = new System.Drawing.Point(302, 111);
+            this.TxtAbbreviation.Name = "TxtAbbreviation";
+            this.TxtAbbreviation.Size = new System.Drawing.Size(218, 24);
+            this.TxtAbbreviation.TabIndex = 3;
+            this.TxtAbbreviation.Validating += new System.ComponentModel.CancelEventHandler(this.TxtAbbreviation_Validating);
             // 
             // label3
             // 
@@ -114,13 +119,14 @@
             this.label3.TabIndex = 6;
             this.label3.Text = "Nickname";
             // 
-            // txtNickname
+            // TxtNickname
             // 
-            this.txtNickname.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNickname.Location = new System.Drawing.Point(610, 40);
-            this.txtNickname.Name = "txtNickname";
-            this.txtNickname.Size = new System.Drawing.Size(218, 24);
-            this.txtNickname.TabIndex = 5;
+            this.TxtNickname.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtNickname.Location = new System.Drawing.Point(610, 40);
+            this.TxtNickname.Name = "TxtNickname";
+            this.TxtNickname.Size = new System.Drawing.Size(218, 24);
+            this.TxtNickname.TabIndex = 5;
+            this.TxtNickname.Validating += new System.ComponentModel.CancelEventHandler(this.TxtNickname_Validating);
             // 
             // label4
             // 
@@ -128,17 +134,18 @@
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(607, 79);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(96, 18);
+            this.label4.Size = new System.Drawing.Size(202, 18);
             this.label4.TabIndex = 8;
-            this.label4.Text = "Date founded";
+            this.label4.Text = "Date founded (MM.DD.YYYY)";
             // 
-            // txtDateFounded
+            // TxtDateFounded
             // 
-            this.txtDateFounded.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDateFounded.Location = new System.Drawing.Point(610, 111);
-            this.txtDateFounded.Name = "txtDateFounded";
-            this.txtDateFounded.Size = new System.Drawing.Size(218, 24);
-            this.txtDateFounded.TabIndex = 7;
+            this.TxtDateFounded.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtDateFounded.Location = new System.Drawing.Point(610, 111);
+            this.TxtDateFounded.Name = "TxtDateFounded";
+            this.TxtDateFounded.Size = new System.Drawing.Size(218, 24);
+            this.TxtDateFounded.TabIndex = 7;
+            this.TxtDateFounded.Validating += new System.ComponentModel.CancelEventHandler(this.TxtDateFounded_Validating);
             // 
             // CmbCities
             // 
@@ -148,6 +155,7 @@
             this.CmbCities.Name = "CmbCities";
             this.CmbCities.Size = new System.Drawing.Size(218, 26);
             this.CmbCities.TabIndex = 9;
+            this.CmbCities.Validating += new System.ComponentModel.CancelEventHandler(this.CmbCities_Validating);
             // 
             // label5
             // 
@@ -159,13 +167,14 @@
             this.label5.TabIndex = 10;
             this.label5.Text = "City";
             // 
-            // txtMarketValue
+            // TxtMarketValue
             // 
-            this.txtMarketValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMarketValue.Location = new System.Drawing.Point(610, 201);
-            this.txtMarketValue.Name = "txtMarketValue";
-            this.txtMarketValue.Size = new System.Drawing.Size(218, 24);
-            this.txtMarketValue.TabIndex = 13;
+            this.TxtMarketValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtMarketValue.Location = new System.Drawing.Point(610, 201);
+            this.TxtMarketValue.Name = "TxtMarketValue";
+            this.TxtMarketValue.Size = new System.Drawing.Size(218, 24);
+            this.TxtMarketValue.TabIndex = 13;
+            this.TxtMarketValue.Validating += new System.ComponentModel.CancelEventHandler(this.TxtMarketValue_Validating);
             // 
             // label8
             // 
@@ -194,13 +203,14 @@
             this.BtnAddLogo.UseVisualStyleBackColor = false;
             this.BtnAddLogo.Click += new System.EventHandler(this.BtnAddLogo_Click);
             // 
-            // txtPhotoInput
+            // TxtPhotoInput
             // 
-            this.txtPhotoInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPhotoInput.Location = new System.Drawing.Point(302, 201);
-            this.txtPhotoInput.Name = "txtPhotoInput";
-            this.txtPhotoInput.Size = new System.Drawing.Size(218, 24);
-            this.txtPhotoInput.TabIndex = 18;
+            this.TxtPhotoInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtPhotoInput.Location = new System.Drawing.Point(302, 201);
+            this.TxtPhotoInput.Name = "TxtPhotoInput";
+            this.TxtPhotoInput.Size = new System.Drawing.Size(218, 24);
+            this.TxtPhotoInput.TabIndex = 18;
+            this.TxtPhotoInput.Validating += new System.ComponentModel.CancelEventHandler(this.TxtPhotoInput_Validating);
             // 
             // label7
             // 
@@ -239,6 +249,7 @@
             this.CmbLeagues.Name = "CmbLeagues";
             this.CmbLeagues.Size = new System.Drawing.Size(218, 26);
             this.CmbLeagues.TabIndex = 22;
+            this.CmbLeagues.Validating += new System.ComponentModel.CancelEventHandler(this.CmbLeagues_Validating);
             // 
             // DgvPlayers
             // 
@@ -278,6 +289,10 @@
             this.BtnMatchSchedule.Visible = false;
             this.BtnMatchSchedule.Click += new System.EventHandler(this.BtnMatchSchedule_Click);
             // 
+            // errorProvider
+            // 
+            this.errorProvider.ContainerControl = this;
+            // 
             // FrmClub
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -290,26 +305,27 @@
             this.Controls.Add(this.CmbLeagues);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.txtPhotoInput);
+            this.Controls.Add(this.TxtPhotoInput);
             this.Controls.Add(this.BtnAddLogo);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.txtMarketValue);
+            this.Controls.Add(this.TxtMarketValue);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.CmbCities);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.txtDateFounded);
+            this.Controls.Add(this.TxtDateFounded);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.txtNickname);
+            this.Controls.Add(this.TxtNickname);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.txtAbbreviation);
+            this.Controls.Add(this.TxtAbbreviation);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtClubName);
+            this.Controls.Add(this.TxtClubName);
             this.Controls.Add(this.BtnSaveClub);
             this.Name = "FrmClub";
             this.Text = "InsertClub";
             this.Load += new System.EventHandler(this.FrmInsertClub_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgvPlayers)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -318,21 +334,21 @@
         #endregion
 
         private System.Windows.Forms.Button BtnSaveClub;
-        private System.Windows.Forms.TextBox txtClubName;
+        private System.Windows.Forms.TextBox TxtClubName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtAbbreviation;
+        private System.Windows.Forms.TextBox TxtAbbreviation;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtNickname;
+        private System.Windows.Forms.TextBox TxtNickname;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txtDateFounded;
+        private System.Windows.Forms.TextBox TxtDateFounded;
         private System.Windows.Forms.ComboBox CmbCities;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txtMarketValue;
+        private System.Windows.Forms.TextBox TxtMarketValue;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button BtnAddLogo;
-        private System.Windows.Forms.TextBox txtPhotoInput;
+        private System.Windows.Forms.TextBox TxtPhotoInput;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label6;
@@ -340,5 +356,6 @@
         private System.Windows.Forms.DataGridView DgvPlayers;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button BtnMatchSchedule;
+        private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }
