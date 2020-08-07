@@ -26,7 +26,9 @@ namespace Transfermarkt.WinUI.Forms
             try
             {
                 TxtRecomMatch.ReadOnly = true;
-                CmbSeasons.DataSource = await _apiServiceSeasons.Get<List<Seasons>>();
+                var seasons = await _apiServiceSeasons.Get<List<Seasons>>();
+                seasons.Insert(0, new Seasons());
+                CmbSeasons.DataSource = seasons;
                 CmbSeasons.DisplayMember = "SeasonYear";
                 CmbSeasons.ValueMember = "Id";
                 var match = await _apiServiceMatch.GetById<Matches>(LeagueId, "RecommendMatch");
@@ -36,7 +38,7 @@ namespace Transfermarkt.WinUI.Forms
 
                 TxtRecomMatch.Text = $"{homeClub.Name} - vs - {awayClub.Name} -- date: {match.DateGame.Date} {match.GameStart}";
 
-                GenerateClubs();
+                //GenerateClubs();
             }
             catch (Exception)
             {
@@ -59,7 +61,6 @@ namespace Transfermarkt.WinUI.Forms
             FrmClub frm = new FrmClub(int.Parse(id.ToString()));
             frm.Show();
         }
-
         private async void TxtSearch_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(TxtSearch.Text))
@@ -111,29 +112,39 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void CmbSeasons_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int seasonId = CmbSeasons.SelectedIndex;
-            if (seasonId == 0)
-                return;
-            var clubsInSeason = await _apiServiceClubs.GetById<List<ClubsLeague>>(seasonId, "ClubsInSeason");
-            if (clubsInSeason.Count == 0)
+            try
             {
-                MessageBox.Show("There is no clubs in this season", "Information");
-                return;
-            }
-            List<ClubPoints> clubPoints = new List<ClubPoints>();
-            foreach (var item in clubsInSeason.Where(x => x.LeagueId == LeagueId).OrderByDescending(x => x.Points))
-            {
-                var club = await _apiServiceClubs.GetById<Clubs>(item.ClubId);
-                clubPoints.Add(new ClubPoints
+                int seasonId = (int)CmbSeasons.SelectedValue;
+                if (seasonId == 0)
+                    return;
+                var clubsInSeason = await _apiServiceClubs.GetById<List<ClubsLeague>>(seasonId, "ClubsInSeason");
+                if (clubsInSeason.Count == 0)
                 {
-                    Abbreviation = club.Abbreviation,
-                    Logo = club.Logo,
-                    Name = club.Name,
-                    Points = item.Points,
-                    Id = club.Id
-                });
+                    MessageBox.Show("There is no clubs in this season", "Information");
+                    return;
+                }
+                List<ClubPoints> clubPoints = new List<ClubPoints>();
+                int counter = 1;
+                foreach (var item in clubsInSeason.Where(x => x.LeagueId == LeagueId).OrderByDescending(x => x.Points))
+                {
+                    var club = await _apiServiceClubs.GetById<Clubs>(item.ClubId);
+                    clubPoints.Add(new ClubPoints
+                    {
+                        Abbreviation = club.Abbreviation,
+                        Logo = club.Logo,
+                        Name = club.Name,
+                        Points = item.Points,
+                        Id = club.Id,
+                        Position = counter
+                    });
+                    counter += 1;
+                }
+                DgvClubList.DataSource = clubPoints;
             }
-            DgvClubList.DataSource = clubPoints;
+            catch (Exception)
+            {
+                return;
+            }
         }
     }
 }

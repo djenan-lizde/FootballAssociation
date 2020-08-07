@@ -25,6 +25,7 @@ namespace Transfermarkt.WinUI.Forms
         private async void FrmNewMatchEvent_Load(object sender, EventArgs e)
         {
             var list = Globals.ToPairList<ActionType>(typeof(ActionType)).ToList();
+            list.Insert(0, new KeyValuePair<int, string>());
             CmbEvent.DataSource = list;
             CmbEvent.DisplayMember = "Value";
             CmbEvent.ValueMember = "Key";
@@ -50,15 +51,13 @@ namespace Transfermarkt.WinUI.Forms
                 homeClub,
                 awayClub
             };
+            clubs.Insert(0, new Clubs());
             CmbClubs.DataSource = clubs;
             CmbClubs.DisplayMember = "Name";
             CmbClubs.ValueMember = "Id";
         }
         private async void CmbClubs_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            CmbPlayers.SelectedItem = null;
-            CmbPlayers.SelectedText = "--select--";
-
             var clubId = int.Parse(CmbClubs.SelectedValue.ToString());
             if (clubId == 0)
             {
@@ -75,6 +74,7 @@ namespace Transfermarkt.WinUI.Forms
                 players.Add(player);
             }
 
+            players.Insert(0, new Players());
             CmbPlayers.DataSource = players.ToList();
             CmbPlayers.DisplayMember = "FirstName";
             CmbPlayers.ValueMember = "Id";

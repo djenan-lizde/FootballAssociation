@@ -47,8 +47,6 @@
             this.TxtPhotoInput = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.CmbLeagues = new System.Windows.Forms.ComboBox();
             this.DgvPlayers = new System.Windows.Forms.DataGridView();
             this.label9 = new System.Windows.Forms.Label();
             this.BtnMatchSchedule = new System.Windows.Forms.Button();
@@ -63,7 +61,7 @@
             this.BtnSaveClub.BackColor = System.Drawing.Color.RoyalBlue;
             this.BtnSaveClub.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnSaveClub.ForeColor = System.Drawing.Color.White;
-            this.BtnSaveClub.Location = new System.Drawing.Point(658, 330);
+            this.BtnSaveClub.Location = new System.Drawing.Point(658, 271);
             this.BtnSaveClub.Name = "BtnSaveClub";
             this.BtnSaveClub.Size = new System.Drawing.Size(139, 37);
             this.BtnSaveClub.TabIndex = 0;
@@ -210,7 +208,6 @@
             this.TxtPhotoInput.Name = "TxtPhotoInput";
             this.TxtPhotoInput.Size = new System.Drawing.Size(218, 24);
             this.TxtPhotoInput.TabIndex = 18;
-            this.TxtPhotoInput.Validating += new System.ComponentModel.CancelEventHandler(this.TxtPhotoInput_Validating);
             // 
             // label7
             // 
@@ -230,26 +227,6 @@
             this.pictureBox1.Size = new System.Drawing.Size(200, 200);
             this.pictureBox1.TabIndex = 20;
             this.pictureBox1.TabStop = false;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(607, 243);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(56, 18);
-            this.label6.TabIndex = 23;
-            this.label6.Text = "League";
-            // 
-            // CmbLeagues
-            // 
-            this.CmbLeagues.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CmbLeagues.FormattingEnabled = true;
-            this.CmbLeagues.Location = new System.Drawing.Point(610, 277);
-            this.CmbLeagues.Name = "CmbLeagues";
-            this.CmbLeagues.Size = new System.Drawing.Size(218, 26);
-            this.CmbLeagues.TabIndex = 22;
-            this.CmbLeagues.Validating += new System.ComponentModel.CancelEventHandler(this.CmbLeagues_Validating);
             // 
             // DgvPlayers
             // 
@@ -280,7 +257,7 @@
             this.BtnMatchSchedule.BackColor = System.Drawing.Color.RoyalBlue;
             this.BtnMatchSchedule.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnMatchSchedule.ForeColor = System.Drawing.Color.White;
-            this.BtnMatchSchedule.Location = new System.Drawing.Point(381, 330);
+            this.BtnMatchSchedule.Location = new System.Drawing.Point(658, 495);
             this.BtnMatchSchedule.Name = "BtnMatchSchedule";
             this.BtnMatchSchedule.Size = new System.Drawing.Size(139, 37);
             this.BtnMatchSchedule.TabIndex = 27;
@@ -301,8 +278,6 @@
             this.Controls.Add(this.BtnMatchSchedule);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.DgvPlayers);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.CmbLeagues);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.TxtPhotoInput);
@@ -351,8 +326,6 @@
         private System.Windows.Forms.TextBox TxtPhotoInput;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox CmbLeagues;
         private System.Windows.Forms.DataGridView DgvPlayers;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button BtnMatchSchedule;

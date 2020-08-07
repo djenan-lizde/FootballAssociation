@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 using Transfermarkt.Models;
 using Transfermarkt.WinUI.Helper;
@@ -31,6 +30,7 @@ namespace Transfermarkt.WinUI.Forms
                 MessageBox.Show("We don't have leagues", "Error");
                 return;
             }
+            leagues.Insert(0, new Leagues());
             CmbLeagues.DataSource = leagues;
             CmbLeagues.DisplayMember = "Name";
             CmbLeagues.ValueMember = "Id";
@@ -38,8 +38,6 @@ namespace Transfermarkt.WinUI.Forms
             CmbAwayClub.Enabled = false;
             CmbHomeClub.Enabled = false;
             CmbReferees.Enabled = false;
-            TxtDateGame.Enabled = false;
-            TxtMatchStart.Enabled = false;
         }
         private async void CmbLeagues_SelectionChangeCommitted(object sender, EventArgs e)
         {
@@ -70,10 +68,12 @@ namespace Transfermarkt.WinUI.Forms
                 SeasonId = item.SeasonId;
             }
 
+            comboHomeTeam.Insert(0, new Clubs());
             CmbHomeClub.DataSource = comboHomeTeam;
             CmbHomeClub.DisplayMember = "Name";
             CmbHomeClub.ValueMember = "Id";
 
+            comboAwayTeam.Insert(0, new Clubs());
             CmbAwayClub.DataSource = comboAwayTeam;
             CmbAwayClub.DisplayMember = "Name";
             CmbAwayClub.ValueMember = "Id";
@@ -147,6 +147,8 @@ namespace Transfermarkt.WinUI.Forms
                     MatchId = addedMatch.Id
                 };
                 await _aPIServiceMatch.Insert<RefereeMatches>(refereeMatch, "RefereeMatch");
+
+                MessageBox.Show("Match added.", "Information", MessageBoxButtons.OK);
             }
         }
         private void TxtDateGame_Validating(object sender, System.ComponentModel.CancelEventArgs e)

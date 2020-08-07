@@ -29,6 +29,7 @@ namespace Transfermarkt.WinUI.Forms
                 MessageBox.Show("We don't have leagues", "Information", MessageBoxButtons.OK);
                 return;
             }
+            leagues.Insert(0, new Leagues());
             CmbLeagues.DataSource = leagues;
             CmbLeagues.DisplayMember = "Name";
             CmbLeagues.ValueMember = "Id";
@@ -41,6 +42,7 @@ namespace Transfermarkt.WinUI.Forms
             TxtTotalSum.Enabled = true;
             clubContractsMoneySpent.Clear();
             transfers.Clear();
+            DgvTransfers.DataSource = null;
             var selectedValue = int.Parse(CmbLeagues.SelectedValue.ToString());
             var clubsInLeague = await _apiServiceClubs.GetById<List<ClubsLeague>>(selectedValue, "ClubsInLeague");
             if (clubsInLeague.Count() == 0)
@@ -52,7 +54,7 @@ namespace Transfermarkt.WinUI.Forms
                 foreach (var item in clubsInLeague)
                 {
                     var clubContracts = await _apiServiceContracts.GetById<List<Contracts>>(item.ClubId, "ClubContracts");
-                    if (clubContracts.Count() == 0)
+                    if (clubContracts.Count == 0)
                     {
                         continue;
                     }
@@ -77,6 +79,7 @@ namespace Transfermarkt.WinUI.Forms
                 }
 
                 ChrPie.Series["s1"].IsValueShownAsLabel = true;
+                ChrPie.Series["s1"].Points.Clear();
                 foreach (var item in clubContractsMoneySpent)
                 {
                     ChrPie.Series["s1"].Points.AddXY(item.ClubName, item.Sum);

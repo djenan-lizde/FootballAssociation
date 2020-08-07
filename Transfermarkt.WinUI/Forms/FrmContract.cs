@@ -32,6 +32,7 @@ namespace Transfermarkt.WinUI.Forms
                 return;
             }
 
+            clubs.Insert(0, new Clubs());
             CmbClubs.DataSource = clubs;
             CmbClubs.DisplayMember = "Name";
             CmbClubs.ValueMember = "Id";

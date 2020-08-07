@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Transfermarkt.Models;
@@ -52,7 +53,7 @@ namespace Transfermarkt.WebAPI.Controllers
         }
 
         //get clubs in season
-        [HttpGet("ClubsInSeason")]
+        [HttpGet("ClubsInSeason/{SeasonId}")]
         public List<Database.ClubsLeague> GetClubsInSeason(int seasonId)
         {
             return _serviceClubLeague.GetByCondition(x => x.SeasonId == seasonId).ToList();
@@ -61,7 +62,12 @@ namespace Transfermarkt.WebAPI.Controllers
         [HttpGet("ClubPoints/{ClubId}")]
         public Database.ClubsLeague GetClubPoints(int clubId)
         {
-            return _serviceClubLeague.GetTByCondition(x => x.ClubId == clubId);
+            var lastSeason = LastSeason();
+            if (lastSeason == null)
+            {
+                throw new ArgumentNullException();
+            }
+            return _serviceClubLeague.GetTByCondition(x => x.ClubId == clubId && x.SeasonId == lastSeason.Id);
         }
 
         [HttpPut("ClubPoints")]

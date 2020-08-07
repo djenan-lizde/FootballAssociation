@@ -13,7 +13,8 @@ namespace Transfermarkt.WinUI.Forms
         private readonly APIService _aPIServiceClubs = new APIService("Clubs");
         private readonly APIService _aPIServiceLeagues = new APIService("Leagues");
         private readonly APIService _aPIServiceStadiums = new APIService("Stadiums");
-        private readonly APIService _aPIServiceRefeeres = new APIService("Refeere");
+        private readonly APIService _aPIServiceRefeeres = new APIService("Referee");
+        private readonly APIService _aPIServiceSeasons = new APIService("Seasons");
 
         public FrmMatchesList()
         {
@@ -23,7 +24,7 @@ namespace Transfermarkt.WinUI.Forms
         private async void FrmMatchesList_Load(object sender, EventArgs e)
         {
             var result = await _aPIServiceMatches.Get<List<Matches>>();
-            if (result.Count() == 0)
+            if (result.Count == 0)
             {
                 MessageBox.Show("We don't have matches.", "Information");
                 return;
@@ -64,159 +65,144 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void BtnNewSeason_Click(object sender, EventArgs e)
         {
-            var seasons = await _aPIServiceClubs.Get<List<Seasons>>(null);
+            var seasons = await _aPIServiceSeasons.Get<List<Seasons>>(null);
             var season = new Seasons();
             if (seasons.Count == 0)
             {
-                season.SeasonYear = $"{DateTime.Now.Year}/{DateTime.Now.AddYears(1)}";
+                season.SeasonYear = $"{DateTime.Now.Year}/{DateTime.Now.AddYears(1).Year}";
 
-                var leagues2 = await _aPIServiceLeagues.Get<List<Leagues>>(null);
-
-                if (leagues2.Count <= 0)
+                var leagues = await _aPIServiceLeagues.Get<List<Leagues>>(null);
+                var clubs = await _aPIServiceClubs.Get<List<Clubs>>(null);
+                if (leagues.Count > 0 && clubs.Count > 0)
                 {
-                    var newSeason2 = await _aPIServiceClubs.Insert<Seasons>(season);
-                    var clubs2 = await _aPIServiceClubs.Get<List<Clubs>>(null);
-                    var numClubs = clubs2.Count;
-                    for (int i = 0; i < clubs2.Count; i++)
+                    var newSeason = await _aPIServiceSeasons.Insert<Seasons>(season);
+                    var num = clubs.Count / leagues.Count;
+                    if (clubs.Count % leagues.Count == 0)
                     {
-                        var clubLeague2 = new ClubsLeague
+                        int counter = 0;
+                        for (int i = 0; i < leagues.Count; i++)
                         {
-                            ClubId = clubs2[i].Id,
-                            LastUpdate = DateTime.Now.TimeOfDay,
-                            Points = 0,
-                            SeasonId = newSeason2.Id
-                        };
-
+                            for (int j = counter; j < counter + num; j++)
+                            {
+                                await _aPIServiceClubs.Insert<ClubsLeague>(new ClubsLeague
+                                {
+                                    ClubId = clubs[j].Id,
+                                    LastUpdate = DateTime.Now.TimeOfDay,
+                                    Points = 0,
+                                    SeasonId = newSeason.Id,
+                                    LeagueId = leagues[i].Id
+                                }, "ClubLeague");
+                                if (j == counter + num - 1)
+                                {
+                                    var clubsInLeague = await _aPIServiceClubs.GetById<List<ClubsLeague>>(leagues[i].Id, "ClubsInLeague");
+                                    GenerateGames(clubsInLeague);
+                                }
+                            }
+                            counter += num;
+                        }
                     }
                 }
             }
             else
             {
                 var lastSeason = seasons.LastOrDefault();
-                var seasonYearFirstPart = (int.Parse(lastSeason.SeasonYear.Substring(2, 2)) + 1).ToString();
-                var seasonYearSecondPart = (int.Parse(lastSeason.SeasonYear.Substring(7, 2)) + 1).ToString();
-                season.SeasonYear = $"20{seasonYearFirstPart}/20{seasonYearSecondPart}";
+                if (lastSeason == null)
+                {
+                    MessageBox.Show("Error", "Error", MessageBoxButtons.OK);
+                    return;
+                }
 
                 var matchesSeason = await _aPIServiceMatches.GetById<List<Matches>>(lastSeason.Id, "SeasonMatches");
                 foreach (var item in matchesSeason)
                 {
                     if (!item.IsFinished)
                     {
-                        MessageBox.Show("We can't create new season beacuse matches are not finished yet", "Information");
+                        MessageBox.Show("We can't create new season beacuse matches are not finished yet", "Information", MessageBoxButtons.OK);
                         return;
                     }
                 }
-            }
 
-            var leagues = await _aPIServiceLeagues.Get<List<Leagues>>(null);
-            if (leagues.Count == 0 || leagues.Count == 1)
-            {
-                MessageBox.Show("We need at least two leagues, so we could create new season. Please insert league/s.", "Information",
-                     MessageBoxButtons.OK);
-                return;
-            }
+                var seasonYearFirstPart = (int.Parse(lastSeason.SeasonYear.Substring(2, 2)) + 1).ToString();
+                var seasonYearSecondPart = (int.Parse(lastSeason.SeasonYear.Substring(7, 2)) + 1).ToString();
+                season.SeasonYear = $"20{seasonYearFirstPart}/20{seasonYearSecondPart}";
+                var newSeason = await _aPIServiceClubs.Insert<Seasons>(season);
 
-            //hard coded
-            var bundesligaClubs = await _aPIServiceClubs.GetById<List<ClubsLeague>>(leagues[0].Id, "ClubsInLeague");
-            var bundesliga2Clubs = await _aPIServiceClubs.GetById<List<ClubsLeague>>(leagues[1].Id, "ClubsInLeague");
+                var clubsInSeason = await _aPIServiceClubs.GetById<List<ClubsLeague>>(lastSeason.Id, "ClubsInSeason");
+                var leagues = await _aPIServiceLeagues.Get<List<Leagues>>(null);
 
-            var newSeason = await _aPIServiceClubs.Insert<Seasons>(season);
-
-            if (bundesligaClubs.Count == 0 && bundesliga2Clubs.Count == 0)
-            {
-                var clubs = await _aPIServiceClubs.Get<List<Clubs>>(null);
-                if (clubs.Count % 2 == 0)
+                var list = new List<ClubsLeague>();
+                for (int i = 0; i < leagues.Count; i++)
                 {
-                    List<ClubsLeague> clubsLeagueMatches = new List<ClubsLeague>();
-                    for (int i = 0; i < clubs.Count; i++)
-                    { 
-                        var clubLeagueSeason = new ClubsLeague
+                    for (int j = 0; j < clubsInSeason.Where(x => x.LeagueId == leagues[i].Id).OrderByDescending(x => x.Points).Count(); j++)
+                    {
+                        var clubLeague = new ClubsLeague
                         {
-                            ClubId = clubs[i].Id,
+                            ClubId = clubsInSeason[j].ClubId,
+                            LastUpdate = DateTime.Now.TimeOfDay,
                             Points = 0,
-                            SeasonId = newSeason.Id,
-                            LastUpdate = DateTime.Now.TimeOfDay
+                            SeasonId = newSeason.Id
                         };
-                        if (i <= clubs.Count / 2)
+                        if (j == 0 && i == 0)
                         {
-                            clubLeagueSeason.LeagueId = leagues[0].Id;
+                            clubLeague.LeagueId = leagues[i].Id;
                         }
-                        else
+                        else if (j == 0 && i != 0)
                         {
-                            clubLeagueSeason.LeagueId = leagues[1].Id;
+                            clubLeague.LeagueId = leagues[i - 1].Id;
                         }
-                        var clubsLeague = await _aPIServiceClubs.Insert<ClubsLeague>(clubLeagueSeason, "ClubLeague");
-                        clubsLeagueMatches.Add(clubsLeague);
+                        else if (j == clubsInSeason.Count - 1)
+                        {
+                            clubLeague.LeagueId = leagues[i + 1].Id;
+                        }
+                        else if (i == leagues.Count - 1 && j == clubsInSeason.Count - 1)
+                        {
+                            clubLeague.LeagueId = leagues[i].Id;
+                        }
+                        await _aPIServiceClubs.Insert<ClubsLeague>(clubLeague, "ClubLeague");
+                        list.Add(await _aPIServiceClubs.Insert<ClubsLeague>(clubLeague, "ClubLeague"));
                     }
-                    GenerateGames(clubsLeagueMatches);
                 }
+                GenerateGames(list);
             }
-
-            //sort po bodovima
-            var lastBundesligaClub = bundesligaClubs.OrderByDescending(x => x.Points).Last();
-            var first2BundesligaClub = bundesliga2Clubs.OrderBy(x => x.Points).Last();
-
-            //uklonimo zadnjeg na tabeli
-            bundesligaClubs.RemoveAt(bundesligaClubs.Count() - 1);
-            //uklonimo prvog na tabeli
-            bundesliga2Clubs.RemoveAt(bundesliga2Clubs.Count() - 1);
-
-            //klubovi koji su promijenili ligu dodaju se u novu listu kojoj pripadaju
-            bundesligaClubs.Add(first2BundesligaClub);
-            bundesliga2Clubs.Add(lastBundesligaClub);
-
-            //insert klubova u nove lige i sezone
-            InsertClubInLeague(bundesligaClubs, leagues[0].Id, newSeason.Id);
-            InsertClubInLeague(bundesliga2Clubs, leagues[1].Id, newSeason.Id);
-        }
-        private async void InsertClubInLeague(List<ClubsLeague> clubLeagues, int leagueId, int seasonId)
-        {
-            List<ClubsLeague> clubsLeagueMatches = new List<ClubsLeague>();
-            foreach (var item in clubLeagues)
-            {
-                var lastAdded = await _aPIServiceClubs.Insert<ClubsLeague>(new ClubsLeague
-                {
-                    ClubId = item.ClubId,
-                    LeagueId = leagueId,
-                    Points = 0,
-                    SeasonId = seasonId
-                }, "ClubLeague");
-                clubsLeagueMatches.Add(lastAdded);
-            }
-            GenerateGames(clubsLeagueMatches);
         }
         private async void GenerateGames(List<ClubsLeague> clubsLeagueMatches)
         {
             Random random = new Random();
             var refeeres = await _aPIServiceRefeeres.Get<List<Referees>>(null);
             double days = 7;
-
-            foreach (var homeClub in clubsLeagueMatches)
+            if (refeeres.Count > 0)
             {
-                var stadium = await _aPIServiceStadiums.GetById<Stadiums>(homeClub.ClubId, "HomeStadium");
-
-                foreach (var awayClub in clubsLeagueMatches)
+                foreach (var homeClub in clubsLeagueMatches)
                 {
-                    if (homeClub.ClubId == awayClub.ClubId)
-                        continue;
-                    var lastAddedMatch = await _aPIServiceMatches.Insert<Matches>(new Matches
+                    var stadium = await _aPIServiceStadiums.GetById<Stadiums>(homeClub.ClubId, "HomeStadium");
+                    if (stadium != null)
                     {
-                        HomeClubId = homeClub.ClubId,
-                        AwayClubId = awayClub.ClubId,
-                        GameStart = "15:30",
-                        GameEnd = "17:30",
-                        IsFinished = false,
-                        StadiumId = stadium.Id,
-                        DateGame = DateTime.Now.AddDays(days)
-                    });
-                    days += 7;
+                        foreach (var awayClub in clubsLeagueMatches)
+                        {
+                            if (homeClub.ClubId == awayClub.ClubId)
+                                continue;
+                            var lastAddedMatch = await _aPIServiceMatches.Insert<Matches>(new Matches
+                            {
+                                HomeClubId = homeClub.ClubId,
+                                AwayClubId = awayClub.ClubId,
+                                GameStart = "15:30",
+                                GameEnd = "17:30",
+                                IsFinished = false,
+                                StadiumId = stadium.Id,
+                                DateGame = DateTime.Now.AddDays(days),
+                                LeagueId = homeClub.LeagueId,
+                                SeasonId = homeClub.SeasonId
+                            });
+                            days += 7;
 
-                    var randomReferee = random.Next(0, refeeres.Count() - 1);
-                    await _aPIServiceMatches.Insert<RefereeMatches>(new RefereeMatches
-                    {
-                        MatchId = lastAddedMatch.Id,
-                        RefereeId = refeeres[randomReferee].Id
-                    }, "RefereeMatch");
+                            var randomReferee = random.Next(0, refeeres.Count - 1);
+                            await _aPIServiceMatches.Insert<RefereeMatches>(new RefereeMatches
+                            {
+                                MatchId = lastAddedMatch.Id,
+                                RefereeId = refeeres[randomReferee].Id
+                            }, "RefereeMatch");
+                        }
+                    }
                 }
             }
         }

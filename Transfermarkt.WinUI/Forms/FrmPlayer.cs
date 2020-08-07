@@ -24,7 +24,8 @@ namespace Transfermarkt.WinUI.Forms
 
         private async void FrmPlayers_Load(object sender, EventArgs e)
         {
-            var list = Globals.ToPairList<StrongerFoot>(typeof(StrongerFoot));
+            var list = Globals.ToPairList<StrongerFoot>(typeof(StrongerFoot)).ToList();
+            list.Insert(0, new KeyValuePair<int, string>());
             CmbStrongerFoot.DataSource = list.ToList();
             CmbStrongerFoot.DisplayMember = "Value";
             CmbStrongerFoot.ValueMember = "Key";

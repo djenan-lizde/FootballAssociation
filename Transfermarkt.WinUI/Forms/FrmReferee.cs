@@ -27,6 +27,7 @@ namespace Transfermarkt.WinUI.Forms
                 return;
             }
 
+            resultCity.Insert(0, new Cities());
             CmbCities.DataSource = resultCity;
             CmbCities.DisplayMember = "Name";
             CmbCities.ValueMember = "Id";

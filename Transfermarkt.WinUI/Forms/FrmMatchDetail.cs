@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Transfermarkt.Models;
@@ -36,6 +35,7 @@ namespace Transfermarkt.WinUI.Forms
                 {
                     BtnMatchFinish.Visible = false;
                     BtnNewEventMatch.Visible = false;
+                    BtnSimulate.Visible = false;
                 }
 
                 var homeClub = await _aPIServiceClubs.GetById<Clubs>(match.HomeClubId);
@@ -62,8 +62,6 @@ namespace Transfermarkt.WinUI.Forms
                 var matchDetails = await _aPIServiceMatches.GetById<List<MatchDetails>>(Id, "MatchDetail");
                 if (matchDetails.Count == 0)
                 {
-                    HomeClubGoal.Text = "0";
-                    AwayClubGoal.Text = "0";
                     return;
                 }
 
@@ -85,6 +83,11 @@ namespace Transfermarkt.WinUI.Forms
                         });
                     }
                     DgvGoalScorers.DataSource = goalScorers;
+                }
+                else
+                {
+                    HomeClubGoal.Text = "0";
+                    AwayClubGoal.Text = "0";
                 }
 
                 //cards
@@ -134,7 +137,7 @@ namespace Transfermarkt.WinUI.Forms
                 MessageBox.Show(err.Message);
                 return;
             }
-            
+
         }
         private void BtnNewEventMatch_Click(object sender, EventArgs e)
         {
@@ -145,50 +148,45 @@ namespace Transfermarkt.WinUI.Forms
         private async void BtnMatchFinish_Click(object sender, EventArgs e)
         {
             var match = await _aPIServiceMatches.GetById<Matches>(Id);
-            var hours = int.Parse(match.GameEnd.Substring(0, 2));
-            var minutes = int.Parse(match.GameEnd.Substring(3, 2));
 
-            if (DateTime.Now.Date >= match.DateGame.Date)
-            {
-                match.IsFinished = true;
-                await _aPIServiceMatches.Update<Matches>(match, match.Id.ToString());
+            match.IsFinished = true;
+            var updatedMatch = await _aPIServiceMatches.Update<Matches>(match, match.Id.ToString());
 
-                var matchDetails = await _aPIServiceMatches.GetById<List<MatchDetails>>(Id, "MatchDetail");
+            UpdatePoints(updatedMatch);
 
-                //counting goals
-                var homeClubGoals = matchDetails.Count(x => x.ClubId == HomeClubId
-                    && x.ActionType == 3);
+            BtnMatchFinish.Visible = false;
+            BtnNewEventMatch.Visible = false;
+            BtnSimulate.Visible = false;
 
-                var awayClubGoals = matchDetails.Count(x => x.ClubId == AwayClubId
-                    && x.ActionType == 3);
-
-                if (homeClubGoals > awayClubGoals)
-                    UpdatePoints(HomeClubId);
-                else if (awayClubGoals > homeClubGoals)
-                    UpdatePoints(AwayClubId);
-                else
-                    UpdatePoints(HomeClubId, AwayClubId, true);
-
-                BtnMatchFinish.Visible = false;
-                BtnNewEventMatch.Visible = false;
-            }
-            else
-            {
-                MessageBox.Show("Match is not finished.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+            MessageBox.Show("Match finished.", "Information", MessageBoxButtons.OK);
         }
-        private async void UpdatePoints(int clubId, int? clubId2 = null, bool tie = false)
+        private async void UpdatePoints(Matches matches)
         {
-            if (tie == false)
+            var matchDetails = await _aPIServiceMatches.GetById<List<MatchDetails>>(Id, "MatchDetail");
+
+            //counting goals
+            var homeClubGoals = matchDetails.Count(x => x.ClubId == HomeClubId
+                && x.ActionType == 3);
+
+            var awayClubGoals = matchDetails.Count(x => x.ClubId == AwayClubId
+                && x.ActionType == 3);
+
+            if (homeClubGoals > awayClubGoals)
             {
-                var clubLeaguePoints = await _aPIServiceClubs.GetById<ClubsLeague>(clubId, "ClubPoints");
+                var clubLeaguePoints = await _aPIServiceClubs.GetById<ClubsLeague>(matches.HomeClubId, "ClubPoints");
+                clubLeaguePoints.Points += 3;
+                await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePoints, clubLeaguePoints.Id.ToString(), "ClubPoints");
+            }
+            else if (awayClubGoals > homeClubGoals)
+            {
+                var clubLeaguePoints = await _aPIServiceClubs.GetById<ClubsLeague>(matches.AwayClubId, "ClubPoints");
                 clubLeaguePoints.Points += 3;
                 await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePoints, clubLeaguePoints.Id.ToString(), "ClubPoints");
             }
             else
             {
-                var clubLeaguePointsHome = await _aPIServiceClubs.GetById<ClubsLeague>(clubId, "ClubPoints");
-                var clubLeaguePointsAway = await _aPIServiceClubs.GetById<ClubsLeague>(clubId2, "ClubPoints");
+                var clubLeaguePointsHome = await _aPIServiceClubs.GetById<ClubsLeague>(matches.HomeClubId, "ClubPoints");
+                var clubLeaguePointsAway = await _aPIServiceClubs.GetById<ClubsLeague>(matches.AwayClubId, "ClubPoints");
 
                 clubLeaguePointsHome.Points += 1;
                 clubLeaguePointsAway.Points += 1;
@@ -202,7 +200,7 @@ namespace Transfermarkt.WinUI.Forms
         {
             //random number of events
             Random random = new Random();
-            int num = random.Next(1,10);
+            int num = random.Next(1, 10);
 
             var homePlayers = await _aPIServiceContracts.GetById<List<Contracts>>(HomeClubId, "ClubContracts");
             var awayPlayers = await _aPIServiceContracts.GetById<List<Contracts>>(AwayClubId, "ClubContracts");
@@ -232,9 +230,12 @@ namespace Transfermarkt.WinUI.Forms
             BtnMatchFinish.Visible = false;
             BtnNewEventMatch.Visible = false;
             BtnSimulate.Visible = false;
+
             var match = await _aPIServiceMatches.GetById<Matches>(Id);
             match.IsFinished = true;
-            await _aPIServiceMatches.Update<Matches>(match, match.Id.ToString());
+            var updatedMatch = await _aPIServiceMatches.Update<Matches>(match, match.Id.ToString());
+            UpdatePoints(updatedMatch);
+
             MessageBox.Show("Match simulated", "Information");
             FrmMatchDetail frm = new FrmMatchDetail(Id);
             frm.Show();

@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.IO;
 using System.Windows.Forms;
 using Transfermarkt.Models;
 using Transfermarkt.Models.Requests;
 using Transfermarkt.WinUI.Helper;
-using System.Data;
 
 namespace Transfermarkt.WinUI.Forms
 {
     public partial class FrmClub : Form
     {
         private readonly APIService _aPIServiceCity = new APIService("Cities");
-        private readonly APIService _aPIServiceLeague = new APIService("Leagues");
         private readonly APIService _aPIServiceClub = new APIService("Clubs");
         private readonly APIService _aPIServiceContract = new APIService("Contracts");
         private readonly APIService _aPIServicePlayer = new APIService("Players");
@@ -30,16 +27,10 @@ namespace Transfermarkt.WinUI.Forms
         private async void FrmInsertClub_Load(object sender, EventArgs e)
         {
             var resultCity = await _aPIServiceCity.Get<List<Cities>>();
-
+            resultCity.Insert(0, new Cities());
             CmbCities.DataSource = resultCity;
             CmbCities.DisplayMember = "Name";
             CmbCities.ValueMember = "Id";
-
-            var resultLeague = await _aPIServiceLeague.Get<List<Leagues>>();
-
-            CmbLeagues.DataSource = resultLeague;
-            CmbLeagues.DisplayMember = "Name";
-            CmbLeagues.ValueMember = "Id";
 
             if (Id.HasValue)
             {
@@ -50,7 +41,6 @@ namespace Transfermarkt.WinUI.Forms
                 TxtMarketValue.Text = clubLoad.MarketValue.ToString();
                 TxtNickname.Text = clubLoad.Nickname;
                 CmbCities.SelectedIndex = clubLoad.CityId - 1;
-                CmbLeagues.Enabled = false;
                 if (clubLoad.Logo != null)
                 {
                     Image image = ImageResizer.ByteArrayToImage(clubLoad.Logo);
@@ -172,18 +162,6 @@ namespace Transfermarkt.WinUI.Forms
                 errorProvider.SetError(TxtAbbreviation, null);
             }
         }
-        private void TxtPhotoInput_Validating(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(TxtPhotoInput.Text))
-            {
-                errorProvider.SetError(TxtPhotoInput, "Please insert logo");
-                e.Cancel = true;
-            }
-            else
-            {
-                errorProvider.SetError(TxtPhotoInput, null);
-            }
-        }
         private void TxtMarketValue_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             bool success = int.TryParse(TxtMarketValue.Text, out _);
@@ -220,18 +198,6 @@ namespace Transfermarkt.WinUI.Forms
             else
             {
                 errorProvider.SetError(CmbCities, null);
-            }
-        }
-        private void CmbLeagues_Validating(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (CmbLeagues.SelectedIndex == 0 || CmbLeagues.SelectedIndex == -1)
-            {
-                errorProvider.SetError(CmbLeagues, "You need to select option from combo box");
-                e.Cancel = true;
-            }
-            else
-            {
-                errorProvider.SetError(CmbLeagues, null);
             }
         }
     }
