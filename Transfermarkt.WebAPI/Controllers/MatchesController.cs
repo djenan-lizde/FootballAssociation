@@ -51,8 +51,7 @@ namespace Transfermarkt.WebAPI.Controllers
         [HttpGet("SeasonMatches/{seasonId}")]
         public List<Matches> GetMatchesSeason(int seasonId)
         {
-            var season = LastSeason();
-            return _serviceMatch.GetByCondition(x => x.SeasonId == season.Id).ToList();
+            return _serviceMatch.GetByCondition(x => x.SeasonId == seasonId).ToList();
         }
 
         [HttpPost("RefereeMatch")]
@@ -78,33 +77,37 @@ namespace Transfermarkt.WebAPI.Controllers
         {
             var seasons = _serviceSeason.Get();
             var lastSeason = seasons.LastOrDefault();
-
-            var clubs = _serviceClubLeague.GetByCondition(x => x.LeagueId == leagueId && x.SeasonId == lastSeason.Id);
-
-            List<ClubScoredGoals> clubScoredGoals = new List<ClubScoredGoals>();
-
-            foreach (var item in clubs)
+            if (lastSeason != null)
             {
-                var club = _serviceClub.GetById(item.ClubId);
+                var clubs = _serviceClubLeague.GetByCondition(x => x.LeagueId == leagueId && x.SeasonId == lastSeason.Id);
 
-                var clubGoalDetails = _serviceMatchDetail.GetByCondition(x => x.ClubId == item.ClubId && x.ActionType == 3).Count();
+                List<ClubScoredGoals> clubScoredGoals = new List<ClubScoredGoals>();
 
-                var clubGoals = new ClubScoredGoals
+                foreach (var item in clubs)
                 {
-                    ClubId = item.ClubId,
-                    ClubName = club.Name,
-                    NumberOfScoredGoals = clubGoalDetails
-                };
-                clubScoredGoals.Add(clubGoals);
-            }
+                    var club = _serviceClub.GetById(item.ClubId);
+                    if (club != null)
+                    {
+                        var clubGoalDetails = _serviceMatchDetail.GetByCondition(x => x.ClubId == item.ClubId && x.ActionType == 3).Count();
 
-            for (int i = 1; i < clubScoredGoals.Count(); i++)
-            {
-                var match = _serviceMatch.GetTByCondition(x => x.HomeClubId == clubScoredGoals[i].ClubId || x.AwayClubId == clubScoredGoals[i - 1].ClubId);
-                if (match != null)
-                    return match;
-            }
+                        var clubGoals = new ClubScoredGoals
+                        {
+                            ClubId = item.ClubId,
+                            ClubName = club.Name,
+                            NumberOfScoredGoals = clubGoalDetails
+                        };
+                        clubScoredGoals.Add(clubGoals);
+                    }
+                }
 
+                for (int i = 1; i < clubScoredGoals.OrderByDescending(x => x.NumberOfScoredGoals).Count(); i++)
+                {
+                    var match = _serviceMatch.GetTByCondition(x => (x.HomeClubId == clubScoredGoals[i].ClubId 
+                            || x.AwayClubId == clubScoredGoals[i - 1].ClubId) && x.IsFinished == false);
+                    if (match != null)
+                        return match;
+                }
+            }
             return null;
         }
 

@@ -102,6 +102,9 @@ namespace Transfermarkt.WinUI.Forms
                         }
                     }
                 }
+                FrmMatchesList frm = new FrmMatchesList();
+                frm.Show();
+                Close();
             }
             else
             {
@@ -158,11 +161,15 @@ namespace Transfermarkt.WinUI.Forms
                         {
                             clubLeague.LeagueId = leagues[i].Id;
                         }
-                        await _aPIServiceClubs.Insert<ClubsLeague>(clubLeague, "ClubLeague");
-                        list.Add(await _aPIServiceClubs.Insert<ClubsLeague>(clubLeague, "ClubLeague"));
+                        var clubLeagueInsert = await _aPIServiceClubs.Insert<ClubsLeague>(clubLeague, "ClubLeague");
+                        list.Add(clubLeagueInsert);
                     }
+                    GenerateGames(list);
+                    list.Clear();
                 }
-                GenerateGames(list);
+                FrmMatchesList frm = new FrmMatchesList();
+                frm.Show();
+                Close();
             }
         }
         private async void GenerateGames(List<ClubsLeague> clubsLeagueMatches)

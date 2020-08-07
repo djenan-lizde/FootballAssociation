@@ -26,19 +26,22 @@ namespace Transfermarkt.WinUI.Forms
             try
             {
                 TxtRecomMatch.ReadOnly = true;
+
                 var seasons = await _apiServiceSeasons.Get<List<Seasons>>();
                 seasons.Insert(0, new Seasons());
                 CmbSeasons.DataSource = seasons;
                 CmbSeasons.DisplayMember = "SeasonYear";
                 CmbSeasons.ValueMember = "Id";
+
                 var match = await _apiServiceMatch.GetById<Matches>(LeagueId, "RecommendMatch");
 
-                var homeClub = await _apiServiceClubs.GetById<Clubs>(match.HomeClubId);
-                var awayClub = await _apiServiceClubs.GetById<Clubs>(match.AwayClubId);
+                if (match != null)
+                {
+                    var homeClub = await _apiServiceClubs.GetById<Clubs>(match.HomeClubId);
+                    var awayClub = await _apiServiceClubs.GetById<Clubs>(match.AwayClubId);
 
-                TxtRecomMatch.Text = $"{homeClub.Name} - vs - {awayClub.Name} -- date: {match.DateGame.Date} {match.GameStart}";
-
-                //GenerateClubs();
+                    TxtRecomMatch.Text = $"{homeClub.Name} - vs - {awayClub.Name} -- date: {match.DateGame.Date} {match.GameStart}";
+                }
             }
             catch (Exception)
             {
