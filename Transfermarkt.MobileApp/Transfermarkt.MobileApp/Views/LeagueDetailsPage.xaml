@@ -24,7 +24,14 @@
             <Picker ItemsSource="{Binding SeasonsList}" SelectedItem="{Binding SelectedSeason}" ItemDisplayBinding="{Binding SeasonYear}"></Picker>
 
 
-            <Label Text="League table" FontSize="40"></Label>
+            <Label Text="League table" FontSize="40" HorizontalOptions="CenterAndExpand"></Label>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Position"></Label>
+                <Label Text="Logo"></Label>
+                <Label Text="Club name"></Label>
+                <Label Text="Abbreviation"></Label>
+                <Label Text="Points"></Label>
+            </StackLayout>
             <ListView ItemsSource="{Binding ClubsList}" ItemSelected="ListView_ItemSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>

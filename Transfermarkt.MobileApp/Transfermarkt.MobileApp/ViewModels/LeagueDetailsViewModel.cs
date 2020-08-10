@@ -49,13 +49,12 @@ namespace Transfermarkt.MobileApp.ViewModels
                 }
             }
 
-            var counter = 0;
-
             if (SelectedSeason != null)
             {
                 var clubLeague = await _apiServiceClubs.GetById<List<ClubsLeague>>(selectedLeague.Id, "ClubsInLeague");
                 if (clubLeague.Count > 0)
                 {
+                    int counter = 1;
                     foreach (var item in clubLeague.Where(x => x.SeasonId == SelectedSeason.Id).OrderByDescending(x => x.Points))
                     {
                         var club = await _apiServiceClubs.GetById<Clubs>(item.ClubId);
@@ -68,9 +67,10 @@ namespace Transfermarkt.MobileApp.ViewModels
                                 Logo = club.Logo,
                                 Name = club.Name,
                                 Abbreviation = club.Abbreviation,
-                                Position = int.Parse(counter.ToString()) + 1
+                                Position = counter
                             });
                         }
+                        counter += 1;
                     }
                 }
             }

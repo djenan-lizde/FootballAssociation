@@ -131,15 +131,18 @@ namespace Transfermarkt.WinUI.Forms
                 foreach (var item in clubsInSeason.Where(x => x.LeagueId == LeagueId).OrderByDescending(x => x.Points))
                 {
                     var club = await _apiServiceClubs.GetById<Clubs>(item.ClubId);
-                    clubPoints.Add(new ClubPoints
+                    if (club != null)
                     {
-                        Abbreviation = club.Abbreviation,
-                        Logo = club.Logo,
-                        Name = club.Name,
-                        Points = item.Points,
-                        Id = club.Id,
-                        Position = counter
-                    });
+                        clubPoints.Add(new ClubPoints
+                        {
+                            Abbreviation = club.Abbreviation,
+                            Logo = club.Logo,
+                            Name = club.Name,
+                            Points = item.Points,
+                            Id = club.Id,
+                            Position = counter
+                        });
+                    }
                     counter += 1;
                 }
                 DgvClubList.DataSource = clubPoints;

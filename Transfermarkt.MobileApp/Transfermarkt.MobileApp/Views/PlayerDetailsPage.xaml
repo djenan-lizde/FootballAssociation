@@ -17,21 +17,28 @@
         <StackLayout>
             <Label Text="Player details."
                 VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-            <StackLayout>
-                <Label Text="{Binding Player.FirstName}"></Label>
-                <Label Text="{Binding Player.LastName}"></Label>
-                <Label Text="{Binding Player.Jersey}"></Label>
+                HorizontalOptions="CenterAndExpand" FontSize="Header"/>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="{Binding Player.FirstName}" FontSize="Header"></Label>
+                <Label Text="{Binding Player.LastName}" FontSize="Header"></Label>
+                <Label Text="{Binding Player.Jersey}" FontSize="Header"></Label>
             </StackLayout>
             <StackLayout>
-                <Label Text="{Binding Stats}"></Label>
+                <Label Text="{Binding Stats}" HorizontalOptions="CenterAndExpand"></Label>
             </StackLayout>
             <Label Text="Contracts: "></Label>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Signed date"></Label>
+                <Label Text="Expiration date"></Label>
+                <Label Text="Redemption clause"></Label>
+                <Label Text="Club name"></Label>
+            </StackLayout>
             <ListView ItemsSource="{Binding Contracts}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Padding="10" Orientation="Horizontal">
+
                                 <StackLayout Orientation="Horizontal">
                                     <Label Text="{Binding SignedDate}"></Label>
                                     <Label Text="{Binding ExpirationDate}"></Label>

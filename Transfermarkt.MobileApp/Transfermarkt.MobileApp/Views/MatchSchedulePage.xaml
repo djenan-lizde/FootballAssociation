@@ -11,7 +11,7 @@
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Welcome to match schedule and result section!" Padding="10"
-                HorizontalOptions="CenterAndExpand" />
+                HorizontalOptions="CenterAndExpand" FontSize="Header"/>
             <StackLayout>
                 <ListView ItemsSource="{Binding Matches}" ItemSelected="ListView_ItemSelected">
                     <ListView.ItemTemplate>

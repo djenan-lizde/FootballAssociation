@@ -39,19 +39,6 @@
 //            u2.PasswordHash = HashGenSalt.GenerateHash(u2.PasswordSalt, "test");
 //            modelBuilder.Entity<Users>().HasData(u2);
 
-//            Users u3 = new Users
-//            {
-//                Id = 3,
-//                Email = "user@mail.com",
-//                FirstName = "user",
-//                JoinDate = DateTime.Now,
-//                LastName = "user",
-//                Username = "user"
-//            };
-//            u3.PasswordSalt = HashGenSalt.GenerateSalt();
-//            u3.PasswordHash = HashGenSalt.GenerateHash(u3.PasswordSalt, "test");
-//            modelBuilder.Entity<Users>().HasData(u3);
-
 //            //roles
 //            modelBuilder.Entity<Roles>().HasData(new WebAPI.Database.Roles()
 //            {
@@ -75,25 +62,7 @@
 //            {
 //                Id = 2,
 //                RoleId = 2,
-//                UserId = 1
-//            });
-//            modelBuilder.Entity<UsersRoles>().HasData(new WebAPI.Database.UsersRoles()
-//            {
-//                Id = 3,
-//                RoleId = 1,
 //                UserId = 2
-//            });
-//            modelBuilder.Entity<UsersRoles>().HasData(new WebAPI.Database.UsersRoles()
-//            {
-//                Id = 4,
-//                RoleId = 2,
-//                UserId = 2
-//            });
-//            modelBuilder.Entity<UsersRoles>().HasData(new WebAPI.Database.UsersRoles()
-//            {
-//                Id = 5,
-//                RoleId = 2,
-//                UserId = 3
 //            });
 
 //            //cities

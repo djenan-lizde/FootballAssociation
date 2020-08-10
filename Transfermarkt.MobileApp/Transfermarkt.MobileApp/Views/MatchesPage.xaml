@@ -9,14 +9,14 @@
         <StackLayout>
             <Label Text="Here is the list of finished and upcoming matches!"
                 VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+                HorizontalOptions="CenterAndExpand" FontSize="Header"/>
 
             <ListView ItemsSource="{Binding MatchesList}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Padding="10" Orientation="Horizontal">
-                                <StackLayout Orientation="Vertical">
+                                <StackLayout Orientation="Horizontal">
                                     <Label Text="{Binding HomeClub}" LineBreakMode="NoWrap"></Label>
                                     <Label Text="{Binding AwayClub}" LineBreakMode="NoWrap"></Label>
                                 </StackLayout>

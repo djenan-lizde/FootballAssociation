@@ -18,7 +18,7 @@
             <Label Text="Clubs!"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" Padding="10"/>
-            <Label Text="Choose a league from a combo box." VerticalOptions="FillAndExpand" Padding="10"></Label>
+            <Label Text="Choose a league from a combo box." VerticalOptions="FillAndExpand" Padding="10" HorizontalOptions="Center"></Label>
             <Picker ItemsSource="{Binding LeaguesList}" SelectedItem="{Binding SelectedLeague}" ItemDisplayBinding="{Binding Name}"></Picker>
 
             <ListView ItemsSource="{Binding ClubsPoints}" ItemSelected="ListView_ItemSelected">

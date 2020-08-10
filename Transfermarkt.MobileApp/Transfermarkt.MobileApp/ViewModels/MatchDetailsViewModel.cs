@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Transfermarkt.Models;
+using Transfermarkt.Models.Enums;
 using Transfermarkt.Models.Requests;
 
 namespace Transfermarkt.MobileApp.ViewModels
@@ -50,9 +51,9 @@ namespace Transfermarkt.MobileApp.ViewModels
                     PlayersCorners.Clear();
 
                     //goals
-                    if (matchDetails.Count(x => x.ActionType == 3) > 0)
+                    if (matchDetails.Count(x => x.ActionType == (int)Enums.ActionType.Goal) > 0)
                     {
-                        foreach (var item in matchDetails.Where(x => x.ActionType == 3))
+                        foreach (var item in matchDetails.Where(x => x.ActionType == (int)Enums.ActionType.Goal))
                         {
                             var player = await _aPIServicePlayers.GetById<Players>(item.PlayerId);
                             var club = await _aPIServiceClubs.GetById<Clubs>(item.ClubId);
@@ -69,10 +70,10 @@ namespace Transfermarkt.MobileApp.ViewModels
                     }
 
                     //cards
-                    if ((matchDetails.Count(x => x.ActionType == 0) > 0)
-                        || (matchDetails.Count(x => x.ActionType == 1) > 0))
+                    if ((matchDetails.Count(x => x.ActionType == (int)Enums.ActionType.YellowCard) > 0)
+                        || (matchDetails.Count(x => x.ActionType == (int)Enums.ActionType.RedCard) > 0))
                     {
-                        foreach (var item in matchDetails.Where(x => x.ActionType == 0 || x.ActionType == 1))
+                        foreach (var item in matchDetails.Where(x => x.ActionType == (int)Enums.ActionType.YellowCard || x.ActionType == (int)Enums.ActionType.RedCard))
                         {
                             var player = await _aPIServicePlayers.GetById<Players>(item.PlayerId);
                             var club = await _aPIServiceClubs.GetById<Clubs>(item.ClubId);
@@ -94,9 +95,9 @@ namespace Transfermarkt.MobileApp.ViewModels
                     }
 
                     //corners
-                    if (matchDetails.Count(x => x.ActionType == 2) >= 0)
+                    if (matchDetails.Count(x => x.ActionType == (int)Enums.ActionType.CornerOccurred) >= 0)
                     {
-                        foreach (var item in matchDetails.Where(x => x.ActionType == 2))
+                        foreach (var item in matchDetails.Where(x => x.ActionType == (int)Enums.ActionType.CornerOccurred))
                         {
                             var player = await _aPIServicePlayers.GetById<Players>(item.PlayerId);
                             var club = await _aPIServiceClubs.GetById<Clubs>(item.ClubId);
