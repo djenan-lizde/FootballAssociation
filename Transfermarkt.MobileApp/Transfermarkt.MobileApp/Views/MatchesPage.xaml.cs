@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Transfermarkt.MobileApp.ViewModels;
 using Transfermarkt.Models;
+using Transfermarkt.Models.Requests;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -25,6 +26,20 @@ namespace Transfermarkt.MobileApp.Views
         {
             base.OnAppearing();
             model.Init();
+        }
+
+        private async void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            var item = e.SelectedItem as MatchesView;
+
+            var match = new MatchSchedule
+            {
+                Id = item.Id,
+                GameDate = item.GameDate,
+                MatchGame = $"{item.HomeClub} {item.AwayClub}"
+            };
+
+            await Navigation.PushAsync(new MatchDetailsPage(match));
         }
     }
 }

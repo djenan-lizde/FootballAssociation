@@ -12,24 +12,36 @@
         <StackLayout>
             <Label Text="Welcome to match schedule and result section!" Padding="10"
                 HorizontalOptions="CenterAndExpand" FontSize="Header"/>
-            <StackLayout>
-                <ListView ItemsSource="{Binding Matches}" ItemSelected="ListView_ItemSelected">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <StackLayout Padding="10" Orientation="Horizontal">
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label Text="{Binding MatchGame}"></Label>
-                                    </StackLayout>
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label Text="{Binding GameDate}"></Label>
-                                    </StackLayout>
-                                </StackLayout>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackLayout>
+            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="Start" RowSpacing="0" BackgroundColor="LightCoral">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Text="Match" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="White"/>
+                <Label Grid.Column="1" Text="Game date" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="White"/>
+            </Grid>
+
+            <ListView ItemsSource="{Binding Matches}" ItemSelected="ListView_ItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Grid Margin="10" Padding="10" RowSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Margin="0" Text="{Binding MatchGame}" HorizontalOptions="CenterAndExpand"/>
+                                    <Label Grid.Column="1" Margin="0" Text="{Binding GameDate}" HorizontalOptions="CenterAndExpand"/>
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

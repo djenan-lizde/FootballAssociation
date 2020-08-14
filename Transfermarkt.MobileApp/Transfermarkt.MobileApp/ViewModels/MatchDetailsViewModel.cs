@@ -31,7 +31,7 @@ namespace Transfermarkt.MobileApp.ViewModels
             var match = await _apiServiceMatches.GetById<Matches>(Match.Id);
             var matchDetails = await _apiServiceMatches.GetById<List<MatchDetails>>(Match.Id, "MatchDetail");
 
-            if (matchDetails.Count > 0)
+            if (matchDetails.Count >= 0)
             {
                 var HomeClubName = await _aPIServiceClubs.GetById<Clubs>(match.HomeClubId);
                 var AwayClubName = await _aPIServiceClubs.GetById<Clubs>(match.AwayClubId);

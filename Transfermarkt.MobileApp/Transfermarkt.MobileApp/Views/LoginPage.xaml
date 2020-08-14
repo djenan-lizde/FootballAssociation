@@ -9,19 +9,23 @@
         <vm:LoginViewModel></vm:LoginViewModel>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        
-        <StackLayout HorizontalOptions="FillAndExpand" Padding="10" VerticalOptions="CenterAndExpand">
-            <Label  Text="Username"></Label>
+        <StackLayout HorizontalOptions="CenterAndExpand" Padding="10" VerticalOptions="CenterAndExpand">
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <Label Text="Welcome to football app!" FontSize="Header"></Label>
+            </StackLayout>
+            
+            <Label  Text="Username" FontSize="Medium"></Label>
             <Entry  Text="{Binding Username}"></Entry>
 
-            <Label  Text="Password"></Label>
+            <Label  Text="Password" FontSize="Medium"></Label>
             <Entry  Text="{Binding Password}" IsPassword="True"></Entry>
 
-            <Button Command="{Binding LoginCommand}"  HorizontalOptions="FillAndExpand" Text="Login"></Button>
+            <Button Command="{Binding LoginCommand}"  HorizontalOptions="FillAndExpand" Text="Login" BackgroundColor="RoyalBlue" TextColor="White"></Button>
             <Label IsVisible="{Binding IsBusy}" Text="..."></Label>
 
-            <Label Text="If you dont't have an account click the button below." HorizontalOptions="FillAndExpand"></Label>
-            <Button Command="{Binding RegisterCommand}" Text="Sign up!"></Button>
+            <Label Text="If you dont't have an account click the button below." HorizontalOptions="CenterAndExpand"></Label>
+            <Button Command="{Binding RegisterCommand}" Text="Sign up!" BackgroundColor="RoyalBlue" TextColor="White"></Button>
         </StackLayout>
         
     </ContentPage.Content>

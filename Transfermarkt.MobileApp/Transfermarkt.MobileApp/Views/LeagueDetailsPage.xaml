@@ -25,28 +25,47 @@
 
 
             <Label Text="League table" FontSize="40" HorizontalOptions="CenterAndExpand"></Label>
-            <StackLayout Orientation="Horizontal">
-                <Label Text="Position"></Label>
-                <Label Text="Logo"></Label>
-                <Label Text="Club name"></Label>
-                <Label Text="Abbreviation"></Label>
-                <Label Text="Points"></Label>
-            </StackLayout>
+
+            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="Start" RowSpacing="0" BackgroundColor="LightCoral">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Text="Position" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="White"/>
+                <Label Grid.Column="1" Text="Logo" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="White"/>
+                <Label Grid.Column="2" Text="Club name" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="White"/>
+                <Label Grid.Column="3" Text="Abbreviation" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="White"/>
+                <Label Grid.Column="4" Text="Points" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="White"/>
+            </Grid>
+
             <ListView ItemsSource="{Binding ClubsList}" ItemSelected="ListView_ItemSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Padding="10" Orientation="Horizontal">
-                                <Label Text="{Binding Position}"></Label>
-                                <StackLayout Orientation="Horizontal" HeightRequest="200" Grid.Column="0">
-                                    <Image Source="{Binding Logo, Converter={StaticResource imgConv}}" WidthRequest="200" Aspect="Fill"></Image>
-                                </StackLayout>
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="{Binding Name}" FontSize="20"></Label>
-                                    <Label Text="{Binding Abbreviation}" FontSize="20"></Label>
-                                    <Label Text="{Binding Points}" FontSize="20" LineBreakMode="NoWrap"></Label>
-                                </StackLayout>
-                            </StackLayout>
+                            <ViewCell.View>
+                                <Grid Margin="10" Padding="10" RowSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Margin="0" Text="{Binding Position}" HorizontalOptions="CenterAndExpand"/>
+                                    <StackLayout d:Grid.Column="1" Orientation="Horizontal" HeightRequest="100" Grid.Column="1" HorizontalOptions="CenterAndExpand">
+                                        <Image Source="{Binding Logo, Converter={StaticResource imgConv}}" WidthRequest="100" Aspect="Fill"></Image>
+                                    </StackLayout>
+                                    <Label Grid.Column="2" Margin="0" Text="{Binding Name}" HorizontalOptions="CenterAndExpand"/>
+                                    <Label Grid.Column="3" Margin="0" Text="{Binding Abbreviation}" HorizontalOptions="CenterAndExpand" />
+                                    <Label Grid.Column="4" Margin="0" Text="{Binding Points}" HorizontalOptions="CenterAndExpand" />
+                                </Grid>
+                            </ViewCell.View>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

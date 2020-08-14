@@ -25,7 +25,7 @@ namespace Transfermarkt.MobileApp.ViewModels
         public async void Init()
         {
             var result = await _apiServiceMatches.Get<List<Matches>>();
-            if (result.Count >= 0)
+            if (result.Count > 0)
             {
                 MatchesList.Clear();
 
@@ -36,11 +36,11 @@ namespace Transfermarkt.MobileApp.ViewModels
                     {
                         var homeClub = await _apiServiceClubs.GetById<Clubs>(item.HomeClubId);
                         var awayClub = await _apiServiceClubs.GetById<Clubs>(item.AwayClubId);
+                        var clubLeague = await _aPIServiceLeagues.GetById<Leagues>(item.LeagueId);
 
                         if (homeClub != null && awayClub != null)
                         {
                             var stadium = await _aPIServiceStadiums.GetById<Clubs>(homeClub.Id, "HomeStadium");
-
                             if (stadium != null)
                             {
                                 MatchesList.Add(new MatchesView
@@ -53,7 +53,7 @@ namespace Transfermarkt.MobileApp.ViewModels
                                     GameStart = item.GameEnd,
                                     IsFinished = false,
                                     StadiumName = stadium.Name,
-                                    LeagueName = league.Name
+                                    LeagueName = clubLeague.Name
                                 });
                             }
                         }

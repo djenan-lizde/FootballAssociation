@@ -12,25 +12,25 @@
     
     <ContentPage.Content>
         <StackLayout HorizontalOptions="FillAndExpand" Padding="10" VerticalOptions="CenterAndExpand">
-            <Label  Text="Username"></Label>
+            <Label  Text="Username" FontSize="Medium"></Label>
             <Entry  Text="{Binding Username}"></Entry>
 
-            <Label  Text="Email"></Label>
+            <Label  Text="Email" FontSize="Medium"></Label>
             <Entry  Text="{Binding Email}"></Entry>
 
-            <Label  Text="First name"></Label>
+            <Label  Text="First name" FontSize="Medium"></Label>
             <Entry  Text="{Binding FirstName}"></Entry>
 
-            <Label  Text="Last name"></Label>
+            <Label  Text="Last name" FontSize="Medium"></Label>
             <Entry  Text="{Binding LastName}"></Entry>
 
-            <Label  Text="Password"></Label>
+            <Label  Text="Password" FontSize="Medium"></Label>
             <Entry  Text="{Binding Password}" IsPassword="True"></Entry>
 
-            <Label  Text="Password confirmation"></Label>
+            <Label  Text="Password confirmation" FontSize="Medium"></Label>
             <Entry  Text="{Binding PasswordConfirmation}" IsPassword="True"></Entry>
 
-            <Button Command="{Binding RegisterCommand}"  HorizontalOptions="FillAndExpand" Text="Login"></Button>
+            <Button Command="{Binding RegisterCommand}"  HorizontalOptions="FillAndExpand" Text="Register" BackgroundColor="RoyalBlue" TextColor="White" FontSize="Medium"></Button>
             <Label IsVisible="{Binding IsBusy}" Text="..."></Label>
 
         </StackLayout>

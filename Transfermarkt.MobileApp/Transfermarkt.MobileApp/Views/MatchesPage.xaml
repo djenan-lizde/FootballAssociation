@@ -11,21 +11,48 @@
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" FontSize="Header"/>
 
-            <ListView ItemsSource="{Binding MatchesList}">
+            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="Start" RowSpacing="0" BackgroundColor="LightCoral">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Text="Home club" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="White"/>
+                <Label Grid.Column="1" Text="Away club" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="White"/>
+                <Label Grid.Column="2" Text="Game date" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="White"/>
+                <Label Grid.Column="3" Text="Stadium name" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="White"/>
+                <Label Grid.Column="4" Text="League" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="White"/>
+            </Grid>
+
+            <ListView ItemsSource="{Binding MatchesList}" ItemSelected="ListView_ItemSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Padding="10" Orientation="Horizontal">
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="{Binding HomeClub}" LineBreakMode="NoWrap"></Label>
-                                    <Label Text="{Binding AwayClub}" LineBreakMode="NoWrap"></Label>
-                                </StackLayout>
-                            </StackLayout>
+                            <ViewCell.View>
+                                <Grid Margin="10" Padding="10" RowSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Margin="0" Text="{Binding HomeClub}" HorizontalOptions="CenterAndExpand"/>
+                                    <Label Grid.Column="1" Margin="0" Text="{Binding AwayClub}" HorizontalOptions="CenterAndExpand"/>
+                                    <Label Grid.Column="2" Margin="0" Text="{Binding GameDate}" HorizontalOptions="CenterAndExpand"/>
+                                    <Label Grid.Column="3" Margin="0" Text="{Binding StadiumName}" HorizontalOptions="CenterAndExpand"/>
+                                    <Label Grid.Column="4" Margin="0" Text="{Binding LeagueName}" HorizontalOptions="CenterAndExpand" />
+                                </Grid>
+                            </ViewCell.View>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

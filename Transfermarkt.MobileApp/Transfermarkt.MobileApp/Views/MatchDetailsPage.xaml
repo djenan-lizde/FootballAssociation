@@ -11,8 +11,8 @@
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Match details"
-                HorizontalOptions="CenterAndExpand" />
-                <Label Text="{Binding TeamsMatchResult}" HorizontalOptions="CenterAndExpand" Padding="10" FontSize="Header"></Label>
+                HorizontalOptions="CenterAndExpand" FontSize="Header"/>
+                <Label Text="{Binding TeamsMatchResult}" HorizontalOptions="CenterAndExpand" Padding="10" FontSize="Medium"></Label>
             <StackLayout>
                 <Label Text="Goals: " FontSize="Medium"></Label>
                 <ListView ItemsSource="{Binding GoalScorers}">
@@ -29,6 +29,9 @@
                                     <StackLayout Orientation="Horizontal">
                                         <Label Text="{Binding Minute}"></Label>
                                     </StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text=". Minute"></Label>
+                                    </StackLayout>
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
@@ -36,7 +39,7 @@
                 </ListView>
             </StackLayout>
             <StackLayout>
-                <Label Text="Cards: " FontSize="Medium"></Label>
+                <Label Text="Corners: " FontSize="Medium"></Label>
                 <ListView ItemsSource="{Binding PlayersCorners}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -51,6 +54,9 @@
                                     <StackLayout Orientation="Horizontal">
                                         <Label Text="{Binding Minute}"></Label>
                                     </StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text=". Minute"></Label>
+                                    </StackLayout>
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
@@ -58,7 +64,7 @@
                 </ListView>
             </StackLayout>
             <StackLayout>
-                <Label Text="Corners: " FontSize="Medium"></Label>
+                <Label Text="Cards: " FontSize="Medium"></Label>
                 <ListView ItemsSource="{Binding PlayersCards}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -72,6 +78,9 @@
                                     </StackLayout>
                                     <StackLayout Orientation="Horizontal">
                                         <Label Text="{Binding Minute}"></Label>
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text=". Minute"></Label>
                                     </StackLayout>
                                     <StackLayout Orientation="Horizontal">
                                         <Label Text="{Binding Card}"></Label>

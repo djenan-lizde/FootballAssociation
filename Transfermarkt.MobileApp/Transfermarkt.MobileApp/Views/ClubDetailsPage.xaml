@@ -16,36 +16,47 @@
     <ContentPage.Content>
         <StackLayout>
             <StackLayout Grid.Row="0" Grid.Column="0" Padding="10">
-                <Label Text="Club -"
+                <Label Text="Club - "
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" FontSize="Header"/>
                 <Label Text="{Binding Club.Name}" HorizontalOptions="Center" FontSize="Header"></Label>
                 <Button Text="Match schedule" Padding="10" Clicked="OnButtonClicked" HorizontalOptions="Center" BackgroundColor="RoyalBlue" TextColor="White"></Button>
             </StackLayout>
-            <StackLayout Orientation="Horizontal">
-                <Label Text="First name"></Label>
-                <Label Text="Last name"></Label>
-                <Label Text="Jersey number"></Label>
-                <Label Text="" LineBreakMode="NoWrap"></Label>
-            </StackLayout>
-            <StackLayout>
-                <ListView ItemsSource="{Binding Players}" ItemSelected="ListView_ItemSelected">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <StackLayout Padding="10" Orientation="Horizontal">
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label Text="{Binding FirstName}"></Label>
-                                        <Label Text="{Binding LastName}"></Label>
-                                        <Label Text="{Binding Jersey}"></Label>
-                                        <Label Text="{Binding Birthdate}" LineBreakMode="NoWrap"></Label>
-                                    </StackLayout>
-                                </StackLayout>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackLayout>
+            
+            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="Start" RowSpacing="0" BackgroundColor="LightCoral">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Text="First name" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="White"/>
+                <Label Grid.Column="1" Text="Last name" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="White"/>
+                <Label Grid.Column="2" Text="Date of birth" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="White"/>
+            </Grid>
+            <ListView ItemsSource="{Binding Players}" ItemSelected="ListView_ItemSelected" HasUnevenRows="true" HeightRequest="200" SeparatorVisibility="None" BackgroundColor="WhiteSmoke">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Grid Margin="10" Padding="10" RowSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Margin="0" Text="{Binding FirstName}" HorizontalOptions="CenterAndExpand"/>
+                                    <Label Grid.Column="1" Margin="0" Text="{Binding LastName}" HorizontalOptions="CenterAndExpand"/>
+                                    <Label Grid.Column="2" Margin="0" Text="{Binding Birthdate}" HorizontalOptions="CenterAndExpand" />
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

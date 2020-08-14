@@ -12,14 +12,14 @@
         <StackLayout>
             <Label Text="Choose which league details you want to see."
                 VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+                HorizontalOptions="CenterAndExpand" FontSize="Medium"/>
             <ListView ItemsSource="{Binding LeaguesList}" ItemSelected="ListView_ItemSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Orientation="Horizontal" Padding="20" Margin="20">
-                                <Label Text="{Binding Name}"></Label>
-                                <Label Text="{Binding Organizer}" LineBreakMode="NoWrap"></Label>
+                            <StackLayout Orientation="Horizontal" Padding="20" Margin="20" >
+                                <Label Text="{Binding Name}" HorizontalOptions="CenterAndExpand"></Label>
+                                <Label Text="{Binding Organizer}" LineBreakMode="NoWrap" HorizontalOptions="CenterAndExpand"></Label>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

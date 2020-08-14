@@ -18,37 +18,50 @@
             <Label Text="Player details."
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" FontSize="Header"/>
-            <StackLayout Orientation="Horizontal">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                 <Label Text="{Binding Player.FirstName}" FontSize="Header"></Label>
                 <Label Text="{Binding Player.LastName}" FontSize="Header"></Label>
                 <Label Text="{Binding Player.Jersey}" FontSize="Header"></Label>
             </StackLayout>
-            <StackLayout>
-                <Label Text="{Binding Stats}" HorizontalOptions="CenterAndExpand"></Label>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <Label Text="{Binding Stats}" FontSize="Medium"></Label>
             </StackLayout>
-            <Label Text="Contracts: "></Label>
-            <StackLayout Orientation="Horizontal">
-                <Label Text="Signed date"></Label>
-                <Label Text="Expiration date"></Label>
-                <Label Text="Redemption clause"></Label>
-                <Label Text="Club name"></Label>
-            </StackLayout>
-            <ListView ItemsSource="{Binding Contracts}">
+            <Label Text="Contracts: " FontSize="Medium"></Label>
+            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="Start" RowSpacing="0" BackgroundColor="LightCoral">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Text="Expiration date" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="White"/>
+                <Label Grid.Column="1" Text="Redemption clause" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="White"/>
+                <Label Grid.Column="2" Text="Club name" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="White"/>
+                <Label Grid.Column="3" Text="Logo" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="White"/>
+            </Grid>
+            <ListView ItemsSource="{Binding Contracts}" HasUnevenRows="true" HeightRequest="200" SeparatorVisibility="None" BackgroundColor="WhiteSmoke">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Padding="10" Orientation="Horizontal">
-
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="{Binding SignedDate}"></Label>
-                                    <Label Text="{Binding ExpirationDate}"></Label>
-                                    <Label Text="{Binding RedemptionClause}"></Label>
-                                    <Label Text="{Binding ClubName}" LineBreakMode="NoWrap"></Label>
-                                    <StackLayout Orientation="Horizontal" HeightRequest="100" Grid.Column="0">
+                            <ViewCell.View>
+                                <Grid Margin="10" Padding="10" RowSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Margin="0" Text="{Binding ExpirationDate}" HorizontalOptions="CenterAndExpand"/>
+                                    <Label Grid.Column="1" Margin="0" Text="{Binding RedemptionClause}" HorizontalOptions="CenterAndExpand" />
+                                    <Label Grid.Column="2" Margin="0" Text="{Binding ClubName}" HorizontalOptions="CenterAndExpand" />
+                                    <StackLayout d:Grid.Column="3" Orientation="Horizontal" HeightRequest="100" Grid.Column="3" HorizontalOptions="CenterAndExpand">
                                         <Image Source="{Binding Logo, Converter={StaticResource imgConv}}" WidthRequest="100" Aspect="Fill"></Image>
                                     </StackLayout>
-                                </StackLayout>
-                            </StackLayout>
+                                </Grid>
+                            </ViewCell.View>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
