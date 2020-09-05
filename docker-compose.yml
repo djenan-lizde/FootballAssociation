@@ -17,6 +17,8 @@ services:
     restart: unless-stopped
     build:
       context: .
+    volumes:
+        - './Img:/Img'
     environment:
       - ConnectionStrings:Transfermarkt=Server=transfermarkt-sql,1433;Database=170121;User=sa;Password=QWElkj132!;ConnectRetryCount=0
     ports:
