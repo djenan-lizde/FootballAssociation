@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Transfermarkt.WebAPI.Encryption;
 
 namespace Transfermarkt.WebAPI.Database
@@ -165,7 +162,7 @@ namespace Transfermarkt.WebAPI.Database
                 Abbreviation = "BVB",
                 CityId = 1,
                 Founded = DateTime.Now,
-                Logo = File.ReadAllBytes("Img/BorussiaDortmund.png"),
+                Logo = File.ReadAllBytes("../Img/BorussiaDortmund.png"),
                 MarketValue = 1000000,
                 Nickname = "Milioneri"
             });
@@ -176,7 +173,7 @@ namespace Transfermarkt.WebAPI.Database
                 Abbreviation = "HB",
                 CityId = 2,
                 Founded = DateTime.Now,
-                Logo = File.ReadAllBytes("Img/HerthaBerlin.png"),
+                Logo = File.ReadAllBytes("../Img/HerthaBerlin.png"),
                 MarketValue = 244443,
                 Nickname = "Berliners"
             });
@@ -187,7 +184,7 @@ namespace Transfermarkt.WebAPI.Database
                 Abbreviation = "UB",
                 CityId = 2,
                 Founded = DateTime.Now,
-                Logo = File.ReadAllBytes("Img/UnionBerlin.jpg"),
+                Logo = File.ReadAllBytes("../Img/UnionBerlin.jpg"),
                 MarketValue = 72532,
                 Nickname = "Berliners"
             });
@@ -198,7 +195,7 @@ namespace Transfermarkt.WebAPI.Database
                 Abbreviation = "BMH",
                 CityId = 3,
                 Founded = DateTime.Now,
-                Logo = File.ReadAllBytes("Img/BayernMunich.png"),
+                Logo = File.ReadAllBytes("../Img/BayernMunich.png"),
                 MarketValue = 72532,
                 Nickname = "Bavarci"
             });
@@ -209,7 +206,7 @@ namespace Transfermarkt.WebAPI.Database
                 Abbreviation = "NB",
                 CityId = 5,
                 Founded = DateTime.Now,
-                Logo = File.ReadAllBytes("Img/Nurnberg.png"),
+                Logo = File.ReadAllBytes("../Img/Nurnberg.png"),
                 MarketValue = 237981,
                 Nickname = "Bergs"
             });
@@ -220,7 +217,7 @@ namespace Transfermarkt.WebAPI.Database
                 Abbreviation = "STP",
                 CityId = 7,
                 Founded = DateTime.Now,
-                Logo = File.ReadAllBytes("Img/StPauli.png"),
+                Logo = File.ReadAllBytes("../Img/StPauli.png"),
                 MarketValue = 7234,
                 Nickname = "Pauls"
             });
@@ -231,7 +228,7 @@ namespace Transfermarkt.WebAPI.Database
                 Abbreviation = "BLE",
                 CityId = 8,
                 Founded = DateTime.Now,
-                Logo = File.ReadAllBytes("Img/Leverkuzen.png"),
+                Logo = File.ReadAllBytes("../Img/Leverkuzen.png"),
                 MarketValue = 151243,
                 Nickname = "Pharmacists"
             });
@@ -242,7 +239,7 @@ namespace Transfermarkt.WebAPI.Database
                 Abbreviation = "WW",
                 CityId = 6,
                 Founded = DateTime.Now,
-                Logo = File.ReadAllBytes("Img/Wiesbaden.png"),
+                Logo = File.ReadAllBytes("../Img/Wiesbaden.png"),
                 MarketValue = 151243,
                 Nickname = "Pharmacists"
             });

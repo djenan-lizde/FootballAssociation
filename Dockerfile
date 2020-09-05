@@ -10,5 +10,6 @@ RUN dotnet publish "Transfermarkt.WebAPI" -c Release -o /app
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
+ADD /Img Img/
 
 ENTRYPOINT ["dotnet", "Transfermarkt.WebAPI.dll"] 

@@ -15,10 +15,10 @@ namespace Transfermarkt.MobileApp
         private readonly string _route;
 
 #if DEBUG
-        private readonly string _apiUrl = "http://localhost:52736/api";
+        private readonly string _apiUrl = "http://localhost:52739/api";
 #endif
 #if RELEASE
-        private string _apiUrl = "http://localhost:52736/api"; 
+        private string _apiUrl = "http://localhost:52739/api"; 
 #endif
 
         public APIService(string route)
