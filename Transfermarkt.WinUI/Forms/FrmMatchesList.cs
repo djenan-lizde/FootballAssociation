@@ -102,9 +102,6 @@ namespace Transfermarkt.WinUI.Forms
                         }
                     }
                 }
-                FrmMatchesList frm = new FrmMatchesList();
-                frm.Show();
-                Close();
             }
             else
             {
@@ -167,10 +164,9 @@ namespace Transfermarkt.WinUI.Forms
                     GenerateGames(list);
                     list.Clear();
                 }
-                FrmMatchesList frm = new FrmMatchesList();
-                frm.Show();
-                Close();
             }
+            MessageBox.Show("Please open the same form for data to load.", "Information", MessageBoxButtons.OK);
+            Close();
         }
         private async void GenerateGames(List<ClubsLeague> clubsLeagueMatches)
         {
