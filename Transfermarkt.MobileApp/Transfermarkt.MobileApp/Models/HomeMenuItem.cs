@@ -6,8 +6,6 @@ namespace Transfermarkt.MobileApp.Models
 {
     public enum MenuItemType
     {
-        Browse,
-        About,
         Clubs,
         Leagues,
         Players,
