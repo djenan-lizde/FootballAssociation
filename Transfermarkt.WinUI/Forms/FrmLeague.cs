@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using Transfermarkt.Models;
@@ -17,6 +18,15 @@ namespace Transfermarkt.WinUI.Forms
         {
             if (ValidateChildren())
             {
+                var leagues = await _aPIServiceLeagues.Get<List<Leagues>>();
+                foreach (var item in leagues)
+                {
+                    if (item.Name == TxtLeagueName.Text)
+                    {
+                        MessageBox.Show("Leagues already exists!", "Information", MessageBoxButtons.OK);
+                        return;
+                    }
+                }
                 await _aPIServiceLeagues.Insert<Leagues>(new Leagues
                 {
                     Established = DateTime.Parse(TxtDateEstablished.Text),

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using Transfermarkt.Models;
 
@@ -34,6 +35,7 @@ namespace Transfermarkt.WinUI.Forms
             }
             catch (Exception)
             {
+                MessageBox.Show("This club doesn't have stadium", "Information", MessageBoxButtons.OK);
                 return;
             }
         }
@@ -43,6 +45,20 @@ namespace Transfermarkt.WinUI.Forms
         {
             if (ValidateChildren())
             {
+                if (Id == 0)
+                {
+                    var stadiums = await _aPIServiceStadium.Get<List<Stadiums>>();
+
+                    foreach (var item in stadiums)
+                    {
+                        if (item.Name == TxtStadiumName.Text)
+                        {
+                            MessageBox.Show("Stadium already exists!", "Information", MessageBoxButtons.OK);
+                            return;
+                        }
+                    }
+                }
+
                 stadium.Capacity = int.Parse(TxtCapacity.Text);
                 stadium.ClubId = Id;
                 stadium.DateBuilt = DateTime.Parse(TxtDateBuilt.Text.ToString());

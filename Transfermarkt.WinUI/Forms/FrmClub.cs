@@ -77,6 +77,20 @@ namespace Transfermarkt.WinUI.Forms
         {
             if (ValidateChildren())
             {
+                if (!Id.HasValue)
+                {
+                    var clubs = await _aPIServiceClub.Get<List<Clubs>>();
+
+                    foreach (var item in clubs)
+                    {
+                        if (item.Name == TxtClubName.Text)
+                        {
+                            MessageBox.Show("Club already exists!", "Information", MessageBoxButtons.OK);
+                            return;
+                        }
+                    }
+                }
+
                 club.MarketValue = int.Parse(TxtMarketValue.Text);
                 club.Name = TxtClubName.Text;
                 club.Nickname = TxtNickname.Text;
