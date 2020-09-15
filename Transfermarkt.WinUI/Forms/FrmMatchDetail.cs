@@ -63,6 +63,8 @@ namespace Transfermarkt.WinUI.Forms
                 var matchDetails = await _aPIServiceMatches.GetById<List<MatchDetails>>(Id, "MatchDetail");
                 if (matchDetails.Count == 0)
                 {
+                    HomeClubGoal.Text = "0";
+                    AwayClubGoal.Text = "0";
                     return;
                 }
 
