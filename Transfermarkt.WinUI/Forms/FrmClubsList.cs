@@ -146,6 +146,7 @@ namespace Transfermarkt.WinUI.Forms
                     counter += 1;
                 }
                 DgvClubList.DataSource = clubPoints;
+                TxtSearch.ReadOnly = false;
             }
             catch (Exception)
             {
