@@ -20,6 +20,7 @@ namespace Transfermarkt.WinUI.Forms
             _firstName = firstName;
             _lastName = lastName;
             _id = id;
+            this.AutoValidate = AutoValidate.Disable;
         }
 
         private async void FrmContract_Load(object sender, EventArgs e)

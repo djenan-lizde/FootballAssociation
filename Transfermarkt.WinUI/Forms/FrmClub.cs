@@ -23,6 +23,7 @@ namespace Transfermarkt.WinUI.Forms
         {
             InitializeComponent();
             Id = id;
+            this.AutoValidate = AutoValidate.Disable;
         }
         private async void FrmInsertClub_Load(object sender, EventArgs e)
         {

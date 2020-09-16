@@ -16,6 +16,7 @@ namespace Transfermarkt.WinUI.Forms
             InitializeComponent();
             Id = id;
             ClubName = clubName;
+            this.AutoValidate = AutoValidate.Disable;
         }
 
         private async void FrmStadium_Load(object sender, EventArgs e)

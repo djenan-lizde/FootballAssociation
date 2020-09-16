@@ -15,6 +15,7 @@ namespace Transfermarkt.WinUI.Forms
         {
             InitializeComponent();
             Id = id;
+            this.AutoValidate = AutoValidate.Disable;
         }
 
         private async void FrmReferee_Load(object sender, EventArgs e)

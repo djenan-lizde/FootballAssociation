@@ -21,6 +21,7 @@ namespace Transfermarkt.WinUI.Forms
         {
             InitializeComponent();
             Id = id;
+            this.AutoValidate = AutoValidate.Disable;
         }
         private async void FrmNewMatchEvent_Load(object sender, EventArgs e)
         {

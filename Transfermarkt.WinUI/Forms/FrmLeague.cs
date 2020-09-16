@@ -12,6 +12,7 @@ namespace Transfermarkt.WinUI.Forms
         public FrmLeague()
         {
             InitializeComponent();
+            this.AutoValidate = AutoValidate.Disable;
         }
 
         private async void BtnAddLeague_Click(object sender, EventArgs e)
