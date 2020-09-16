@@ -30,8 +30,6 @@ namespace Transfermarkt.WinUI.Forms
                 return;
             }
 
-            var league = await _aPIServiceLeagues.GetById<Leagues>(result[0].LeagueId);
-
             List<MatchesView> list = new List<MatchesView>();
 
             foreach (var item in result)
@@ -50,8 +48,7 @@ namespace Transfermarkt.WinUI.Forms
                     GameEnd = item.GameEnd,
                     GameStart = item.GameStart,
                     IsFinished = false,
-                    StadiumName = stadium.Name,
-                    LeagueName = league.Name
+                    StadiumName = stadium.Name
                 });
             }
             DgvMatches.DataSource = list;

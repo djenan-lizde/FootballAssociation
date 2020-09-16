@@ -14,6 +14,5 @@ namespace Transfermarkt.Models.Requests
         public bool IsFinished { get; set; }
         public DateTime GameDate { get; set; }
         public string StadiumName { get; set; }
-        public string LeagueName { get; set; }
     }
 }
