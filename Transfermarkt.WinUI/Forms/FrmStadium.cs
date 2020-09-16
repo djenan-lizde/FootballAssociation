@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using Transfermarkt.Models;
 
@@ -25,7 +26,8 @@ namespace Transfermarkt.WinUI.Forms
 
             try
             {
-                var _stadium = await _aPIServiceStadium.GetById<Stadiums>(Id, "HomeStadium");
+                var stadiums = await _aPIServiceStadium.Get<List<Stadiums>>();
+                var _stadium = stadiums.FirstOrDefault(x => x.ClubId == Id);
                 if (_stadium != null)
                 {
                     TxtCapacity.Text = _stadium.Capacity.ToString();
@@ -33,10 +35,13 @@ namespace Transfermarkt.WinUI.Forms
                     TxtStadiumName.Text = _stadium.Name;
                     txtStadiumId.Text = _stadium.Id.ToString();
                 }
+                else
+                {
+                    MessageBox.Show("This clubs doesn't have stadium. Please added it.", "Information", MessageBoxButtons.OK);
+                }
             }
             catch (Exception)
             {
-                MessageBox.Show("This club doesn't have stadium", "Information", MessageBoxButtons.OK);
                 return;
             }
         }
