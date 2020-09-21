@@ -36,7 +36,6 @@ namespace Transfermarkt.MobileApp.ViewModels
                     {
                         var homeClub = await _apiServiceClubs.GetById<Clubs>(item.HomeClubId);
                         var awayClub = await _apiServiceClubs.GetById<Clubs>(item.AwayClubId);
-                        var clubLeague = await _aPIServiceLeagues.GetById<Leagues>(item.LeagueId);
 
                         if (homeClub != null && awayClub != null)
                         {
@@ -52,8 +51,7 @@ namespace Transfermarkt.MobileApp.ViewModels
                                     GameEnd = item.GameEnd,
                                     GameStart = item.GameEnd,
                                     IsFinished = false,
-                                    StadiumName = stadium.Name,
-                                    LeagueName = clubLeague.Name
+                                    StadiumName = stadium.Name
                                 });
                             }
                         }
