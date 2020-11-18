@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Transfermarkt.Models;
+using Transfermarkt.Models.Enums;
 using Transfermarkt.Models.Requests;
 using Xamarin.Forms;
 
@@ -42,8 +43,8 @@ namespace Transfermarkt.MobileApp.ViewModels
                         }
                         else
                         {
-                            var homeClubGoals = matchDetails.Count(x => x.ClubId == homeClub.Id && x.ActionType == 3);
-                            var awayClubGoals = matchDetails.Count(x => x.ClubId == awayClub.Id && x.ActionType == 3);
+                            var homeClubGoals = matchDetails.Count(x => x.ClubId == homeClub.Id && x.ActionType == (int)Enums.ActionType.Goal);
+                            var awayClubGoals = matchDetails.Count(x => x.ClubId == awayClub.Id && x.ActionType == (int)Enums.ActionType.Goal);
                             matchSchedule.MatchGame = $"{homeClub.Name} {homeClubGoals} vs {awayClubGoals} {awayClub.Name}";
                         }
                         Matches.Add(matchSchedule);

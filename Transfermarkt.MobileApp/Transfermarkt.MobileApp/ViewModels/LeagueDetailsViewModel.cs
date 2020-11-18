@@ -40,12 +40,15 @@ namespace Transfermarkt.MobileApp.ViewModels
 
         public async Task Init()
         {
-            var seasons = await _apiServiceSeasons.Get<List<Seasons>>(null);
-            if (seasons.Count > 0)
+            if (SeasonsList.Count == 0)
             {
-                foreach (var item in seasons)
+                var seasons = await _apiServiceSeasons.Get<List<Seasons>>(null);
+                if (seasons.Count > 0)
                 {
-                    SeasonsList.Add(item);
+                    foreach (var item in seasons)
+                    {
+                        SeasonsList.Add(item);
+                    }
                 }
             }
 

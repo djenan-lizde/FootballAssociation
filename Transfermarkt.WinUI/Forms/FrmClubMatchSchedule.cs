@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Transfermarkt.Models;
+using Transfermarkt.Models.Enums;
 using Transfermarkt.Models.Requests;
 using Transfermarkt.WinUI.Helper;
 
@@ -46,8 +47,8 @@ namespace Transfermarkt.WinUI.Forms
                     }
                     else
                     {
-                        var homeClubGoals = matchDetails.Count(x => x.ClubId == homeClub.Id);
-                        var awayClubGoals = matchDetails.Count(x => x.ClubId == awayClub.Id);
+                        var homeClubGoals = matchDetails.Count(x => x.ClubId == homeClub.Id && x.ActionType == (int)Enums.ActionType.Goal);
+                        var awayClubGoals = matchDetails.Count(x => x.ClubId == awayClub.Id && x.ActionType == (int)Enums.ActionType.Goal);
                         matchSchedule.MatchGame = $"{homeClub.Name} {homeClubGoals} vs {awayClubGoals} {awayClub.Name}";
                     }
                     list.Add(matchSchedule);
