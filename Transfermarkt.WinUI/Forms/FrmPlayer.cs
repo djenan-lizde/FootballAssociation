@@ -64,7 +64,6 @@ namespace Transfermarkt.WinUI.Forms
         {
             if (ValidateChildren())
             {
-
                 Players player = new Players
                 {
                     FirstName = TxtFirstName.Text,
@@ -92,9 +91,17 @@ namespace Transfermarkt.WinUI.Forms
                 }
                 Players lastAdded = null;
                 if (Id.HasValue)
+                {
                     lastAdded = await _aPIServicePlayer.Update<Players>(player, player.Id.ToString());
+                    MessageBox.Show("Player succesfully updated.", "Information",MessageBoxButtons.OK);
+
+                }
                 else
+                {
                     lastAdded = await _aPIServicePlayer.Insert<Players>(player);
+                    MessageBox.Show("Player succesfully added.", "Information", MessageBoxButtons.OK);
+
+                }
 
                 if (!Id.HasValue)
                 {

@@ -21,8 +21,17 @@ namespace Transfermarkt.WinUI.Forms
             InitializeComponent();
         }
 
-        private async void FrmMatchesList_Load(object sender, EventArgs e)
+        private void FrmMatchesList_Load(object sender, EventArgs e)
         {
+            LoadMatches();
+        }
+        private void BtnRefresh_Click(object sender, EventArgs e)
+        {
+            LoadMatches();
+        }
+        private async void LoadMatches()
+        {
+            DgvMatches.DataSource = null;
             var result = await _aPIServiceMatches.Get<List<Matches>>();
             if (result.Count == 0)
             {
@@ -47,7 +56,7 @@ namespace Transfermarkt.WinUI.Forms
                     GameDate = item.DateGame,
                     GameEnd = item.GameEnd,
                     GameStart = item.GameStart,
-                    IsFinished = false,
+                    IsFinished = item.IsFinished,
                     StadiumName = stadium.Name
                 });
             }
@@ -122,7 +131,8 @@ namespace Transfermarkt.WinUI.Forms
                 var seasonYearFirstPart = (int.Parse(lastSeason.SeasonYear.Substring(2, 2)) + 1).ToString();
                 var seasonYearSecondPart = (int.Parse(lastSeason.SeasonYear.Substring(7, 2)) + 1).ToString();
                 season.SeasonYear = $"20{seasonYearFirstPart}/20{seasonYearSecondPart}";
-                var newSeason = await _aPIServiceClubs.Insert<Seasons>(season);
+                var newSeason = await _aPIServiceSeasons.Insert<Seasons>(season);
+
 
                 var clubsInSeason = await _aPIServiceClubs.GetById<List<ClubsLeague>>(lastSeason.Id, "ClubsInSeason");
                 var leagues = await _aPIServiceLeagues.Get<List<Leagues>>(null);

@@ -16,12 +16,25 @@ namespace Transfermarkt.WinUI.Forms
             InitializeComponent();
         }
 
-        private async void BtnPlayersList_Click(object sender, EventArgs e)
+        private async void FrmPlayersList_Load(object sender, EventArgs e)
         {
             var result = await _aPIServicePlayer.Get<List<Players>>();
             if (result.Count() == 0)
             {
                 MessageBox.Show("We don't have players in database.");
+                return;
+            }
+
+            DgvPlayersList.DataSource = result;
+        }
+        private async void BtnPlayersList_Click(object sender, EventArgs e)
+        {
+            DgvPlayersList.DataSource = null;
+
+            var result = await _aPIServicePlayer.Get<List<Players>>();
+            if (result.Count() == 0)
+            {
+                MessageBox.Show("We don't have players in database.","Information", MessageBoxButtons.OK);
                 return;
             }
 
@@ -42,6 +55,8 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void BtnUnsignedPlayers_Click(object sender, EventArgs e)
         {
+            DgvPlayersList.DataSource = null;
+
             var result = await _aPIServicePlayer.Get<List<Players>>(null, "UnsignedPlayers");
 
             if (result.Count == 0)
@@ -87,8 +102,7 @@ namespace Transfermarkt.WinUI.Forms
             var data = await _aPIServicePlayer.Get<List<Players>>(new PlayerSearchRequest
             {
                 FirstName = TxtSearchPlayer.Text.ToLower(),
-                LastName = TxtSearchPlayer.Text.ToLower(),
-                IsSigned = ChcIsSigned.Checked
+                LastName = TxtSearchPlayer.Text.ToLower()
             });
 
             DgvPlayersList.DataSource = data;

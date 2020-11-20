@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Transfermarkt.Models.Requests;
 using Transfermarkt.WebAPI.Database;
 
@@ -15,7 +13,7 @@ namespace Transfermarkt.WebAPI.Services
 
         public override List<Models.Players> Get(PlayerSearchRequest search)
         {
-            var query = _context.Set<Database.Players>().AsQueryable();
+            var query = _context.Set<Players>().AsQueryable();
 
             if (string.IsNullOrEmpty(search.FirstName)
                 && string.IsNullOrEmpty(search.LastName))

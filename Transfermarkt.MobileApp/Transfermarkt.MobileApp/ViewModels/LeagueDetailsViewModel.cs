@@ -54,6 +54,7 @@ namespace Transfermarkt.MobileApp.ViewModels
 
             if (SelectedSeason != null)
             {
+                ClubsList.Clear();
                 var clubLeague = await _apiServiceClubs.GetById<List<ClubsLeague>>(selectedLeague.Id, "ClubsInLeague");
                 if (clubLeague.Count > 0)
                 {

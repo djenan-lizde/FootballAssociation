@@ -35,7 +35,6 @@
             this.BtnContractUpdate = new System.Windows.Forms.Button();
             this.TxtSearchPlayer = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.ChcIsSigned = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvPlayersList)).BeginInit();
             this.SuspendLayout();
@@ -122,23 +121,11 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Search player";
             // 
-            // ChcIsSigned
-            // 
-            this.ChcIsSigned.AutoSize = true;
-            this.ChcIsSigned.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ChcIsSigned.Location = new System.Drawing.Point(353, 80);
-            this.ChcIsSigned.Name = "ChcIsSigned";
-            this.ChcIsSigned.Size = new System.Drawing.Size(72, 22);
-            this.ChcIsSigned.TabIndex = 6;
-            this.ChcIsSigned.Text = "Signed";
-            this.ChcIsSigned.UseVisualStyleBackColor = true;
-            // 
             // FrmPlayersList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1049, 450);
-            this.Controls.Add(this.ChcIsSigned);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.TxtSearchPlayer);
             this.Controls.Add(this.BtnContractUpdate);
@@ -148,6 +135,7 @@
             this.Name = "FrmPlayersList";
             this.Text = "FrmPlayersList";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.FrmPlayersList_Load);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DgvPlayersList)).EndInit();
             this.ResumeLayout(false);
@@ -164,6 +152,5 @@
         private System.Windows.Forms.Button BtnContractUpdate;
         private System.Windows.Forms.TextBox TxtSearchPlayer;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox ChcIsSigned;
     }
 }

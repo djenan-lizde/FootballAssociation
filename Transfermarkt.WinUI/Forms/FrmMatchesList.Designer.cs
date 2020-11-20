@@ -31,6 +31,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.DgvMatches = new System.Windows.Forms.DataGridView();
             this.BtnNewSeason = new System.Windows.Forms.Button();
+            this.BtnRefresh = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvMatches)).BeginInit();
             this.SuspendLayout();
@@ -64,7 +65,7 @@
             this.BtnNewSeason.BackColor = System.Drawing.Color.RoyalBlue;
             this.BtnNewSeason.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnNewSeason.ForeColor = System.Drawing.Color.White;
-            this.BtnNewSeason.Location = new System.Drawing.Point(539, 36);
+            this.BtnNewSeason.Location = new System.Drawing.Point(578, 35);
             this.BtnNewSeason.Name = "BtnNewSeason";
             this.BtnNewSeason.Size = new System.Drawing.Size(159, 46);
             this.BtnNewSeason.TabIndex = 1;
@@ -72,11 +73,25 @@
             this.BtnNewSeason.UseVisualStyleBackColor = false;
             this.BtnNewSeason.Click += new System.EventHandler(this.BtnNewSeason_Click);
             // 
+            // BtnRefresh
+            // 
+            this.BtnRefresh.BackColor = System.Drawing.Color.RoyalBlue;
+            this.BtnRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnRefresh.ForeColor = System.Drawing.Color.White;
+            this.BtnRefresh.Location = new System.Drawing.Point(360, 35);
+            this.BtnRefresh.Name = "BtnRefresh";
+            this.BtnRefresh.Size = new System.Drawing.Size(159, 46);
+            this.BtnRefresh.TabIndex = 2;
+            this.BtnRefresh.Text = "Refresh";
+            this.BtnRefresh.UseVisualStyleBackColor = false;
+            this.BtnRefresh.Click += new System.EventHandler(this.BtnRefresh_Click);
+            // 
             // FrmMatchesList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.BtnRefresh);
             this.Controls.Add(this.BtnNewSeason);
             this.Controls.Add(this.groupBox1);
             this.Name = "FrmMatchesList";
@@ -93,5 +108,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView DgvMatches;
         private System.Windows.Forms.Button BtnNewSeason;
+        private System.Windows.Forms.Button BtnRefresh;
     }
 }

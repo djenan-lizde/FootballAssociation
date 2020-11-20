@@ -163,41 +163,6 @@ namespace Transfermarkt.WinUI.Forms
 
             MessageBox.Show("Match finished.", "Information", MessageBoxButtons.OK);
         }
-        private async void UpdatePoints(Matches matches)
-        {
-            var matchDetails = await _aPIServiceMatches.GetById<List<MatchDetails>>(Id, "MatchDetail");
-
-            //counting goals
-            var homeClubGoals = matchDetails.Count(x => x.ClubId == HomeClubId
-                && x.ActionType == (int)Enums.ActionType.Goal);
-
-            var awayClubGoals = matchDetails.Count(x => x.ClubId == AwayClubId
-                && x.ActionType == (int)Enums.ActionType.Goal);
-
-            if (homeClubGoals > awayClubGoals)
-            {
-                var clubLeaguePoints = await _aPIServiceClubs.GetById<ClubsLeague>(matches.HomeClubId, "ClubPoints");
-                clubLeaguePoints.Points += 3;
-                await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePoints, clubLeaguePoints.Id.ToString(), "ClubPoints");
-            }
-            else if (awayClubGoals > homeClubGoals)
-            {
-                var clubLeaguePoints = await _aPIServiceClubs.GetById<ClubsLeague>(matches.AwayClubId, "ClubPoints");
-                clubLeaguePoints.Points += 3;
-                await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePoints, clubLeaguePoints.Id.ToString(), "ClubPoints");
-            }
-            else
-            {
-                var clubLeaguePointsHome = await _aPIServiceClubs.GetById<ClubsLeague>(matches.HomeClubId, "ClubPoints");
-                var clubLeaguePointsAway = await _aPIServiceClubs.GetById<ClubsLeague>(matches.AwayClubId, "ClubPoints");
-
-                clubLeaguePointsHome.Points += 1;
-                clubLeaguePointsAway.Points += 1;
-
-                await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePointsHome, clubLeaguePointsHome.Id.ToString(), "ClubPoints");
-                await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePointsAway, clubLeaguePointsHome.Id.ToString(), "ClubPoints");
-            }
-        }
 
         private async void BtnSimulate_Click(object sender, EventArgs e)
         {
@@ -243,6 +208,41 @@ namespace Transfermarkt.WinUI.Forms
             FrmMatchDetail frm = new FrmMatchDetail(Id);
             frm.Show();
             Close();
+        }
+        private async void UpdatePoints(Matches match)
+        {
+            var matchDetails = await _aPIServiceMatches.GetById<List<MatchDetails>>(Id, "MatchDetail");
+
+            //counting goals
+            var homeClubGoals = matchDetails.Count(x => x.ClubId == HomeClubId
+                && x.ActionType == (int)Enums.ActionType.Goal);
+
+            var awayClubGoals = matchDetails.Count(x => x.ClubId == AwayClubId
+                && x.ActionType == (int)Enums.ActionType.Goal);
+
+            if (homeClubGoals > awayClubGoals)
+            {
+                var clubLeaguePoints = await _aPIServiceClubs.GetById<ClubsLeague>(match.HomeClubId, "ClubPoints");
+                clubLeaguePoints.Points += 3;
+                await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePoints, clubLeaguePoints.Id.ToString(), "ClubPoints");
+            }
+            else if (awayClubGoals > homeClubGoals)
+            {
+                var clubLeaguePoints = await _aPIServiceClubs.GetById<ClubsLeague>(match.AwayClubId, "ClubPoints");
+                clubLeaguePoints.Points += 3;
+                await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePoints, clubLeaguePoints.Id.ToString(), "ClubPoints");
+            }
+            else
+            {
+                var clubLeaguePointsHome = await _aPIServiceClubs.GetById<ClubsLeague>(match.HomeClubId, "ClubPoints");
+                var clubLeaguePointsAway = await _aPIServiceClubs.GetById<ClubsLeague>(match.AwayClubId, "ClubPoints");
+
+                clubLeaguePointsHome.Points += 1;
+                clubLeaguePointsAway.Points += 1;
+
+                await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePointsHome, clubLeaguePointsHome.Id.ToString(), "ClubPoints");
+                await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePointsAway, clubLeaguePointsHome.Id.ToString(), "ClubPoints");
+            }
         }
     }
 }
