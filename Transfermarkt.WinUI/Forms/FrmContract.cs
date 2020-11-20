@@ -9,17 +9,20 @@ namespace Transfermarkt.WinUI.Forms
     public partial class FrmContract : Form
     {
         private readonly APIService _aPIServiceClubs = new APIService("Clubs");
+        private readonly APIService _aPIServicePlayer = new APIService("Players");
         private readonly APIService _aPIServiceContracts = new APIService("Contracts");
         private readonly string _firstName;
         private readonly string _lastName;
+        private readonly bool _signed;
         private readonly int _id;
 
-        public FrmContract(string firstName, string lastName, int id)
+        public FrmContract(string firstName, string lastName, int id, bool signed)
         {
             InitializeComponent();
             _firstName = firstName;
             _lastName = lastName;
             _id = id;
+            _signed = signed;
             this.AutoValidate = AutoValidate.Disable;
         }
 
@@ -49,6 +52,12 @@ namespace Transfermarkt.WinUI.Forms
 
                 var contractInDb = contracts.LastOrDefault(x => x.PlayerId == _id);
 
+                if (DateTime.Parse(TxtExpirationDate.Text) < DateTime.Now)
+                {
+                    MessageBox.Show("Expiration date can't be lower than today's date.", "Information", MessageBoxButtons.OK);
+                    return;
+                }
+
                 if (contractInDb == null || contractInDb.IsExpired)
                 {
                     await _aPIServiceContracts.Insert<Contracts>(new Contracts
@@ -60,7 +69,12 @@ namespace Transfermarkt.WinUI.Forms
                         RedemptionClause = int.Parse(TxtRedemptionClause.Text),
                         SignedDate = DateTime.Now
                     });
-                    MessageBox.Show("Player is successfully signed! ", "Information");
+                    var player = await _aPIServicePlayer.GetById<Players>(_id);
+                    player.IsSigned = true;
+                    await _aPIServicePlayer.Update<Players>(player, player.Id.ToString());
+                    MessageBox.Show("Player is successfully signed! ", "Information", MessageBoxButtons.OK);
+                    FrmPlayersList frm = new FrmPlayersList();
+                    frm.Show();
                     Close();
                 }
                 else

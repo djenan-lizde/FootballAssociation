@@ -34,7 +34,7 @@ namespace Transfermarkt.WinUI.Forms
             var positions = await _aPIServicePositions.Get<List<Positions>>();
             if (positions.Count == 0)
             {
-                MessageBox.Show("We don't have positions,", "Information");
+                MessageBox.Show("We don't have positions", "Information", MessageBoxButtons.OK);
                 return;
             }
             listBox1.DataSource = positions.ToList();
@@ -74,6 +74,7 @@ namespace Transfermarkt.WinUI.Forms
                     Value = int.Parse(TxtMarketValue.Text.ToString()),
                     Weight = int.Parse(TxtWeight.Text.ToString()),
                     StrongerFoot = int.Parse(CmbStrongerFoot.SelectedIndex.ToString()),
+                    IsSigned = false,
                     Id = Id ?? 0
                 };
                 if (string.IsNullOrEmpty(TxtMiddleName.Text))
@@ -81,26 +82,16 @@ namespace Transfermarkt.WinUI.Forms
                 else
                     player.MiddleName = TxtMiddleName.Text;
 
-                if (ChBoxSign.Checked)
-                {
-                    player.IsSigned = true;
-                }
-                else
-                {
-                    player.IsSigned = false;
-                }
                 Players lastAdded = null;
                 if (Id.HasValue)
                 {
                     lastAdded = await _aPIServicePlayer.Update<Players>(player, player.Id.ToString());
-                    MessageBox.Show("Player succesfully updated.", "Information",MessageBoxButtons.OK);
-
+                    MessageBox.Show("Player succesfully updated.", "Information", MessageBoxButtons.OK);
                 }
                 else
                 {
                     lastAdded = await _aPIServicePlayer.Insert<Players>(player);
                     MessageBox.Show("Player succesfully added.", "Information", MessageBoxButtons.OK);
-
                 }
 
                 if (!Id.HasValue)
@@ -123,7 +114,7 @@ namespace Transfermarkt.WinUI.Forms
                     }
                     else
                     {
-                        FrmContract frm = new FrmContract(lastAdded.FirstName, lastAdded.LastName, lastAdded.Id);
+                        FrmContract frm = new FrmContract(lastAdded.FirstName, lastAdded.LastName, lastAdded.Id, lastAdded.IsSigned);
                         frm.Show();
                     }
                 }

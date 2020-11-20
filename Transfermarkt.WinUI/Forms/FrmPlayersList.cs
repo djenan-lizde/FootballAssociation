@@ -62,6 +62,8 @@ namespace Transfermarkt.WinUI.Forms
             if (result.Count == 0)
             {
                 MessageBox.Show("We don't have unsigned players in database.");
+                var players = await _aPIServicePlayer.Get<List<Players>>();
+                DgvPlayersList.DataSource = players;
                 return;
             }
             DgvPlayersList.DataSource = result;
