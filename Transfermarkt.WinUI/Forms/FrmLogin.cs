@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Flurl.Http;
+using System;
 using System.Windows.Forms;
+using Transfermarkt.Models.Requests;
 using Transfermarkt.Models.Responses;
 
 namespace Transfermarkt.WinUI.Forms
@@ -30,6 +32,20 @@ namespace Transfermarkt.WinUI.Forms
                     username = TxtUsername.Text,
                     password = TxtPassword.Text
                 }, "login");
+
+                bool isAdmin = await _apiServiceUsers.Get<bool>(new UserRoleCheck
+                {
+                    Username = data.Username,
+                    Rolename = "Administrator"
+                }, "CheckRole");
+
+                if (!isAdmin)
+                {
+                    MessageBox.Show("Forbidden", "You must be an admin to login!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    TxtUsername.Text = TxtPassword.Text = "";
+                    loader.Visible = false;
+                    return;
+                }
 
                 if (data != null)
                 {

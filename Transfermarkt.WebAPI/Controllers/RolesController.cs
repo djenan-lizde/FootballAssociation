@@ -9,5 +9,6 @@ namespace Transfermarkt.WebAPI.Controllers
     public class RolesController : BaseController<Models.Roles, object>
     {
         public RolesController(IService<Models.Roles, object> service) : base(service) { }
+
     }
 }

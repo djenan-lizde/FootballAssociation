@@ -97,6 +97,13 @@ namespace Transfermarkt.WebAPI.Controllers
             return list;
         }
 
+        [HttpGet("CheckRole")]
+        [AllowAnonymous]
+        public bool GetRole([FromQuery] UserRoleCheck userRole)
+        {
+            return _userService.IsAdmin(userRole);
+        }
+
         //[HttpGet]
         //[Authorize]
         //public User GetUserInfo()

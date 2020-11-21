@@ -21,6 +21,7 @@ namespace Transfermarkt.WebAPI.Services
         UserAuthenticationResult Authenticate(UserLoginModel model);
         Users RegisterUser(Models.UserRegistration user);
         List<Users> GetUsers();
+        bool IsAdmin(UserRoleCheck userRole);
     }
     public class UserService : IUserService
     {
@@ -118,6 +119,19 @@ namespace Transfermarkt.WebAPI.Services
         public List<Users> GetUsers()
         {
             return _context.Users.ToList();
+        }
+        public bool IsAdmin(UserRoleCheck userRole)
+        {
+            var user = _context.UsersRoles.Include(x => x.Role).Include(x => x.User)
+                .FirstOrDefault(x => x.User.Username == userRole.Username && x.Role.Name == userRole.Rolename);
+
+            if (user == null)
+                return false;
+
+            if (user.Role.Name == userRole.Rolename)
+                return true;
+
+            return false;
         }
     }
 }
