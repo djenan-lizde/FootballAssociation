@@ -11,6 +11,7 @@ namespace Transfermarkt.WinUI.Forms
         public FrmLogin()
         {
             InitializeComponent();
+            loader.Visible = false;
         }
 
         private void BtnCreateAcc_Click(object sender, EventArgs e)
@@ -21,6 +22,7 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void BtnLogin_Click(object sender, EventArgs e)
         {
+            loader.Visible = true;
             try
             {
                 var data = await _apiServiceUsers.Insert<UserAuthenticationResult>(new
@@ -32,6 +34,7 @@ namespace Transfermarkt.WinUI.Forms
                 if (data != null)
                 {
                     APIService.Token = data.Token;
+                    loader.Visible = false;
                     new FrmIndex(TxtUsername.Text).Show();
                 }
             }

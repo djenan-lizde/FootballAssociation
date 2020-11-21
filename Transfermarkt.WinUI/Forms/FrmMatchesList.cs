@@ -19,6 +19,7 @@ namespace Transfermarkt.WinUI.Forms
         public FrmMatchesList()
         {
             InitializeComponent();
+            loader.Visible = false;
         }
 
         private void FrmMatchesList_Load(object sender, EventArgs e)
@@ -31,6 +32,7 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void LoadMatches()
         {
+            loader.Visible = true;
             DgvMatches.DataSource = null;
             var result = await _aPIServiceMatches.Get<List<Matches>>();
             if (result.Count == 0)
@@ -61,6 +63,7 @@ namespace Transfermarkt.WinUI.Forms
                 });
             }
             DgvMatches.DataSource = list;
+            loader.Visible = false;
         }
         private void DgvMatches_MouseDoubleClick(object sender, MouseEventArgs e)
         {

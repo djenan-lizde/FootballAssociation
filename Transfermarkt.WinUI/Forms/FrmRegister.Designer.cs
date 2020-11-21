@@ -41,6 +41,7 @@
             this.TxtPassword = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.BtnCrAcc = new System.Windows.Forms.Button();
+            this.loader = new Transfermarkt.WinUI.UserControls.Loader();
             this.SuspendLayout();
             // 
             // label1
@@ -178,11 +179,19 @@
             this.BtnCrAcc.UseVisualStyleBackColor = false;
             this.BtnCrAcc.Click += new System.EventHandler(this.BtnCrAcc_Click);
             // 
+            // loader
+            // 
+            this.loader.Location = new System.Drawing.Point(271, 121);
+            this.loader.Name = "loader";
+            this.loader.Size = new System.Drawing.Size(104, 136);
+            this.loader.TabIndex = 13;
+            // 
             // FrmRegister
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(686, 441);
+            this.Controls.Add(this.loader);
             this.Controls.Add(this.BtnCrAcc);
             this.Controls.Add(this.TxtPassword);
             this.Controls.Add(this.label6);
@@ -218,5 +227,6 @@
         private System.Windows.Forms.TextBox TxtPassword;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button BtnCrAcc;
+        private UserControls.Loader loader;
     }
 }

@@ -35,6 +35,7 @@
             this.BtnLogin = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.BtnCreateAcc = new System.Windows.Forms.Button();
+            this.loader = new Transfermarkt.WinUI.UserControls.Loader();
             this.SuspendLayout();
             // 
             // label1
@@ -114,11 +115,19 @@
             this.BtnCreateAcc.UseVisualStyleBackColor = false;
             this.BtnCreateAcc.Click += new System.EventHandler(this.BtnCreateAcc_Click);
             // 
+            // loader
+            // 
+            this.loader.Location = new System.Drawing.Point(297, 133);
+            this.loader.Name = "loader";
+            this.loader.Size = new System.Drawing.Size(104, 136);
+            this.loader.TabIndex = 7;
+            // 
             // FrmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(713, 462);
+            this.Controls.Add(this.loader);
             this.Controls.Add(this.BtnCreateAcc);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.BtnLogin);
@@ -142,5 +151,6 @@
         private System.Windows.Forms.Button BtnLogin;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button BtnCreateAcc;
+        private UserControls.Loader loader;
     }
 }

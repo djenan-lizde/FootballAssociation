@@ -12,6 +12,7 @@ namespace Transfermarkt.WinUI.Forms
         public FrmRegister()
         {
             InitializeComponent();
+            loader.Visible = false;
         }
         private async void BtnCrAcc_Click(object sender, EventArgs e)
         {
@@ -25,6 +26,7 @@ namespace Transfermarkt.WinUI.Forms
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            loader.Visible = true;
             var user = new UserRegistration
             {
                 Email = TxtEmailAddress.Text,
@@ -38,6 +40,7 @@ namespace Transfermarkt.WinUI.Forms
             user.Roles.Add(2);//represents a Member role
 
             await _aPIServiceUser.Insert<Users>(user, "Registration");
+            loader.Visible = false;
             MessageBox.Show("Registration successful");
             FrmLogin frm = new FrmLogin();
             frm.Show();

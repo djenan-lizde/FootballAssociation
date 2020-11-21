@@ -32,12 +32,14 @@
             this.DgvMatches = new System.Windows.Forms.DataGridView();
             this.BtnNewSeason = new System.Windows.Forms.Button();
             this.BtnRefresh = new System.Windows.Forms.Button();
+            this.loader = new Transfermarkt.WinUI.UserControls.Loader();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvMatches)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.loader);
             this.groupBox1.Controls.Add(this.DgvMatches);
             this.groupBox1.Location = new System.Drawing.Point(12, 105);
             this.groupBox1.Name = "groupBox1";
@@ -86,6 +88,13 @@
             this.BtnRefresh.UseVisualStyleBackColor = false;
             this.BtnRefresh.Click += new System.EventHandler(this.BtnRefresh_Click);
             // 
+            // loader
+            // 
+            this.loader.Location = new System.Drawing.Point(348, 79);
+            this.loader.Name = "loader";
+            this.loader.Size = new System.Drawing.Size(104, 136);
+            this.loader.TabIndex = 1;
+            // 
             // FrmMatchesList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -109,5 +118,6 @@
         private System.Windows.Forms.DataGridView DgvMatches;
         private System.Windows.Forms.Button BtnNewSeason;
         private System.Windows.Forms.Button BtnRefresh;
+        private UserControls.Loader loader;
     }
 }
