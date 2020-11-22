@@ -37,6 +37,7 @@ namespace Transfermarkt.WinUI.Forms
             var result = await _aPIServiceMatches.Get<List<Matches>>();
             if (result.Count == 0)
             {
+                loader.Visible = false;
                 MessageBox.Show("We don't have matches.", "Information");
                 return;
             }
@@ -175,8 +176,7 @@ namespace Transfermarkt.WinUI.Forms
                     list.Clear();
                 }
             }
-            MessageBox.Show("Please open the same form for data to load.", "Information", MessageBoxButtons.OK);
-            Close();
+            MessageBox.Show("Click the refresh button to refresh the list.", "Information", MessageBoxButtons.OK);
         }
         private async void GenerateGames(List<ClubsLeague> clubsLeagueMatches)
         {
