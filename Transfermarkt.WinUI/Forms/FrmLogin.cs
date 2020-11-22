@@ -1,5 +1,4 @@
-﻿using Flurl.Http;
-using System;
+﻿using System;
 using System.Windows.Forms;
 using Transfermarkt.Models.Requests;
 using Transfermarkt.Models.Responses;
@@ -51,13 +50,21 @@ namespace Transfermarkt.WinUI.Forms
                 {
                     APIService.Token = data.Token;
                     loader.Visible = false;
-                    new FrmIndex(TxtUsername.Text).Show();
+                    var frm = new FrmIndex(TxtUsername.Text);
+                    frm.Show();
+                    frm.FormClosing += Frm_FormClosing;
+                    this.Hide();                    
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Authentication", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        private void Frm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.Show();
+            TxtUsername.Text = TxtPassword.Text = "";
         }
     }
 }
