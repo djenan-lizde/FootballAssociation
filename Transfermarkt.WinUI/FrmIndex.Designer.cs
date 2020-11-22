@@ -49,6 +49,7 @@
             this.DgvLeagues = new System.Windows.Forms.DataGridView();
             this.lblHello = new System.Windows.Forms.Label();
             this.BtnReport = new System.Windows.Forms.Button();
+            this.BtnRefresh = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -222,12 +223,26 @@
             this.BtnReport.UseVisualStyleBackColor = false;
             this.BtnReport.Click += new System.EventHandler(this.BtnReport_Click);
             // 
+            // BtnRefresh
+            // 
+            this.BtnRefresh.BackColor = System.Drawing.Color.RoyalBlue;
+            this.BtnRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnRefresh.ForeColor = System.Drawing.Color.White;
+            this.BtnRefresh.Location = new System.Drawing.Point(175, 225);
+            this.BtnRefresh.Name = "BtnRefresh";
+            this.BtnRefresh.Size = new System.Drawing.Size(134, 37);
+            this.BtnRefresh.TabIndex = 12;
+            this.BtnRefresh.Text = "Refresh";
+            this.BtnRefresh.UseVisualStyleBackColor = false;
+            this.BtnRefresh.Click += new System.EventHandler(this.BtnRefresh_Click);
+            // 
             // FrmIndex
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1222, 430);
+            this.Controls.Add(this.BtnRefresh);
             this.Controls.Add(this.BtnReport);
             this.Controls.Add(this.lblHello);
             this.Controls.Add(this.groupBox1);
@@ -272,6 +287,7 @@
         private System.Windows.Forms.ToolStripMenuItem matchesListToolStripMenuItem;
         private System.Windows.Forms.Label lblHello;
         private System.Windows.Forms.Button BtnReport;
+        private System.Windows.Forms.Button BtnRefresh;
     }
 }
 

@@ -87,29 +87,27 @@ namespace Transfermarkt.WinUI.Forms
                 {
                     var newSeason = await _aPIServiceSeasons.Insert<Seasons>(season);
                     var num = clubs.Count / leagues.Count;
-                    if (clubs.Count % leagues.Count == 0)
+
+                    int counter = 0;
+                    for (int i = 0; i < leagues.Count; i++)
                     {
-                        int counter = 0;
-                        for (int i = 0; i < leagues.Count; i++)
+                        for (int j = counter; j < counter + num; j++)
                         {
-                            for (int j = counter; j < counter + num; j++)
+                            await _aPIServiceClubs.Insert<ClubsLeague>(new ClubsLeague
                             {
-                                await _aPIServiceClubs.Insert<ClubsLeague>(new ClubsLeague
-                                {
-                                    ClubId = clubs[j].Id,
-                                    LastUpdate = DateTime.Now.TimeOfDay,
-                                    Points = 0,
-                                    SeasonId = newSeason.Id,
-                                    LeagueId = leagues[i].Id
-                                }, "ClubLeague");
-                                if (j == counter + num - 1)
-                                {
-                                    var clubsInLeague = await _aPIServiceClubs.GetById<List<ClubsLeague>>(leagues[i].Id, "ClubsInLeague");
-                                    GenerateGames(clubsInLeague);
-                                }
+                                ClubId = clubs[j].Id,
+                                LastUpdate = DateTime.Now.TimeOfDay,
+                                Points = 0,
+                                SeasonId = newSeason.Id,
+                                LeagueId = leagues[i].Id
+                            }, "ClubLeague");
+                            if (j == counter + num - 1)
+                            {
+                                var clubsInLeague = await _aPIServiceClubs.GetById<List<ClubsLeague>>(leagues[i].Id, "ClubsInLeague");
+                                GenerateGames(clubsInLeague);
                             }
-                            counter += num;
                         }
+                        counter += num;
                     }
                 }
             }

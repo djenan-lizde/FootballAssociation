@@ -178,5 +178,12 @@ namespace Transfermarkt.WinUI
             FrmReport frm = new FrmReport();
             frm.Show();
         }
+
+        private async void BtnRefresh_Click(object sender, EventArgs e)
+        {
+            DgvLeagues.DataSource = null;
+            var result = await _aPIServiceLeague.Get<List<Leagues>>();
+            DgvLeagues.DataSource = result;
+        }
     }
 }
