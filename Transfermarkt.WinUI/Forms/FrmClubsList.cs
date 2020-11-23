@@ -46,7 +46,7 @@ namespace Transfermarkt.WinUI.Forms
             catch (Exception)
             {
                 TxtSearch.ReadOnly = true;
-                MessageBox.Show("There is no ongoing or upcoming matches", "Information", MessageBoxButtons.OK);
+                MessageBox.Show("League table is not formed yet", "Information", MessageBoxButtons.OK);
                 return;
             }
 
@@ -63,6 +63,7 @@ namespace Transfermarkt.WinUI.Forms
 
             FrmClub frm = new FrmClub(int.Parse(id.ToString()));
             frm.Show();
+            Close();
         }
         private async void TxtSearch_TextChanged(object sender, EventArgs e)
         {
@@ -111,7 +112,7 @@ namespace Transfermarkt.WinUI.Forms
                     Position = counter
                 });
             }
-            DgvClubList.DataSource = clubs;
+            DgvClubList.DataSource = clubs.OrderBy(x => x.Points);
         }
         private async void CmbSeasons_SelectedIndexChanged(object sender, EventArgs e)
         {

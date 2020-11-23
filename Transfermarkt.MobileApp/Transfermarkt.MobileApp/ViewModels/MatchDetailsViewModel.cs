@@ -53,7 +53,8 @@ namespace Transfermarkt.MobileApp.ViewModels
                     //goals
                     if (matchDetails.Count(x => x.ActionType == (int)Enums.ActionType.Goal) > 0)
                     {
-                        foreach (var item in matchDetails.Where(x => x.ActionType == (int)Enums.ActionType.Goal))
+                        foreach (var item in matchDetails.Where(x => x.ActionType == (int)Enums.ActionType.Goal)
+                            .OrderBy(x => x.Minute))
                         {
                             var player = await _aPIServicePlayers.GetById<Players>(item.PlayerId);
                             var club = await _aPIServiceClubs.GetById<Clubs>(item.ClubId);
@@ -73,7 +74,8 @@ namespace Transfermarkt.MobileApp.ViewModels
                     if ((matchDetails.Count(x => x.ActionType == (int)Enums.ActionType.YellowCard) > 0)
                         || (matchDetails.Count(x => x.ActionType == (int)Enums.ActionType.RedCard) > 0))
                     {
-                        foreach (var item in matchDetails.Where(x => x.ActionType == (int)Enums.ActionType.YellowCard || x.ActionType == (int)Enums.ActionType.RedCard))
+                        foreach (var item in matchDetails.Where(x => x.ActionType == (int)Enums.ActionType.YellowCard || x.ActionType == (int)Enums.ActionType.RedCard)
+                            .OrderBy(x => x.Minute))
                         {
                             var player = await _aPIServicePlayers.GetById<Players>(item.PlayerId);
                             var club = await _aPIServiceClubs.GetById<Clubs>(item.ClubId);
@@ -97,7 +99,8 @@ namespace Transfermarkt.MobileApp.ViewModels
                     //corners
                     if (matchDetails.Count(x => x.ActionType == (int)Enums.ActionType.CornerOccurred) >= 0)
                     {
-                        foreach (var item in matchDetails.Where(x => x.ActionType == (int)Enums.ActionType.CornerOccurred))
+                        foreach (var item in matchDetails.Where(x => x.ActionType == (int)Enums.ActionType.CornerOccurred)
+                            .OrderBy(x => x.Minute))
                         {
                             var player = await _aPIServicePlayers.GetById<Players>(item.PlayerId);
                             var club = await _aPIServiceClubs.GetById<Clubs>(item.ClubId);
