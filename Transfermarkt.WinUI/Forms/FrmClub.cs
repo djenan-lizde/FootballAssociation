@@ -38,7 +38,7 @@ namespace Transfermarkt.WinUI.Forms
                 var clubLoad = await _aPIServiceClub.GetById<Clubs>(Id);
                 TxtAbbreviation.Text = clubLoad.Abbreviation;
                 TxtClubName.Text = clubLoad.Name;
-                TxtDateFounded.Text = clubLoad.Founded.ToString();
+                dateTimePicker1.Value = clubLoad.Founded;
                 TxtMarketValue.Text = clubLoad.MarketValue.ToString();
                 TxtNickname.Text = clubLoad.Nickname;
                 CmbCities.SelectedIndex = clubLoad.CityId - 1;
@@ -96,7 +96,7 @@ namespace Transfermarkt.WinUI.Forms
                 club.Name = TxtClubName.Text;
                 club.Nickname = TxtNickname.Text;
                 club.CityId = int.Parse(CmbCities.SelectedValue.ToString());
-                club.Founded = DateTime.Parse(TxtDateFounded.Text.ToString());
+                club.Founded = dateTimePicker1.Value;
                 club.Abbreviation = TxtAbbreviation.Text;
                 club.Id = Id ?? 0;
 
@@ -188,19 +188,6 @@ namespace Transfermarkt.WinUI.Forms
             else
             {
                 errorProvider.SetError(TxtMarketValue, null);
-            }
-        }
-        private void TxtDateFounded_Validating(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            bool success = DateTime.TryParse(TxtDateFounded.Text, out _);
-            if (string.IsNullOrWhiteSpace(TxtDateFounded.Text) || !success)
-            {
-                errorProvider.SetError(TxtDateFounded, "Please insert date");
-                e.Cancel = true;
-            }
-            else
-            {
-                errorProvider.SetError(TxtDateFounded, null);
             }
         }
         private void CmbCities_Validating(object sender, System.ComponentModel.CancelEventArgs e)

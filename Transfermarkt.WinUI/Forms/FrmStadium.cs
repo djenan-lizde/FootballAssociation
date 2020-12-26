@@ -31,7 +31,7 @@ namespace Transfermarkt.WinUI.Forms
                 if (_stadium != null)
                 {
                     TxtCapacity.Text = _stadium.Capacity.ToString();
-                    TxtDateBuilt.Text = _stadium.DateBuilt.ToString();
+                    dateTimePicker1.Value = _stadium.DateBuilt;
                     TxtStadiumName.Text = _stadium.Name;
                     txtStadiumId.Text = _stadium.Id.ToString();
                 }
@@ -67,7 +67,7 @@ namespace Transfermarkt.WinUI.Forms
 
                 stadium.Capacity = int.Parse(TxtCapacity.Text);
                 stadium.ClubId = Id;
-                stadium.DateBuilt = DateTime.Parse(TxtDateBuilt.Text.ToString());
+                stadium.DateBuilt = dateTimePicker1.Value;
                 stadium.Name = TxtStadiumName.Text;
                 if (string.IsNullOrWhiteSpace(txtStadiumId.Text))
                     stadium.Id = 0;
@@ -112,19 +112,6 @@ namespace Transfermarkt.WinUI.Forms
             else
             {
                 errorProvider.SetError(TxtCapacity, null);
-            }
-        }
-        private void TxtDateBuilt_Validating(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            bool success = DateTime.TryParse(TxtDateBuilt.Text, out _);
-            if (string.IsNullOrWhiteSpace(TxtDateBuilt.Text) || !success)
-            {
-                errorProvider.SetError(TxtDateBuilt, "Please insert date");
-                e.Cancel = true;
-            }
-            else
-            {
-                errorProvider.SetError(TxtDateBuilt, null);
             }
         }
     }

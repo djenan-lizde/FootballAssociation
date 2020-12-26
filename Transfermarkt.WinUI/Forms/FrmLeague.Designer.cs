@@ -32,11 +32,11 @@
             this.TxtLeagueName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.TxtDateEstablished = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.TxtOrganizer = new System.Windows.Forms.TextBox();
             this.BtnAddLeague = new System.Windows.Forms.Button();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
@@ -68,15 +68,6 @@
             this.label2.Size = new System.Drawing.Size(223, 18);
             this.label2.TabIndex = 3;
             this.label2.Text = "Date established (MM.DD.YYYY)";
-            // 
-            // TxtDateEstablished
-            // 
-            this.TxtDateEstablished.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtDateEstablished.Location = new System.Drawing.Point(69, 186);
-            this.TxtDateEstablished.Name = "TxtDateEstablished";
-            this.TxtDateEstablished.Size = new System.Drawing.Size(205, 24);
-            this.TxtDateEstablished.TabIndex = 2;
-            this.TxtDateEstablished.Validating += new System.ComponentModel.CancelEventHandler(this.TxtDateEstablished_Validating);
             // 
             // label3
             // 
@@ -114,16 +105,23 @@
             // 
             this.errorProvider.ContainerControl = this;
             // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(69, 197);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(205, 20);
+            this.dateTimePicker1.TabIndex = 30;
+            // 
             // FrmLeague
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(610, 288);
+            this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.BtnAddLeague);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.TxtOrganizer);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.TxtDateEstablished);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.TxtLeagueName);
             this.Name = "FrmLeague";
@@ -139,10 +137,10 @@
         private System.Windows.Forms.TextBox TxtLeagueName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox TxtDateEstablished;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox TxtOrganizer;
         private System.Windows.Forms.Button BtnAddLeague;
         private System.Windows.Forms.ErrorProvider errorProvider;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }
 }

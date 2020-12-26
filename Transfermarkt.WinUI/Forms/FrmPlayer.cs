@@ -44,7 +44,7 @@ namespace Transfermarkt.WinUI.Forms
             if (Id.HasValue)
             {
                 var player = await _aPIServicePlayer.GetById<Players>(Id);
-                TxtBirthDate.Text = player.Birthdate.ToString();
+                dateTimePicker1.Value = player.Birthdate;
                 TxtFirstName.Text = player.FirstName;
                 TxtHeight.Text = player.Height.ToString();
                 TxtJerseyNumber.Text = player.Jersey.ToString();
@@ -68,7 +68,7 @@ namespace Transfermarkt.WinUI.Forms
                 {
                     FirstName = TxtFirstName.Text,
                     LastName = TxtLastName.Text,
-                    Birthdate = DateTime.Parse(TxtBirthDate.Text.ToString()),
+                    Birthdate = dateTimePicker1.Value,
                     Height = int.Parse(TxtHeight.Text.ToString()),
                     Jersey = int.Parse(TxtJerseyNumber.Text.ToString()),
                     Value = int.Parse(TxtMarketValue.Text.ToString()),
@@ -208,19 +208,6 @@ namespace Transfermarkt.WinUI.Forms
             else
             {
                 errorProvider.SetError(CmbStrongerFoot, null);
-            }
-        }
-        private void TxtBirthDate_Validating(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            bool success = DateTime.TryParse(TxtBirthDate.Text, out _);
-            if (string.IsNullOrWhiteSpace(TxtBirthDate.Text) || !success)
-            {
-                errorProvider.SetError(TxtBirthDate, "Please insert date");
-                e.Cancel = true;
-            }
-            else
-            {
-                errorProvider.SetError(TxtBirthDate, null);
             }
         }
     }

@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
-            this.TxtExpirationDate = new System.Windows.Forms.TextBox();
             this.BtnSignContract = new System.Windows.Forms.Button();
             this.TxtRedemptionClause = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -38,6 +37,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.PlayerName = new System.Windows.Forms.Label();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,15 +50,6 @@
             this.label1.Size = new System.Drawing.Size(211, 18);
             this.label1.TabIndex = 0;
             this.label1.Text = "Expiration date (MM.DD.YYYY)";
-            // 
-            // TxtExpirationDate
-            // 
-            this.TxtExpirationDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtExpirationDate.Location = new System.Drawing.Point(33, 111);
-            this.TxtExpirationDate.Name = "TxtExpirationDate";
-            this.TxtExpirationDate.Size = new System.Drawing.Size(200, 26);
-            this.TxtExpirationDate.TabIndex = 1;
-            this.TxtExpirationDate.Validating += new System.ComponentModel.CancelEventHandler(this.TxtExpirationDate_Validating);
             // 
             // BtnSignContract
             // 
@@ -126,18 +117,25 @@
             // 
             this.errorProvider.ContainerControl = this;
             // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(33, 111);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePicker1.TabIndex = 30;
+            // 
             // FrmContract
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(537, 302);
+            this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.PlayerName);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.CmbClubs);
             this.Controls.Add(this.TxtRedemptionClause);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.BtnSignContract);
-            this.Controls.Add(this.TxtExpirationDate);
             this.Controls.Add(this.label1);
             this.Name = "FrmContract";
             this.Text = "FrmContract";
@@ -151,7 +149,6 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox TxtExpirationDate;
         private System.Windows.Forms.Button BtnSignContract;
         private System.Windows.Forms.TextBox TxtRedemptionClause;
         private System.Windows.Forms.Label label2;
@@ -159,5 +156,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label PlayerName;
         private System.Windows.Forms.ErrorProvider errorProvider;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }
 }

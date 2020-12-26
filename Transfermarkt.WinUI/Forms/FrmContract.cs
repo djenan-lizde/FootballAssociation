@@ -52,7 +52,7 @@ namespace Transfermarkt.WinUI.Forms
 
                 var contractInDb = contracts.LastOrDefault(x => x.PlayerId == _id);
 
-                if (DateTime.Parse(TxtExpirationDate.Text) < DateTime.Now)
+                if (dateTimePicker1.Value < DateTime.Now)
                 {
                     MessageBox.Show("Expiration date can't be lower than today's date.", "Information", MessageBoxButtons.OK);
                     return;
@@ -63,7 +63,7 @@ namespace Transfermarkt.WinUI.Forms
                     await _aPIServiceContracts.Insert<Contracts>(new Contracts
                     {
                         ClubId = int.Parse(CmbClubs.SelectedValue.ToString()),
-                        ExpirationDate = DateTime.Parse(TxtExpirationDate.Text),
+                        ExpirationDate = dateTimePicker1.Value,
                         IsExpired = false,
                         PlayerId = _id,
                         RedemptionClause = int.Parse(TxtRedemptionClause.Text),
@@ -85,19 +85,6 @@ namespace Transfermarkt.WinUI.Forms
             }
         }
 
-        private void TxtExpirationDate_Validating(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            bool success = DateTime.TryParse(TxtExpirationDate.Text, out _);
-            if (string.IsNullOrWhiteSpace(TxtExpirationDate.Text) || !success)
-            {
-                errorProvider.SetError(TxtExpirationDate, "Please insert date.");
-                e.Cancel = true;
-            }
-            else
-            {
-                errorProvider.SetError(TxtExpirationDate, null);
-            }
-        }
         private void TxtRedemptionClause_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             bool success = int.TryParse(TxtRedemptionClause.Text, out _);

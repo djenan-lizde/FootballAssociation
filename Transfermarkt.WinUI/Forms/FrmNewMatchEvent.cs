@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Transfermarkt.Models;
 using Transfermarkt.Models.Extensions;
+using Transfermarkt.Models.Requests;
 using static Transfermarkt.Models.Enums.Enums;
 
 namespace Transfermarkt.WinUI.Forms
@@ -67,17 +68,21 @@ namespace Transfermarkt.WinUI.Forms
             }
             var playerContract = await _aPIServiceContracts.GetById<List<Contracts>>(clubId, "ClubContracts");
 
-            List<Players> players = new List<Players>();
+            List<PersonDropDownList> players = new List<PersonDropDownList>();
             foreach (var item in playerContract)
             {
                 var player = await _aPIServicePlayers.GetById<Players>(item.PlayerId);
                 if (player == null) continue;
-                players.Add(player);
+                players.Add(new PersonDropDownList
+                {
+                    FullName = $"{player.FirstName} {player.LastName}",
+                    Id = player.Id
+                });
             }
 
-            players.Insert(0, new Players());
+            players.Insert(0, new PersonDropDownList());
             CmbPlayers.DataSource = players.ToList();
-            CmbPlayers.DisplayMember = "FirstName";
+            CmbPlayers.DisplayMember = "FullName";
             CmbPlayers.ValueMember = "Id";
         }
         private async void BtnSaveDetail_Click(object sender, EventArgs e)

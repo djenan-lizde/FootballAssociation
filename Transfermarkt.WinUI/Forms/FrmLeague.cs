@@ -30,7 +30,7 @@ namespace Transfermarkt.WinUI.Forms
                 }
                 await _aPIServiceLeagues.Insert<Leagues>(new Leagues
                 {
-                    Established = DateTime.Parse(TxtDateEstablished.Text),
+                    Established = dateTimePicker1.Value,
                     Name = TxtLeagueName.Text,
                     Organizer = TxtOrganizer.Text
                 });
@@ -60,19 +60,6 @@ namespace Transfermarkt.WinUI.Forms
             else
             {
                 errorProvider.SetError(TxtOrganizer, null);
-            }
-        }
-        private void TxtDateEstablished_Validating(object sender, CancelEventArgs e)
-        {
-            bool success = DateTime.TryParse(TxtDateEstablished.Text, out _);
-            if (string.IsNullOrWhiteSpace(TxtDateEstablished.Text) || !success)
-            {
-                errorProvider.SetError(TxtDateEstablished, "Please insert date.");
-                e.Cancel = true;
-            }
-            else
-            {
-                errorProvider.SetError(TxtDateEstablished, null);
             }
         }
     }

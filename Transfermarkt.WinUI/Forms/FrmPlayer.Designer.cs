@@ -47,11 +47,11 @@
             this.label8 = new System.Windows.Forms.Label();
             this.BtnAddPlayer = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
-            this.TxtBirthDate = new System.Windows.Forms.TextBox();
             this.ChBoxSign = new System.Windows.Forms.CheckBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.label10 = new System.Windows.Forms.Label();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
@@ -230,15 +230,6 @@
             this.label9.TabIndex = 18;
             this.label9.Text = "Birth date (MM.DD.YYYY)";
             // 
-            // TxtBirthDate
-            // 
-            this.TxtBirthDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtBirthDate.Location = new System.Drawing.Point(548, 227);
-            this.TxtBirthDate.Name = "TxtBirthDate";
-            this.TxtBirthDate.Size = new System.Drawing.Size(190, 24);
-            this.TxtBirthDate.TabIndex = 17;
-            this.TxtBirthDate.Validating += new System.ComponentModel.CancelEventHandler(this.TxtBirthDate_Validating);
-            // 
             // ChBoxSign
             // 
             this.ChBoxSign.AutoSize = true;
@@ -275,16 +266,23 @@
             // 
             this.errorProvider.ContainerControl = this;
             // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(548, 228);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(190, 20);
+            this.dateTimePicker1.TabIndex = 30;
+            // 
             // FrmPlayer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(969, 465);
+            this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.ChBoxSign);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.TxtBirthDate);
             this.Controls.Add(this.BtnAddPlayer);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.CmbStrongerFoot);
@@ -331,10 +329,10 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button BtnAddPlayer;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox TxtBirthDate;
         private System.Windows.Forms.CheckBox ChBoxSign;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ErrorProvider errorProvider;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }
 }

@@ -37,7 +37,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.TxtNickname = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.TxtDateFounded = new System.Windows.Forms.TextBox();
             this.CmbCities = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.TxtMarketValue = new System.Windows.Forms.TextBox();
@@ -52,6 +51,7 @@
             this.BtnMatchSchedule = new System.Windows.Forms.Button();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.BtnAddCity = new System.Windows.Forms.Button();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgvPlayers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -136,15 +136,6 @@
             this.label4.Size = new System.Drawing.Size(202, 18);
             this.label4.TabIndex = 8;
             this.label4.Text = "Date founded (MM.DD.YYYY)";
-            // 
-            // TxtDateFounded
-            // 
-            this.TxtDateFounded.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtDateFounded.Location = new System.Drawing.Point(610, 111);
-            this.TxtDateFounded.Name = "TxtDateFounded";
-            this.TxtDateFounded.Size = new System.Drawing.Size(218, 24);
-            this.TxtDateFounded.TabIndex = 7;
-            this.TxtDateFounded.Validating += new System.ComponentModel.CancelEventHandler(this.TxtDateFounded_Validating);
             // 
             // CmbCities
             // 
@@ -285,11 +276,19 @@
             this.BtnAddCity.UseVisualStyleBackColor = false;
             this.BtnAddCity.Click += new System.EventHandler(this.BtnAddCity_Click);
             // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(610, 111);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(218, 20);
+            this.dateTimePicker1.TabIndex = 29;
+            // 
             // FrmClub
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(899, 544);
+            this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.BtnAddCity);
             this.Controls.Add(this.BtnMatchSchedule);
             this.Controls.Add(this.label9);
@@ -303,7 +302,6 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.CmbCities);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.TxtDateFounded);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.TxtNickname);
             this.Controls.Add(this.label2);
@@ -332,7 +330,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox TxtNickname;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox TxtDateFounded;
         private System.Windows.Forms.ComboBox CmbCities;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox TxtMarketValue;
@@ -347,5 +344,6 @@
         private System.Windows.Forms.Button BtnMatchSchedule;
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.Button BtnAddCity;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }
 }

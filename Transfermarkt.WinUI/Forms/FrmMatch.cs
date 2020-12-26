@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Transfermarkt.Models;
+using Transfermarkt.Models.Requests;
 using Transfermarkt.WinUI.Helper;
 
 namespace Transfermarkt.WinUI.Forms
@@ -47,7 +48,7 @@ namespace Transfermarkt.WinUI.Forms
             CmbAwayClub.Enabled = true;
             CmbHomeClub.Enabled = true;
             CmbReferees.Enabled = true;
-            TxtDateGame.Enabled = true;
+            dateTimePicker1.Enabled = true;
             TxtMatchStart.Enabled = true;
             pictureBox1.Image = null;
             pictureBox2.Image = null;
@@ -88,8 +89,18 @@ namespace Transfermarkt.WinUI.Forms
                 MessageBox.Show("We don't have refeeres.", "Error");
                 return;
             }
-            CmbReferees.DataSource = referees;
-            CmbReferees.DisplayMember = "FirstName";
+            List<PersonDropDownList> refereesDropDown = new List<PersonDropDownList>();
+            foreach (var item in referees)
+            {
+                refereesDropDown.Add(new PersonDropDownList
+                {
+                    FullName = $"{item.FirstName} {item.LastName}",
+                    Id = item.Id
+                });
+            }
+            refereesDropDown.Insert(0, new PersonDropDownList());
+            CmbReferees.DataSource = refereesDropDown;
+            CmbReferees.DisplayMember = "FullName";
             CmbReferees.ValueMember = "Id";
 
             TxtStadium.Text = "Home stadium will load automatically.";
@@ -136,7 +147,7 @@ namespace Transfermarkt.WinUI.Forms
                 {
                     HomeClubId = int.Parse(CmbHomeClub.SelectedValue.ToString()),
                     AwayClubId = int.Parse(CmbAwayClub.SelectedValue.ToString()),
-                    DateGame = DateTime.Parse(TxtDateGame.Text),
+                    DateGame = dateTimePicker1.Value,
                     IsFinished = false,
                     StadiumId = StadiumId,
                     GameStart = TxtMatchStart.Text,
@@ -155,19 +166,7 @@ namespace Transfermarkt.WinUI.Forms
                 MessageBox.Show("Match added.", "Information", MessageBoxButtons.OK);
             }
         }
-        private void TxtDateGame_Validating(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            bool success = DateTime.TryParse(TxtDateGame.Text, out _);
-            if (string.IsNullOrWhiteSpace(TxtDateGame.Text) || !success)
-            {
-                errorProvider.SetError(TxtDateGame, "Please insert date");
-                e.Cancel = true;
-            }
-            else
-            {
-                errorProvider.SetError(TxtDateGame, null);
-            }
-        }
+        
         private void TxtMatchStart_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(TxtMatchStart.Text))
