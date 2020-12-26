@@ -19,7 +19,6 @@ namespace Transfermarkt.WinUI.Forms
         {
             FrmRegister frm = new FrmRegister();
             frm.Show();
-            //Close();
         }
         private async void BtnLogin_Click(object sender, EventArgs e)
         {
@@ -40,7 +39,7 @@ namespace Transfermarkt.WinUI.Forms
 
                 if (!isAdmin)
                 {
-                    MessageBox.Show("Forbidden", "You must be an admin to login!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("You must be an admin to login!", "Forbidden", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     TxtUsername.Text = TxtPassword.Text = "";
                     loader.Visible = false;
                     return;
@@ -58,7 +57,9 @@ namespace Transfermarkt.WinUI.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Authentication", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                loader.Visible = false;
+                TxtUsername.Text = TxtPassword.Text = "";
+                MessageBox.Show("Invalid username or password.", "Authentication", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void Frm_FormClosing(object sender, FormClosingEventArgs e)

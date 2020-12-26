@@ -39,6 +39,7 @@
             this.CmbCities = new System.Windows.Forms.ComboBox();
             this.BtnSaveReferee = new System.Windows.Forms.Button();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.BtnAddCity = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
@@ -116,6 +117,7 @@
             this.CmbCities.Name = "CmbCities";
             this.CmbCities.Size = new System.Drawing.Size(158, 26);
             this.CmbCities.TabIndex = 7;
+            this.CmbCities.MouseHover += new System.EventHandler(this.CmbCities_MouseHover);
             this.CmbCities.Validating += new System.ComponentModel.CancelEventHandler(this.CmbCities_Validating);
             // 
             // BtnSaveReferee
@@ -123,7 +125,7 @@
             this.BtnSaveReferee.BackColor = System.Drawing.Color.RoyalBlue;
             this.BtnSaveReferee.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnSaveReferee.ForeColor = System.Drawing.Color.White;
-            this.BtnSaveReferee.Location = new System.Drawing.Point(357, 179);
+            this.BtnSaveReferee.Location = new System.Drawing.Point(478, 170);
             this.BtnSaveReferee.Name = "BtnSaveReferee";
             this.BtnSaveReferee.Size = new System.Drawing.Size(115, 43);
             this.BtnSaveReferee.TabIndex = 8;
@@ -135,11 +137,25 @@
             // 
             this.errorProvider.ContainerControl = this;
             // 
+            // BtnAddCity
+            // 
+            this.BtnAddCity.BackColor = System.Drawing.Color.RoyalBlue;
+            this.BtnAddCity.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnAddCity.ForeColor = System.Drawing.Color.White;
+            this.BtnAddCity.Location = new System.Drawing.Point(239, 176);
+            this.BtnAddCity.Name = "BtnAddCity";
+            this.BtnAddCity.Size = new System.Drawing.Size(79, 29);
+            this.BtnAddCity.TabIndex = 29;
+            this.BtnAddCity.Text = "Add city";
+            this.BtnAddCity.UseVisualStyleBackColor = false;
+            this.BtnAddCity.Click += new System.EventHandler(this.BtnAddCity_Click);
+            // 
             // FrmReferee
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(621, 266);
+            this.Controls.Add(this.BtnAddCity);
             this.Controls.Add(this.BtnSaveReferee);
             this.Controls.Add(this.CmbCities);
             this.Controls.Add(this.label4);
@@ -170,5 +186,6 @@
         private System.Windows.Forms.ComboBox CmbCities;
         private System.Windows.Forms.Button BtnSaveReferee;
         private System.Windows.Forms.ErrorProvider errorProvider;
+        private System.Windows.Forms.Button BtnAddCity;
     }
 }

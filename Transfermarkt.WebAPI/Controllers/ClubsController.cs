@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Transfermarkt.Models;
 using Transfermarkt.Models.Requests;
 using Transfermarkt.WebAPI.Services;
 

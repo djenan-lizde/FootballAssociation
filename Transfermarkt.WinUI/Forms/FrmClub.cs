@@ -215,5 +215,27 @@ namespace Transfermarkt.WinUI.Forms
                 errorProvider.SetError(CmbCities, null);
             }
         }
+
+        private void BtnAddCity_Click(object sender, EventArgs e)
+        {
+            FrmCity frm = new FrmCity();
+            frm.Show();
+        }
+
+        private async void CmbCities_MouseHover(object sender, EventArgs e)
+        {
+            var resultCity = await _aPIServiceCity.Get<List<Cities>>();
+
+            if (resultCity.Count == 0)
+            {
+                MessageBox.Show("We don't have cities", "Error");
+                return;
+            }
+
+            resultCity.Insert(0, new Cities());
+            CmbCities.DataSource = resultCity;
+            CmbCities.DisplayMember = "Name";
+            CmbCities.ValueMember = "Id";
+        }
     }
 }

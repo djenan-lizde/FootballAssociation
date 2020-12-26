@@ -71,6 +71,12 @@
     <Compile Include="Forms\FrmAdminPanel.Designer.cs">
       <DependentUpon>FrmAdminPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmCity.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmCity.Designer.cs">
+      <DependentUpon>FrmCity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmClubMatchSchedule.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -184,6 +190,9 @@
     </Compile>
     <EmbeddedResource Include="Forms\FrmAdminPanel.resx">
       <DependentUpon>FrmAdminPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmCity.resx">
+      <DependentUpon>FrmCity.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmClubMatchSchedule.resx">
       <DependentUpon>FrmClubMatchSchedule.cs</DependentUpon>

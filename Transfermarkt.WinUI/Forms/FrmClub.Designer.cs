@@ -51,6 +51,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.BtnMatchSchedule = new System.Windows.Forms.Button();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.BtnAddCity = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgvPlayers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -61,7 +62,7 @@
             this.BtnSaveClub.BackColor = System.Drawing.Color.RoyalBlue;
             this.BtnSaveClub.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnSaveClub.ForeColor = System.Drawing.Color.White;
-            this.BtnSaveClub.Location = new System.Drawing.Point(658, 271);
+            this.BtnSaveClub.Location = new System.Drawing.Point(689, 266);
             this.BtnSaveClub.Name = "BtnSaveClub";
             this.BtnSaveClub.Size = new System.Drawing.Size(139, 37);
             this.BtnSaveClub.TabIndex = 0;
@@ -153,6 +154,7 @@
             this.CmbCities.Name = "CmbCities";
             this.CmbCities.Size = new System.Drawing.Size(218, 26);
             this.CmbCities.TabIndex = 9;
+            this.CmbCities.MouseHover += new System.EventHandler(this.CmbCities_MouseHover);
             this.CmbCities.Validating += new System.ComponentModel.CancelEventHandler(this.CmbCities_Validating);
             // 
             // label5
@@ -270,11 +272,25 @@
             // 
             this.errorProvider.ContainerControl = this;
             // 
+            // BtnAddCity
+            // 
+            this.BtnAddCity.BackColor = System.Drawing.Color.RoyalBlue;
+            this.BtnAddCity.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnAddCity.ForeColor = System.Drawing.Color.White;
+            this.BtnAddCity.Location = new System.Drawing.Point(535, 275);
+            this.BtnAddCity.Name = "BtnAddCity";
+            this.BtnAddCity.Size = new System.Drawing.Size(79, 29);
+            this.BtnAddCity.TabIndex = 28;
+            this.BtnAddCity.Text = "Add city";
+            this.BtnAddCity.UseVisualStyleBackColor = false;
+            this.BtnAddCity.Click += new System.EventHandler(this.BtnAddCity_Click);
+            // 
             // FrmClub
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(899, 544);
+            this.Controls.Add(this.BtnAddCity);
             this.Controls.Add(this.BtnMatchSchedule);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.DgvPlayers);
@@ -330,5 +346,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button BtnMatchSchedule;
         private System.Windows.Forms.ErrorProvider errorProvider;
+        private System.Windows.Forms.Button BtnAddCity;
     }
 }

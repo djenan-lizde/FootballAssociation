@@ -102,11 +102,11 @@ namespace Transfermarkt.WebAPI
             services.AddScoped<IData<Database.MatchDetails>, Data<Database.MatchDetails>>();
 
             //get
-            services.AddScoped<IService<Models.Cities, object>, BaseService<Models.Cities, object, Database.Cities>>();
             services.AddScoped<IService<Models.Positions, object>, BaseService<Models.Positions, object, Database.Positions>>();
             services.AddScoped<IService<Models.Roles, object>, BaseService<Models.Roles, object, Database.Roles>>();
 
             //CRUD
+            services.AddScoped<ICRUDService<Models.Cities, object, Models.Cities, Models.Cities>, CitiesService>();
             services.AddScoped<ICRUDService<Models.Clubs, ClubSearchRequest, Models.Clubs, Models.Clubs>, ClubsService>();
             services.AddScoped<ICRUDService<Models.Players, PlayerSearchRequest, Models.Players, Models.Players>, PlayersService>();
             services.AddScoped<ICRUDService<Models.Leagues, object, Models.Leagues, Models.Leagues>,LeaguesService>();

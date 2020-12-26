@@ -134,7 +134,6 @@
             this.Controls.Add(this.BtnPlayersList);
             this.Name = "FrmPlayersList";
             this.Text = "FrmPlayersList";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FrmPlayersList_Load);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DgvPlayersList)).EndInit();

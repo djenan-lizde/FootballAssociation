@@ -49,6 +49,9 @@ namespace Transfermarkt.WinUI.Forms
             CmbReferees.Enabled = true;
             TxtDateGame.Enabled = true;
             TxtMatchStart.Enabled = true;
+            pictureBox1.Image = null;
+            pictureBox2.Image = null;
+
 
             var clubs = await _aPIServiceClub.GetById<List<ClubsLeague>>(leagueId, "ClubsInLeague");
 

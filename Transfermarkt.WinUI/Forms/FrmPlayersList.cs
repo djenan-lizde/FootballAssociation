@@ -92,6 +92,7 @@ namespace Transfermarkt.WinUI.Forms
                     await _aPIServicePlayer.Update<Players>(player, player.Id.ToString());
                 }
             }
+            MessageBox.Show("Contracts updated", "Information", MessageBoxButtons.OK);
         }
         private async void TxtSearchPlayer_TextChanged(object sender, EventArgs e)
         {

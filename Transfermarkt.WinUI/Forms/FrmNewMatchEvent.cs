@@ -106,7 +106,7 @@ namespace Transfermarkt.WinUI.Forms
                     MatchId = Id,
                     Minute = int.Parse(TxtMinute.Text),
                     PlayerId = int.Parse(CmbPlayers.SelectedValue.ToString()),
-                    ActionType = int.Parse(CmbEvent.SelectedIndex.ToString())
+                    ActionType = int.Parse(CmbEvent.SelectedIndex.ToString()) - 1
                 }, "NewDetailMatch");
                 FrmMatchDetail frm = new FrmMatchDetail(Id);
                 frm.Show();
