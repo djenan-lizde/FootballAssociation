@@ -31,6 +31,13 @@ namespace Transfermarkt.WinUI.Forms
                     password = TxtPassword.Text
                 }, "login");
 
+                if (data == null)
+                {
+                    MessageBox.Show("Wrong username or password", "Information", MessageBoxButtons.OK);
+                    TxtUsername.Text = TxtPassword.Text = "";
+                    return;
+                }
+
                 bool isAdmin = await _apiServiceUsers.Get<bool>(new UserRoleCheck
                 {
                     Username = data.Username,
@@ -52,7 +59,7 @@ namespace Transfermarkt.WinUI.Forms
                     var frm = new FrmIndex(TxtUsername.Text);
                     frm.Show();
                     frm.FormClosing += Frm_FormClosing;
-                    this.Hide();                    
+                    this.Hide();
                 }
             }
             catch (Exception ex)
