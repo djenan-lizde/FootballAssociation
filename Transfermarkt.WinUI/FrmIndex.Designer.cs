@@ -182,7 +182,7 @@
             this.groupBox1.Controls.Add(this.DgvLeagues);
             this.groupBox1.Location = new System.Drawing.Point(12, 72);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(453, 116);
+            this.groupBox1.Size = new System.Drawing.Size(484, 160);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Leagues";
@@ -197,7 +197,7 @@
             this.DgvLeagues.Name = "DgvLeagues";
             this.DgvLeagues.ReadOnly = true;
             this.DgvLeagues.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DgvLeagues.Size = new System.Drawing.Size(447, 97);
+            this.DgvLeagues.Size = new System.Drawing.Size(478, 141);
             this.DgvLeagues.TabIndex = 0;
             this.DgvLeagues.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.DgvLeagues_MouseDoubleClick);
             // 
@@ -215,7 +215,7 @@
             this.BtnReport.BackColor = System.Drawing.Color.RoyalBlue;
             this.BtnReport.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnReport.ForeColor = System.Drawing.Color.White;
-            this.BtnReport.Location = new System.Drawing.Point(331, 225);
+            this.BtnReport.Location = new System.Drawing.Point(359, 273);
             this.BtnReport.Name = "BtnReport";
             this.BtnReport.Size = new System.Drawing.Size(134, 37);
             this.BtnReport.TabIndex = 10;
@@ -228,7 +228,7 @@
             this.BtnRefresh.BackColor = System.Drawing.Color.RoyalBlue;
             this.BtnRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnRefresh.ForeColor = System.Drawing.Color.White;
-            this.BtnRefresh.Location = new System.Drawing.Point(175, 225);
+            this.BtnRefresh.Location = new System.Drawing.Point(199, 273);
             this.BtnRefresh.Name = "BtnRefresh";
             this.BtnRefresh.Size = new System.Drawing.Size(134, 37);
             this.BtnRefresh.TabIndex = 12;
