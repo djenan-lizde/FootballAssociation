@@ -35,6 +35,7 @@ namespace Transfermarkt.WinUI.Forms
                 {
                     MessageBox.Show("Wrong username or password", "Information", MessageBoxButtons.OK);
                     TxtUsername.Text = TxtPassword.Text = "";
+                    loader.Visible = false;
                     return;
                 }
 
