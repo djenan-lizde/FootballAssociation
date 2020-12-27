@@ -145,7 +145,7 @@ namespace Transfermarkt.WinUI.Forms
                 {
                     var gameEnd = (int.Parse(TxtMatchStart.Text.Substring(0, 2)) + 2).ToString() + TxtMatchStart.Text.Substring(2, 3);
 
-                    var addedMatch = await _aPIServiceMatch.Insert<Matches>(new Matches
+                    var match = new Matches
                     {
                         HomeClubId = int.Parse(CmbHomeClub.SelectedValue.ToString()),
                         AwayClubId = int.Parse(CmbAwayClub.SelectedValue.ToString()),
@@ -154,28 +154,32 @@ namespace Transfermarkt.WinUI.Forms
                         StadiumId = StadiumId,
                         GameStart = TxtMatchStart.Text,
                         GameEnd = gameEnd,
-                        LeagueId = int.Parse(CmbHomeClub.SelectedValue.ToString()),
+                        LeagueId = int.Parse(CmbLeagues.SelectedValue.ToString()),
                         SeasonId = SeasonId
-                    });
-
-                    var refereeMatch = new RefereeMatches
-                    {
-                        RefereeId = int.Parse(CmbReferees.SelectedValue.ToString()),
-                        MatchId = addedMatch.Id
                     };
-                    await _aPIServiceMatch.Insert<RefereeMatches>(refereeMatch, "RefereeMatch");
 
-                    MessageBox.Show("Match added.", "Information", MessageBoxButtons.OK);
+                    var addedMatch = await _aPIServiceMatch.Insert<Matches>(match);
+
+                    if (addedMatch != null)
+                    {
+                        var refereeMatch = new RefereeMatches
+                        {
+                            RefereeId = int.Parse(CmbReferees.SelectedValue.ToString()),
+                            MatchId = addedMatch.Id
+                        };
+                        await _aPIServiceMatch.Insert<RefereeMatches>(refereeMatch, "RefereeMatch");
+
+                        MessageBox.Show("Match added.", "Information", MessageBoxButtons.OK);
+                    }
                 }
                 catch (Exception)
                 {
                     MessageBox.Show("Error", "Something went wrong", MessageBoxButtons.OK);
                     throw;
                 }
-                
             }
         }
-        
+
         private void TxtMatchStart_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(TxtMatchStart.Text))
