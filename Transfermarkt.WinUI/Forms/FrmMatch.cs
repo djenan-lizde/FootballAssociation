@@ -141,29 +141,38 @@ namespace Transfermarkt.WinUI.Forms
         {
             if (ValidateChildren())
             {
-                var gameEnd = (int.Parse(TxtMatchStart.Text.Substring(0, 2)) + 2).ToString() + TxtMatchStart.Text.Substring(2, 3);
-
-                var addedMatch = await _aPIServiceMatch.Insert<Matches>(new Matches
+                try
                 {
-                    HomeClubId = int.Parse(CmbHomeClub.SelectedValue.ToString()),
-                    AwayClubId = int.Parse(CmbAwayClub.SelectedValue.ToString()),
-                    DateGame = dateTimePicker1.Value,
-                    IsFinished = false,
-                    StadiumId = StadiumId,
-                    GameStart = TxtMatchStart.Text,
-                    GameEnd = gameEnd,
-                    LeagueId = int.Parse(CmbHomeClub.SelectedValue.ToString()),
-                    SeasonId = SeasonId
-                });
+                    var gameEnd = (int.Parse(TxtMatchStart.Text.Substring(0, 2)) + 2).ToString() + TxtMatchStart.Text.Substring(2, 3);
 
-                var refereeMatch = new RefereeMatches
+                    var addedMatch = await _aPIServiceMatch.Insert<Matches>(new Matches
+                    {
+                        HomeClubId = int.Parse(CmbHomeClub.SelectedValue.ToString()),
+                        AwayClubId = int.Parse(CmbAwayClub.SelectedValue.ToString()),
+                        DateGame = dateTimePicker1.Value,
+                        IsFinished = false,
+                        StadiumId = StadiumId,
+                        GameStart = TxtMatchStart.Text,
+                        GameEnd = gameEnd,
+                        LeagueId = int.Parse(CmbHomeClub.SelectedValue.ToString()),
+                        SeasonId = SeasonId
+                    });
+
+                    var refereeMatch = new RefereeMatches
+                    {
+                        RefereeId = int.Parse(CmbReferees.SelectedValue.ToString()),
+                        MatchId = addedMatch.Id
+                    };
+                    await _aPIServiceMatch.Insert<RefereeMatches>(refereeMatch, "RefereeMatch");
+
+                    MessageBox.Show("Match added.", "Information", MessageBoxButtons.OK);
+                }
+                catch (Exception)
                 {
-                    RefereeId = int.Parse(CmbReferees.SelectedValue.ToString()),
-                    MatchId = addedMatch.Id
-                };
-                await _aPIServiceMatch.Insert<RefereeMatches>(refereeMatch, "RefereeMatch");
-
-                MessageBox.Show("Match added.", "Information", MessageBoxButtons.OK);
+                    MessageBox.Show("Error", "Something went wrong", MessageBoxButtons.OK);
+                    throw;
+                }
+                
             }
         }
         

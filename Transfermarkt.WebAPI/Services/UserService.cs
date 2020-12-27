@@ -43,7 +43,7 @@ namespace Transfermarkt.WebAPI.Services
 
             if (user == null)
             {
-                throw new Exception("Error");
+                throw new ArgumentNullException("Error");
             }
 
             if (user.PasswordHash != HashGenSalt.GenerateHash(user.PasswordSalt, model.Password))
