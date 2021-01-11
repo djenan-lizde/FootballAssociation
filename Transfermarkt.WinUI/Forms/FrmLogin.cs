@@ -15,11 +15,6 @@ namespace Transfermarkt.WinUI.Forms
             loader.Visible = false;
         }
 
-        private void BtnCreateAcc_Click(object sender, EventArgs e)
-        {
-            FrmRegister frm = new FrmRegister();
-            frm.Show();
-        }
         private async void BtnLogin_Click(object sender, EventArgs e)
         {
             loader.Visible = true;

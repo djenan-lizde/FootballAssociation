@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Transfermarkt.Models;
 using Transfermarkt.Models.Requests;
@@ -22,6 +23,8 @@ namespace Transfermarkt.WinUI.Forms
         public FrmMatch()
         {
             InitializeComponent();
+            TimePicker.Format = DateTimePickerFormat.Time;
+            TimePicker.ShowUpDown = true;
             this.AutoValidate = AutoValidate.Disable;
         }
         private async void FrmMatch_Load(object sender, EventArgs e)
@@ -48,11 +51,10 @@ namespace Transfermarkt.WinUI.Forms
             CmbAwayClub.Enabled = true;
             CmbHomeClub.Enabled = true;
             CmbReferees.Enabled = true;
-            dateTimePicker1.Enabled = true;
-            TxtMatchStart.Enabled = true;
+            DatePicker.Enabled = true;
+            TimePicker.Enabled = true;
             pictureBox1.Image = null;
             pictureBox2.Image = null;
-
 
             var clubs = await _aPIServiceClub.GetById<List<ClubsLeague>>(leagueId, "ClubsInLeague");
 
@@ -143,53 +145,49 @@ namespace Transfermarkt.WinUI.Forms
             {
                 try
                 {
-                    var gameEnd = (int.Parse(TxtMatchStart.Text.Substring(0, 2)) + 2).ToString() + TxtMatchStart.Text.Substring(2, 3);
-
-                    var match = new Matches
+                    if (DatePicker.Value > DateTime.Now.AddDays(2))
                     {
-                        HomeClubId = int.Parse(CmbHomeClub.SelectedValue.ToString()),
-                        AwayClubId = int.Parse(CmbAwayClub.SelectedValue.ToString()),
-                        DateGame = dateTimePicker1.Value,
-                        IsFinished = false,
-                        StadiumId = StadiumId,
-                        GameStart = TxtMatchStart.Text,
-                        GameEnd = gameEnd,
-                        LeagueId = int.Parse(CmbLeagues.SelectedValue.ToString()),
-                        SeasonId = SeasonId
-                    };
-
-                    var addedMatch = await _aPIServiceMatch.Insert<Matches>(match);
-
-                    if (addedMatch != null)
-                    {
-                        var refereeMatch = new RefereeMatches
+                        if (CmbHomeClub.SelectedValue.ToString() == CmbAwayClub.SelectedValue.ToString())
                         {
-                            RefereeId = int.Parse(CmbReferees.SelectedValue.ToString()),
-                            MatchId = addedMatch.Id
+                            MessageBox.Show("You can't pick two same teams to play against each other.", "Information", MessageBoxButtons.OK);
+                            return;
+                        }
+                        var match = new Matches
+                        {
+                            HomeClubId = int.Parse(CmbHomeClub.SelectedValue.ToString()),
+                            AwayClubId = int.Parse(CmbAwayClub.SelectedValue.ToString()),
+                            DateGame = DatePicker.Value,
+                            IsFinished = false,
+                            StadiumId = StadiumId,
+                            GameStart = TimePicker.Value.ToString(),
+                            GameEnd = TimePicker.Value.AddHours(2).ToString(),
+                            LeagueId = int.Parse(CmbLeagues.SelectedValue.ToString()),
+                            SeasonId = SeasonId
                         };
-                        await _aPIServiceMatch.Insert<RefereeMatches>(refereeMatch, "RefereeMatch");
 
-                        MessageBox.Show("Match added.", "Information", MessageBoxButtons.OK);
+                        var addedMatch = await _aPIServiceMatch.Insert<Matches>(match);
+
+                        if (addedMatch != null)
+                        {
+                            var refereeMatch = new RefereeMatches
+                            {
+                                RefereeId = int.Parse(CmbReferees.SelectedValue.ToString()),
+                                MatchId = addedMatch.Id
+                            };
+                            await _aPIServiceMatch.Insert<RefereeMatches>(refereeMatch, "RefereeMatch");
+
+                            MessageBox.Show("Match added.", "Information", MessageBoxButtons.OK);
+                            return;
+                        }
                     }
+                    MessageBox.Show("Match needs to be scheduled at least 3 days earlier.", "Information", MessageBoxButtons.OK);
+                    return;
                 }
                 catch (Exception)
                 {
                     MessageBox.Show("Error", "Something went wrong", MessageBoxButtons.OK);
                     throw;
                 }
-            }
-        }
-
-        private void TxtMatchStart_Validating(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(TxtMatchStart.Text))
-            {
-                errorProvider.SetError(TxtMatchStart, "Please insert when match is going to start HH:MM");
-                e.Cancel = true;
-            }
-            else
-            {
-                errorProvider.SetError(TxtMatchStart, null);
             }
         }
         private void CmbReferees_Validating(object sender, System.ComponentModel.CancelEventArgs e)

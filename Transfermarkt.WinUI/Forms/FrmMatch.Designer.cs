@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.TxtMatchStart = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.CmbHomeClub = new System.Windows.Forms.ComboBox();
             this.CmbAwayClub = new System.Windows.Forms.ComboBox();
@@ -47,7 +46,8 @@
             this.label8 = new System.Windows.Forms.Label();
             this.CmbLeagues = new System.Windows.Forms.ComboBox();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.DatePicker = new System.Windows.Forms.DateTimePicker();
+            this.TimePicker = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -72,15 +72,6 @@
             this.label3.Size = new System.Drawing.Size(148, 18);
             this.label3.TabIndex = 5;
             this.label3.Text = "Match start (HH:MM)";
-            // 
-            // TxtMatchStart
-            // 
-            this.TxtMatchStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtMatchStart.Location = new System.Drawing.Point(652, 70);
-            this.TxtMatchStart.Name = "TxtMatchStart";
-            this.TxtMatchStart.Size = new System.Drawing.Size(180, 24);
-            this.TxtMatchStart.TabIndex = 4;
-            this.TxtMatchStart.Validating += new System.ComponentModel.CancelEventHandler(this.TxtMatchStart_Validating);
             // 
             // label2
             // 
@@ -229,19 +220,27 @@
             // 
             this.errorProvider.ContainerControl = this;
             // 
-            // dateTimePicker1
+            // DatePicker
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(453, 74);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(180, 20);
-            this.dateTimePicker1.TabIndex = 30;
+            this.DatePicker.Location = new System.Drawing.Point(453, 74);
+            this.DatePicker.Name = "DatePicker";
+            this.DatePicker.Size = new System.Drawing.Size(180, 20);
+            this.DatePicker.TabIndex = 30;
+            // 
+            // TimePicker
+            // 
+            this.TimePicker.Location = new System.Drawing.Point(664, 74);
+            this.TimePicker.Name = "TimePicker";
+            this.TimePicker.Size = new System.Drawing.Size(180, 20);
+            this.TimePicker.TabIndex = 31;
             // 
             // FrmMatch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(862, 474);
-            this.Controls.Add(this.dateTimePicker1);
+            this.Controls.Add(this.TimePicker);
+            this.Controls.Add(this.DatePicker);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.CmbLeagues);
             this.Controls.Add(this.label7);
@@ -257,7 +256,6 @@
             this.Controls.Add(this.CmbHomeClub);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.TxtMatchStart);
             this.Controls.Add(this.label1);
             this.Name = "FrmMatch";
             this.Text = "FrmMatch";
@@ -273,7 +271,6 @@
         #endregion
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox TxtMatchStart;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox CmbHomeClub;
         private System.Windows.Forms.ComboBox CmbAwayClub;
@@ -289,6 +286,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox CmbLeagues;
         private System.Windows.Forms.ErrorProvider errorProvider;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker DatePicker;
+        private System.Windows.Forms.DateTimePicker TimePicker;
     }
 }

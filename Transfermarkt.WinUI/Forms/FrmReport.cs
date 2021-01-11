@@ -6,6 +6,10 @@ using Transfermarkt.Models;
 using Transfermarkt.Models.Requests;
 using System.IO;
 using System.Xml.Serialization;
+using Syncfusion.Pdf;
+using Syncfusion.Pdf.Grid;
+using System.Data;
+using System.Drawing;
 
 namespace Transfermarkt.WinUI.Forms
 {
@@ -43,8 +47,10 @@ namespace Transfermarkt.WinUI.Forms
             clubContractsMoneySpent.Clear();
             transfers.Clear();
             DgvTransfers.DataSource = null;
+
             var selectedValue = int.Parse(CmbLeagues.SelectedValue.ToString());
             var clubsInLeague = await _apiServiceClubs.GetById<List<ClubsLeague>>(selectedValue, "ClubsInLeague");
+
             if (clubsInLeague.Count() == 0)
             {
                 return;
@@ -89,7 +95,7 @@ namespace Transfermarkt.WinUI.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -97,12 +103,35 @@ namespace Transfermarkt.WinUI.Forms
         {
             try
             {
-                Stream stream = File.OpenWrite(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\ContractsSum.txt");
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<ClubContracts>));
-                xmlSerializer.Serialize(stream, clubContractsMoneySpent);
+                Stream stream = File.OpenWrite(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\ContractsSum.pdf");
 
-                stream.Close();
-                MessageBox.Show("Successfully saved to desktop.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                PdfDocument doc = new PdfDocument();
+                //Add a page.
+                PdfPage page = doc.Pages.Add();
+                //Create a PdfGrid.
+                PdfGrid pdfGrid = new PdfGrid();
+                //Create a DataTable.
+                DataTable dataTable = new DataTable();
+                //Add columns to the DataTable
+                dataTable.Columns.Add("Club name");
+                dataTable.Columns.Add("Spent money");
+                //Add rows to the DataTable.
+                foreach (var item in clubContractsMoneySpent)
+                {
+                    dataTable.Rows.Add(new object[] { item.ClubName, $" {item.Sum} €" });
+                }
+                dataTable.Rows.Add(new object[] { $"Total money spent {clubContractsMoneySpent.Sum(x => x.Sum)}" });
+                //Assign data source.
+                pdfGrid.DataSource = dataTable;
+                //Draw grid to the page of PDF document.
+                pdfGrid.Draw(page, new PointF(10, 10));
+                //Save the document.
+                doc.Save(stream);
+                //close the document
+                //dodati i transfere
+                doc.Close(true);
+
+                MessageBox.Show("Report successfully saved to desktop.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {

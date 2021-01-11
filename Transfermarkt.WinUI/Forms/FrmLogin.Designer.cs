@@ -33,8 +33,6 @@
             this.TxtPassword = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.BtnLogin = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.BtnCreateAcc = new System.Windows.Forms.Button();
             this.loader = new Transfermarkt.WinUI.UserControls.Loader();
             this.SuspendLayout();
             // 
@@ -92,29 +90,6 @@
             this.BtnLogin.UseVisualStyleBackColor = false;
             this.BtnLogin.Click += new System.EventHandler(this.BtnLogin_Click);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(61, 358);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(371, 24);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "If u don\'t have an account you can create it.";
-            // 
-            // BtnCreateAcc
-            // 
-            this.BtnCreateAcc.BackColor = System.Drawing.Color.RoyalBlue;
-            this.BtnCreateAcc.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnCreateAcc.ForeColor = System.Drawing.Color.White;
-            this.BtnCreateAcc.Location = new System.Drawing.Point(454, 343);
-            this.BtnCreateAcc.Name = "BtnCreateAcc";
-            this.BtnCreateAcc.Size = new System.Drawing.Size(128, 46);
-            this.BtnCreateAcc.TabIndex = 6;
-            this.BtnCreateAcc.Text = "Create";
-            this.BtnCreateAcc.UseVisualStyleBackColor = false;
-            this.BtnCreateAcc.Click += new System.EventHandler(this.BtnCreateAcc_Click);
-            // 
             // loader
             // 
             this.loader.Location = new System.Drawing.Point(297, 133);
@@ -126,10 +101,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(713, 462);
+            this.ClientSize = new System.Drawing.Size(709, 398);
             this.Controls.Add(this.loader);
-            this.Controls.Add(this.BtnCreateAcc);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.BtnLogin);
             this.Controls.Add(this.TxtPassword);
             this.Controls.Add(this.label2);
@@ -149,8 +122,6 @@
         private System.Windows.Forms.TextBox TxtPassword;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button BtnLogin;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button BtnCreateAcc;
         private UserControls.Loader loader;
     }
 }
