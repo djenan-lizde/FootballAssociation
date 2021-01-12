@@ -36,6 +36,7 @@
             this.CmbSeasons = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.TxtRecomMatch = new System.Windows.Forms.TextBox();
+            this.BtnRefresh = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DgvClubList)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -121,11 +122,25 @@
             this.TxtRecomMatch.Size = new System.Drawing.Size(510, 26);
             this.TxtRecomMatch.TabIndex = 7;
             // 
+            // BtnRefresh
+            // 
+            this.BtnRefresh.BackColor = System.Drawing.Color.RoyalBlue;
+            this.BtnRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnRefresh.ForeColor = System.Drawing.Color.White;
+            this.BtnRefresh.Location = new System.Drawing.Point(843, 467);
+            this.BtnRefresh.Name = "BtnRefresh";
+            this.BtnRefresh.Size = new System.Drawing.Size(134, 37);
+            this.BtnRefresh.TabIndex = 13;
+            this.BtnRefresh.Text = "Refresh";
+            this.BtnRefresh.UseVisualStyleBackColor = false;
+            this.BtnRefresh.Click += new System.EventHandler(this.BtnRefresh_Click);
+            // 
             // FrmClubsList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(992, 448);
+            this.ClientSize = new System.Drawing.Size(992, 520);
+            this.Controls.Add(this.BtnRefresh);
             this.Controls.Add(this.TxtRecomMatch);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.CmbSeasons);
@@ -153,5 +168,6 @@
         private System.Windows.Forms.ComboBox CmbSeasons;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox TxtRecomMatch;
+        private System.Windows.Forms.Button BtnRefresh;
     }
 }

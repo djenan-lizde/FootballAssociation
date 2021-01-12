@@ -154,5 +154,11 @@ namespace Transfermarkt.WinUI.Forms
                 return;
             }
         }
+
+        private void BtnRefresh_Click(object sender, EventArgs e)
+        {
+            DgvClubList.DataSource = null;
+            GenerateClubs();
+        }
     }
 }

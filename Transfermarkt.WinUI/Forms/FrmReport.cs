@@ -5,11 +5,8 @@ using System.Windows.Forms;
 using Transfermarkt.Models;
 using Transfermarkt.Models.Requests;
 using System.IO;
-using System.Xml.Serialization;
-using Syncfusion.Pdf;
-using Syncfusion.Pdf.Grid;
-using System.Data;
-using System.Drawing;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 
 namespace Transfermarkt.WinUI.Forms
 {
@@ -37,6 +34,7 @@ namespace Transfermarkt.WinUI.Forms
             CmbLeagues.DataSource = leagues;
             CmbLeagues.DisplayMember = "Name";
             CmbLeagues.ValueMember = "Id";
+            TxtTotalSum.ReadOnly = true;
         }
 
         public List<ClubContracts> clubContractsMoneySpent = new List<ClubContracts>();
@@ -103,33 +101,64 @@ namespace Transfermarkt.WinUI.Forms
         {
             try
             {
-                Stream stream = File.OpenWrite(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\ContractsSum.pdf");
+                Stream stream = File.OpenWrite(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\SeasonReport.pdf");
+                Document doc = new Document();
+                PdfWriter.GetInstance(doc, stream);
+                doc.Open();
 
-                PdfDocument doc = new PdfDocument();
-                //Add a page.
-                PdfPage page = doc.Pages.Add();
-                //Create a PdfGrid.
-                PdfGrid pdfGrid = new PdfGrid();
-                //Create a DataTable.
-                DataTable dataTable = new DataTable();
-                //Add columns to the DataTable
-                dataTable.Columns.Add("Club name");
-                dataTable.Columns.Add("Spent money");
-                //Add rows to the DataTable.
-                foreach (var item in clubContractsMoneySpent)
+                Font times = new Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN);
+
+                Paragraph header = new Paragraph($"Report for the league {CmbLeagues.Text}", times)
                 {
-                    dataTable.Rows.Add(new object[] { item.ClubName, $" {item.Sum} €" });
+                    Alignment = Element.ALIGN_CENTER,
+                    Font = times
+                };
+                doc.Add(header);
+                doc.Add(new Paragraph("\n"));
+
+                PdfPTable table = new PdfPTable(1);
+                var tableData = clubContractsMoneySpent;
+
+                foreach (var item in tableData)
+                {
+                    PdfPCell cell = new PdfPCell(new Phrase($"{item.ClubName} {item.Sum} €"))
+                    {
+                        HorizontalAlignment = 1
+                    };
+                    table.AddCell(cell);
                 }
-                dataTable.Rows.Add(new object[] { $"Total money spent {clubContractsMoneySpent.Sum(x => x.Sum)}" });
-                //Assign data source.
-                pdfGrid.DataSource = dataTable;
-                //Draw grid to the page of PDF document.
-                pdfGrid.Draw(page, new PointF(10, 10));
-                //Save the document.
-                doc.Save(stream);
-                //close the document
-                //dodati i transfere
-                doc.Close(true);
+                doc.Add(table);
+                Paragraph footer = new Paragraph($"Transfer sum { clubContractsMoneySpent.Sum(x => x.Sum)} €", times)
+                {
+                    Alignment = Element.ALIGN_CENTER,
+                    Font = times
+                };
+                doc.Add(footer);
+                doc.Add(new Paragraph("\n"));
+
+                Paragraph elements = new Paragraph("Player name - Expiration date - Redemption clause", times)
+                {
+                    Alignment = Element.ALIGN_CENTER,
+                    Font = times
+                };
+                doc.Add(elements);
+                doc.Add(new Paragraph("\n"));
+
+                PdfPTable transferTable = new PdfPTable(1);
+                var transferTableData = transfers;
+
+                foreach (var item in transferTableData)
+                {
+                    PdfPCell cell = new PdfPCell(new Phrase($"{item.PlayerFullName} " +
+                        $"{item.ContractExpirationDate.ToShortDateString()} {item.RedemptionClause} €"))
+                    {
+                        HorizontalAlignment = 1
+                    };
+                    transferTable.AddCell(cell);
+                }
+                doc.Add(transferTable);
+
+                doc.Close();
 
                 MessageBox.Show("Report successfully saved to desktop.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
