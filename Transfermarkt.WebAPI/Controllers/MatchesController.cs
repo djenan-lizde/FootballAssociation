@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Transfermarkt.Models.Enums;
 using Transfermarkt.Models.Requests;
 using Transfermarkt.WebAPI.Database;
 using Transfermarkt.WebAPI.Services;
@@ -81,20 +82,32 @@ namespace Transfermarkt.WebAPI.Controllers
             {
                 var clubs = _serviceClubLeague.GetByCondition(x => x.LeagueId == leagueId && x.SeasonId == lastSeason.Id);
 
-                List<ClubScoredGoals> clubScoredGoals = new List<ClubScoredGoals>();
+                List<ClubPointsGoals> clubScoredGoals = new List<ClubPointsGoals>();
 
                 foreach (var item in clubs)
                 {
                     var club = _serviceClub.GetById(item.ClubId);
                     if (club != null)
                     {
-                        var clubGoalDetails = _serviceMatchDetail.GetByCondition(x => x.ClubId == item.ClubId && x.ActionType == 3).Count();
+                        var clubMatches = _serviceMatch.GetByCondition(x => (x.HomeClubId == item.ClubId || x.AwayClubId == item.ClubId)
+                        && x.SeasonId == lastSeason.Id && x.IsFinished == true && x.LeagueId == leagueId);
 
-                        var clubGoals = new ClubScoredGoals
+                        int scoredGoals = 0;
+                        foreach (var match in clubMatches)
+                        {
+                            scoredGoals += _serviceMatchDetail.GetByCondition(x => x.ClubId == item.ClubId && x.ActionType == (int)Enums.ActionType.Goal
+                            && x.MatchId == match.Id).Count();
+                        }
+
+                        var clubPoints = _serviceClubLeague.GetTByCondition(x => x.LeagueId == leagueId && x.SeasonId == lastSeason.Id
+                            && x.ClubId == club.Id);
+
+                        var clubGoals = new ClubPointsGoals
                         {
                             ClubId = item.ClubId,
                             ClubName = club.Name,
-                            NumberOfScoredGoals = clubGoalDetails
+                            NumberOfScoredGoals = scoredGoals,
+                            Points = clubPoints.Points
                         };
                         clubScoredGoals.Add(clubGoals);
                     }

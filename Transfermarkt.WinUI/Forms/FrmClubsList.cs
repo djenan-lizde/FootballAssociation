@@ -35,13 +35,14 @@ namespace Transfermarkt.WinUI.Forms
 
                 var match = await _apiServiceMatch.GetById<Matches>(LeagueId, "RecommendMatch");
 
-                if (match != null)
+                if (match == null)
                 {
-                    var homeClub = await _apiServiceClubs.GetById<Clubs>(match.HomeClubId);
-                    var awayClub = await _apiServiceClubs.GetById<Clubs>(match.AwayClubId);
-
-                    TxtRecomMatch.Text = $"{homeClub.Name} - vs - {awayClub.Name} -- date: {match.DateGame.Date} {match.GameStart}";
+                    MessageBox.Show("Match will be recommended after first match is finished.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+                var homeClub = await _apiServiceClubs.GetById<Clubs>(match.HomeClubId);
+                var awayClub = await _apiServiceClubs.GetById<Clubs>(match.AwayClubId);
+
+                TxtRecomMatch.Text = $"{homeClub.Name} vs {awayClub.Name} - {match.DateGame.Date} {match.GameStart}";
             }
             catch (Exception)
             {
@@ -94,11 +95,12 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void GenerateClubs()
         {
+            DgvClubList.DataSource = null;
             List<ClubPoints> clubs = new List<ClubPoints>();
             int counter = 0;
 
             var clubLeague = await _apiServiceClubs.GetById<List<ClubsLeague>>(LeagueId, "ClubsInLeague");
-            foreach (var item in clubLeague)
+            foreach (var item in clubLeague.OrderByDescending(x => x.Points))
             {
                 counter += 1;
                 var club = await _apiServiceClubs.GetById<Clubs>(item.ClubId);
@@ -112,7 +114,7 @@ namespace Transfermarkt.WinUI.Forms
                     Position = counter
                 });
             }
-            DgvClubList.DataSource = clubs.OrderBy(x => x.Points);
+            DgvClubList.DataSource = clubs;
         }
         private async void CmbSeasons_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -157,7 +159,6 @@ namespace Transfermarkt.WinUI.Forms
 
         private void BtnRefresh_Click(object sender, EventArgs e)
         {
-            DgvClubList.DataSource = null;
             GenerateClubs();
         }
     }

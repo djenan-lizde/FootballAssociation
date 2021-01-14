@@ -41,7 +41,7 @@ namespace Transfermarkt.WinUI.Forms
                 dateTimePicker1.Value = clubLoad.Founded;
                 TxtMarketValue.Text = clubLoad.MarketValue.ToString();
                 TxtNickname.Text = clubLoad.Nickname;
-                CmbCities.SelectedIndex = clubLoad.CityId - 1;
+                CmbCities.SelectedValue = clubLoad.CityId;
                 if (clubLoad.Logo != null)
                 {
                     Image image = ImageResizer.ByteArrayToImage(clubLoad.Logo);

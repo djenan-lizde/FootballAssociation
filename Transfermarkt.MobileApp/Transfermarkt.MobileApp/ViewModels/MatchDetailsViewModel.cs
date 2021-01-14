@@ -37,8 +37,8 @@ namespace Transfermarkt.MobileApp.ViewModels
                 var AwayClubName = await _aPIServiceClubs.GetById<Clubs>(match.AwayClubId);
                 if (HomeClubName != null && AwayClubName != null)
                 {
-                    var HomeClubGoals = matchDetails.Count(x => x.ClubId == HomeClubName.Id && x.ActionType == 3);
-                    var AwayClubGoals = matchDetails.Count(x => x.ClubId == AwayClubName.Id && x.ActionType == 3);
+                    var HomeClubGoals = matchDetails.Count(x => x.ClubId == HomeClubName.Id && x.ActionType == (int)Enums.ActionType.Goal);
+                    var AwayClubGoals = matchDetails.Count(x => x.ClubId == AwayClubName.Id && x.ActionType == (int)Enums.ActionType.Goal);
 
                     if (match.IsFinished)
                         TeamsMatchResult = $"{HomeClubName.Name} {HomeClubGoals} : {AwayClubGoals} {AwayClubName.Name}";
