@@ -82,43 +82,55 @@ namespace Transfermarkt.WebAPI.Controllers
             {
                 var clubs = _serviceClubLeague.GetByCondition(x => x.LeagueId == leagueId && x.SeasonId == lastSeason.Id);
 
-                List<ClubPointsGoals> clubScoredGoals = new List<ClubPointsGoals>();
-
-                foreach (var item in clubs)
+                List<ClubPointsGoals> clubPointsGoals = new List<ClubPointsGoals>();
+                if (clubs.Count() > 0)
                 {
-                    var club = _serviceClub.GetById(item.ClubId);
-                    if (club != null)
+                    foreach (var item in clubs)
                     {
-                        var clubMatches = _serviceMatch.GetByCondition(x => (x.HomeClubId == item.ClubId || x.AwayClubId == item.ClubId)
-                        && x.SeasonId == lastSeason.Id && x.IsFinished == true && x.LeagueId == leagueId);
-
-                        int scoredGoals = 0;
-                        foreach (var match in clubMatches)
+                        var club = _serviceClub.GetById(item.ClubId);
+                        if (club != null)
                         {
-                            scoredGoals += _serviceMatchDetail.GetByCondition(x => x.ClubId == item.ClubId && x.ActionType == (int)Enums.ActionType.Goal
-                            && x.MatchId == match.Id).Count();
+                            var clubMatches = _serviceMatch.GetByCondition(x => (x.HomeClubId == item.ClubId || x.AwayClubId == item.ClubId)
+                            && x.SeasonId == lastSeason.Id && x.IsFinished == true && x.LeagueId == leagueId);
+
+                            if (clubMatches.Count() > 0)
+                            {
+                                int scoredGoals = 0;
+                                foreach (var match in clubMatches)
+                                {
+                                    scoredGoals += _serviceMatchDetail.GetByCondition(x => x.ClubId == item.ClubId && x.ActionType == (int)Enums.ActionType.Goal
+                                    && x.MatchId == match.Id).Count();
+                                }
+
+                                var clubPoints = _serviceClubLeague.GetTByCondition(x => x.LeagueId == leagueId && x.SeasonId == lastSeason.Id
+                                    && x.ClubId == club.Id);
+
+                                if (clubPoints != null)
+                                {
+                                    var clubGoals = new ClubPointsGoals
+                                    {
+                                        ClubId = item.ClubId,
+                                        ClubName = club.Name,
+                                        NumberOfScoredGoals = scoredGoals,
+                                        Points = clubPoints.Points
+                                    };
+                                    clubPointsGoals.Add(clubGoals);
+                                }
+                            }
                         }
-
-                        var clubPoints = _serviceClubLeague.GetTByCondition(x => x.LeagueId == leagueId && x.SeasonId == lastSeason.Id
-                            && x.ClubId == club.Id);
-
-                        var clubGoals = new ClubPointsGoals
-                        {
-                            ClubId = item.ClubId,
-                            ClubName = club.Name,
-                            NumberOfScoredGoals = scoredGoals,
-                            Points = clubPoints.Points
-                        };
-                        clubScoredGoals.Add(clubGoals);
                     }
-                }
-
-                for (int i = 1; i < clubScoredGoals.OrderByDescending(x => x.NumberOfScoredGoals).Count(); i++)
-                {
-                    var match = _serviceMatch.GetTByCondition(x => (x.HomeClubId == clubScoredGoals[i].ClubId 
-                            || x.AwayClubId == clubScoredGoals[i - 1].ClubId) && x.IsFinished == false);
-                    if (match != null)
-                        return match;
+                    if (clubPointsGoals.Count > 1)
+                    {
+                        for (int i = 1; i < clubPointsGoals.OrderByDescending(x => x.Points)
+                                .ThenByDescending(x => x.NumberOfScoredGoals).Count(); i++)
+                        {
+                            var match = _serviceMatch.GetTByCondition(x => ((x.HomeClubId == clubPointsGoals[i].ClubId
+                                    && x.AwayClubId == clubPointsGoals[i - 1].ClubId) || (x.AwayClubId == clubPointsGoals[i].ClubId
+                                    && x.HomeClubId == clubPointsGoals[i - 1].ClubId)) && x.IsFinished == false);
+                            if (match != null)
+                                return match;
+                        }
+                    }
                 }
             }
             return null;

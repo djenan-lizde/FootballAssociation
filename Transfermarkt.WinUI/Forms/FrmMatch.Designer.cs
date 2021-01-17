@@ -57,21 +57,21 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(450, 38);
+            this.label1.Location = new System.Drawing.Point(507, 38);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(187, 18);
+            this.label1.Size = new System.Drawing.Size(81, 18);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Match date (MM.DD.YYYY)";
+            this.label1.Text = "Match date";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(670, 38);
+            this.label3.Location = new System.Drawing.Point(715, 38);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(148, 18);
+            this.label3.Size = new System.Drawing.Size(82, 18);
             this.label3.TabIndex = 5;
-            this.label3.Text = "Match start (HH:MM)";
+            this.label3.Text = "Match start";
             // 
             // label2
             // 

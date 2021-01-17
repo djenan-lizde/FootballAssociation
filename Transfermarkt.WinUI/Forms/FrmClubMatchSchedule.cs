@@ -38,7 +38,7 @@ namespace Transfermarkt.WinUI.Forms
                     var awayClub = await _apiServiceClubs.GetById<Clubs>(item.AwayClubId);
                     var matchSchedule = new MatchSchedule
                     {
-                        GameDate = item.DateGame,
+                        GameStart = $"{item.DateGame:MM/dd/yyyy} {item.GameStart}",
                         Id = item.Id
                     };
                     if (matchDetails.Count() == 0)

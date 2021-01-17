@@ -30,6 +30,7 @@ namespace Transfermarkt.WinUI.Forms
                 MessageBox.Show("We don't have leagues", "Information", MessageBoxButtons.OK);
                 return;
             }
+            BtnPrint.Enabled = false;
             leagues.Insert(0, new Leagues());
             CmbLeagues.DataSource = leagues;
             CmbLeagues.DisplayMember = "Name";
@@ -42,6 +43,7 @@ namespace Transfermarkt.WinUI.Forms
         private async void CmbLeagues_SelectionChangeCommitted(object sender, EventArgs e)
         {
             TxtTotalSum.Enabled = true;
+            BtnPrint.Enabled = true;
             clubContractsMoneySpent.Clear();
             transfers.Clear();
             DgvTransfers.DataSource = null;

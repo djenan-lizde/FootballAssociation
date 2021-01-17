@@ -6,6 +6,6 @@ namespace Transfermarkt.Models.Requests
     {
         public int Id { get; set; }
         public string MatchGame { get; set; }
-        public DateTime GameDate { get; set; }
+        public string GameStart { get; set; }
     }
 }

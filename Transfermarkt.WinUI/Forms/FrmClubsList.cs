@@ -38,16 +38,17 @@ namespace Transfermarkt.WinUI.Forms
                 if (match == null)
                 {
                     MessageBox.Show("Match will be recommended after first match is finished.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
                 }
                 var homeClub = await _apiServiceClubs.GetById<Clubs>(match.HomeClubId);
                 var awayClub = await _apiServiceClubs.GetById<Clubs>(match.AwayClubId);
 
-                TxtRecomMatch.Text = $"{homeClub.Name} vs {awayClub.Name} - {match.DateGame.Date} {match.GameStart}";
+                TxtRecomMatch.Text = $"{homeClub.Name} vs {awayClub.Name} - {match.DateGame:dddd, dd MMMM yyyy} {match.GameStart}";
             }
             catch (Exception)
             {
                 TxtSearch.ReadOnly = true;
-                MessageBox.Show("League table is not formed yet", "Information", MessageBoxButtons.OK);
+                MessageBox.Show("Table will be formed after at least one match has finished.", "Information", MessageBoxButtons.OK);
                 return;
             }
 

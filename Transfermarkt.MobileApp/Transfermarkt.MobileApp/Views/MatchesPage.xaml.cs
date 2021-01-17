@@ -35,7 +35,7 @@ namespace Transfermarkt.MobileApp.Views
             var match = new MatchSchedule
             {
                 Id = item.Id,
-                GameDate = item.GameDate,
+                GameStart = $"{item.GameDate:MM/dd/yyyy} + {item.GameStart}",
                 MatchGame = $"{item.HomeClub} {item.AwayClub}"
             };
 

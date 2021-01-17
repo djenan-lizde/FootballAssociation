@@ -35,7 +35,7 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Label Grid.Column="0" Margin="0" Text="{Binding MatchGame}" HorizontalOptions="CenterAndExpand"/>
-                                    <Label Grid.Column="1" Margin="0" Text="{Binding GameDate}" HorizontalOptions="CenterAndExpand"/>
+                                    <Label Grid.Column="1" Margin="0" Text="{Binding GameStart}" HorizontalOptions="CenterAndExpand"/>
                                 </Grid>
                             </ViewCell.View>
                         </ViewCell>

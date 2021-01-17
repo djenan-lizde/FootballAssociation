@@ -38,9 +38,10 @@
             this.BtnSaveDetail = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.TxtMinute = new System.Windows.Forms.TextBox();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.NumberPicker = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumberPicker)).BeginInit();
             this.SuspendLayout();
             // 
             // CmbEvent
@@ -131,31 +132,29 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(375, 157);
+            this.label5.Location = new System.Drawing.Point(375, 179);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(102, 20);
             this.label5.TabIndex = 8;
             this.label5.Text = "Insert minute";
             // 
-            // TxtMinute
-            // 
-            this.TxtMinute.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtMinute.Location = new System.Drawing.Point(379, 213);
-            this.TxtMinute.Name = "TxtMinute";
-            this.TxtMinute.Size = new System.Drawing.Size(208, 26);
-            this.TxtMinute.TabIndex = 9;
-            this.TxtMinute.Validating += new System.ComponentModel.CancelEventHandler(this.TxtMinute_Validating);
-            // 
             // errorProvider
             // 
             this.errorProvider.ContainerControl = this;
+            // 
+            // NumberPicker
+            // 
+            this.NumberPicker.Location = new System.Drawing.Point(379, 213);
+            this.NumberPicker.Name = "NumberPicker";
+            this.NumberPicker.Size = new System.Drawing.Size(208, 20);
+            this.NumberPicker.TabIndex = 10;
             // 
             // FrmNewMatchEvent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(704, 327);
-            this.Controls.Add(this.TxtMinute);
+            this.Controls.Add(this.NumberPicker);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.BtnSaveDetail);
@@ -169,6 +168,7 @@
             this.Text = "FrmNewMatchEvent";
             this.Load += new System.EventHandler(this.FrmNewMatchEvent_Load);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumberPicker)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -185,7 +185,7 @@
         private System.Windows.Forms.Button BtnSaveDetail;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox TxtMinute;
         private System.Windows.Forms.ErrorProvider errorProvider;
+        private System.Windows.Forms.NumericUpDown NumberPicker;
     }
 }

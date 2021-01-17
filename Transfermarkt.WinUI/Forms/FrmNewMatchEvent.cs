@@ -89,7 +89,7 @@ namespace Transfermarkt.WinUI.Forms
         {
             if (ValidateChildren())
             {
-                if (int.Parse(TxtMinute.Text) < 0 || int.Parse(TxtMinute.Text) > 95)
+                if (NumberPicker.Value < 0 || NumberPicker.Value > 95)
                 {
                     MessageBox.Show("Minutes can't be under 0 or higher than 95 minutes.", "Error");
                     return;
@@ -98,7 +98,7 @@ namespace Transfermarkt.WinUI.Forms
                 if (matchDetails.Count != 0)
                 {
                     var lastRecord = matchDetails.LastOrDefault();
-                    if (lastRecord.Minute > int.Parse(TxtMinute.Text))
+                    if (lastRecord.Minute > NumberPicker.Value)
                     {
                         MessageBox.Show("Last added detail have lower minute.", "Error");
                         return;
@@ -109,26 +109,13 @@ namespace Transfermarkt.WinUI.Forms
                 {
                     ClubId = int.Parse(CmbClubs.SelectedValue.ToString()),
                     MatchId = Id,
-                    Minute = int.Parse(TxtMinute.Text),
+                    Minute = int.Parse(NumberPicker.Value.ToString()),
                     PlayerId = int.Parse(CmbPlayers.SelectedValue.ToString()),
                     ActionType = int.Parse(CmbEvent.SelectedIndex.ToString()) - 1
                 }, "NewDetailMatch");
                 FrmMatchDetail frm = new FrmMatchDetail(Id);
                 frm.Show();
                 Close();
-            }
-        }
-        private void TxtMinute_Validating(object sender, CancelEventArgs e)
-        {
-            bool success = int.TryParse(TxtMinute.Text, out _);
-            if (string.IsNullOrWhiteSpace(TxtMinute.Text) || !success)
-            {
-                errorProvider.SetError(TxtMinute, "Please insert date");
-                e.Cancel = true;
-            }
-            else
-            {
-                errorProvider.SetError(TxtMinute, null);
             }
         }
         private void CmbEvent_Validating(object sender, CancelEventArgs e)
