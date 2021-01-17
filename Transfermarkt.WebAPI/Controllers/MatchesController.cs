@@ -121,14 +121,26 @@ namespace Transfermarkt.WebAPI.Controllers
                     }
                     if (clubPointsGoals.Count > 1)
                     {
-                        for (int i = 1; i < clubPointsGoals.OrderByDescending(x => x.Points)
-                                .ThenByDescending(x => x.NumberOfScoredGoals).Count(); i++)
+                        Matches match = null;
+                        int counter = 1;
+                        foreach (var item in clubPointsGoals.OrderByDescending(x => x.Points)
+                                .ThenByDescending(x => x.NumberOfScoredGoals))
                         {
-                            var match = _serviceMatch.GetTByCondition(x => ((x.HomeClubId == clubPointsGoals[i].ClubId
-                                    && x.AwayClubId == clubPointsGoals[i - 1].ClubId) || (x.AwayClubId == clubPointsGoals[i].ClubId
-                                    && x.HomeClubId == clubPointsGoals[i - 1].ClubId)) && x.IsFinished == false);
-                            if (match != null)
-                                return match;
+                            if (counter == clubPointsGoals.Count)
+                            {
+                                return null;
+                            }
+                            if (counter != 1)
+                            {
+                                match = _serviceMatch.GetTByCondition(x => ((x.HomeClubId == item.ClubId
+                                     && x.AwayClubId == clubPointsGoals[counter - 1].ClubId)
+                                     || (x.AwayClubId == clubPointsGoals[counter].ClubId
+                                     && x.HomeClubId == clubPointsGoals[counter - 1].ClubId))
+                                     && x.IsFinished == false);
+                                if (match != null)
+                                    return match;
+                            }
+                            counter++;
                         }
                     }
                 }

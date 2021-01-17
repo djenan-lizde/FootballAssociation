@@ -103,66 +103,90 @@ namespace Transfermarkt.WinUI.Forms
         {
             try
             {
-                Stream stream = File.OpenWrite(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\SeasonReport.pdf");
-                Document doc = new Document();
-                PdfWriter.GetInstance(doc, stream);
-                doc.Open();
-
-                Font times = new Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN);
-
-                Paragraph header = new Paragraph($"Report for the league {CmbLeagues.Text}", times)
-                {
-                    Alignment = Element.ALIGN_CENTER,
-                    Font = times
-                };
-                doc.Add(header);
-                doc.Add(new Paragraph("\n"));
-
-                PdfPTable table = new PdfPTable(1);
                 var tableData = clubContractsMoneySpent;
-
-                foreach (var item in tableData)
+                if (tableData.Count > 0)
                 {
-                    PdfPCell cell = new PdfPCell(new Phrase($"{item.ClubName} {item.Sum} €"))
+                    Stream stream = File.OpenWrite(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\SeasonReport.pdf");
+                    Document doc = new Document();
+                    PdfWriter.GetInstance(doc, stream);
+                    doc.Open();
+
+                    Font times = new Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN);
+
+                    Paragraph header = new Paragraph($"Report for the league {CmbLeagues.Text}", times)
                     {
-                        HorizontalAlignment = 1
+                        Alignment = Element.ALIGN_CENTER,
+                        Font = times
                     };
-                    table.AddCell(cell);
-                }
-                doc.Add(table);
-                Paragraph footer = new Paragraph($"Transfer sum { clubContractsMoneySpent.Sum(x => x.Sum)} €", times)
-                {
-                    Alignment = Element.ALIGN_CENTER,
-                    Font = times
-                };
-                doc.Add(footer);
-                doc.Add(new Paragraph("\n"));
+                    doc.Add(header);
+                    doc.Add(new Paragraph("\n"));
 
-                Paragraph elements = new Paragraph("Player name - Expiration date - Redemption clause", times)
-                {
-                    Alignment = Element.ALIGN_CENTER,
-                    Font = times
-                };
-                doc.Add(elements);
-                doc.Add(new Paragraph("\n"));
+                    PdfPTable table = new PdfPTable(2);
 
-                PdfPTable transferTable = new PdfPTable(1);
-                var transferTableData = transfers;
-
-                foreach (var item in transferTableData)
-                {
-                    PdfPCell cell = new PdfPCell(new Phrase($"{item.PlayerFullName} " +
-                        $"{item.ContractExpirationDate.ToShortDateString()} {item.RedemptionClause} €"))
+                    foreach (var item in tableData.OrderByDescending(x => x.Sum))
                     {
-                        HorizontalAlignment = 1
+                        PdfPCell cell1 = new PdfPCell(new Phrase($"{item.ClubName}"))
+                        {
+                            HorizontalAlignment = 1
+                        };
+                        table.AddCell(cell1);
+                        PdfPCell cell2 = new PdfPCell(new Phrase($"{item.Sum} €"))
+                        {
+                            HorizontalAlignment = 1
+                        };
+                        table.AddCell(cell2);
+                    }
+                    doc.Add(table);
+                    Paragraph footer = new Paragraph($"Transfer sum { clubContractsMoneySpent.Sum(x => x.Sum)} €", times)
+                    {
+                        Alignment = Element.ALIGN_CENTER,
+                        Font = times
                     };
-                    transferTable.AddCell(cell);
+                    doc.Add(footer);
+                    doc.Add(new Paragraph("\n"));
+
+                    var transferTableData = transfers;
+                    if (transferTableData.Count > 0)
+                    {
+                        doc.Add(new Paragraph("\n"));
+
+                        PdfPTable transferTable = new PdfPTable(3);
+
+                        PdfPCell elements = new PdfPCell(new Phrase("Player name - Expiration date - Redemption clause"))
+                        {
+                            HorizontalAlignment = 1
+                        };
+                        elements.Colspan = 3;
+                        transferTable.AddCell(elements);
+
+                        foreach (var item in transferTableData.OrderByDescending(x => x.RedemptionClause))
+                        {
+                            PdfPCell cell1 = new PdfPCell(new Phrase($"{item.PlayerFullName}"))
+                            {
+                                HorizontalAlignment = 1
+                            };
+                            transferTable.AddCell(cell1);
+                            PdfPCell cell2 = new PdfPCell(new Phrase($"{item.ContractExpirationDate.ToShortDateString()}"))
+                            {
+                                HorizontalAlignment = 1
+                            };
+                            transferTable.AddCell(cell2);
+                            PdfPCell cell3 = new PdfPCell(new Phrase($"{item.RedemptionClause} €"))
+                            {
+                                HorizontalAlignment = 1
+                            };
+                            transferTable.AddCell(cell3);
+                        }
+                        doc.Add(transferTable);
+                    }
+                    doc.Close();
+
+                    MessageBox.Show("Report successfully saved to desktop.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                doc.Add(transferTable);
-
-                doc.Close();
-
-                MessageBox.Show("Report successfully saved to desktop.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                {
+                    MessageBox.Show("There is no enough data to create a report.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             catch (Exception ex)
             {

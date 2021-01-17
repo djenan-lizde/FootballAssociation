@@ -170,81 +170,99 @@ namespace Transfermarkt.WinUI.Forms
         private async void BtnSimulate_Click(object sender, EventArgs e)
         {
             //random number of events
-            Random random = new Random();
-            int num = random.Next(1, 10);
-
-            var homePlayers = await _aPIServiceContracts.GetById<List<Contracts>>(HomeClubId, "ClubContracts");
-            var awayPlayers = await _aPIServiceContracts.GetById<List<Contracts>>(AwayClubId, "ClubContracts");
-
-            for (int i = 1; i <= num; i++)
+            try
             {
-                var matchDetail = new MatchDetails
+                Random random = new Random();
+                int num = random.Next(1, 10);
+
+                var homePlayers = await _aPIServiceContracts.GetById<List<Contracts>>(HomeClubId, "ClubContracts");
+                var awayPlayers = await _aPIServiceContracts.GetById<List<Contracts>>(AwayClubId, "ClubContracts");
+
+                for (int i = 1; i <= num; i++)
                 {
-                    ActionType = random.Next(1, 4),
-                    MatchId = Id,
-                    Minute = random.Next(1, 95)
-                };
-                if (i % 2 == 0)
-                {
-                    matchDetail.ClubId = HomeClubId;
-                    var index = random.Next(homePlayers.Count());
-                    matchDetail.PlayerId = homePlayers[index].PlayerId;
+                    var matchDetail = new MatchDetails
+                    {
+                        ActionType = random.Next(0, 3),
+                        MatchId = Id,
+                        Minute = random.Next(1, 95)
+                    };
+                    if (i % 2 == 0)
+                    {
+                        matchDetail.ClubId = HomeClubId;
+                        var index = random.Next(homePlayers.Count());
+                        matchDetail.PlayerId = homePlayers[index].PlayerId;
+                    }
+                    else
+                    {
+                        matchDetail.ClubId = AwayClubId;
+                        var index = random.Next(awayPlayers.Count());
+                        matchDetail.PlayerId = awayPlayers[index].PlayerId;
+                    }
+                    await _aPIServiceMatches.Insert<MatchDetails>(matchDetail, "NewDetailMatch");
                 }
-                else
-                {
-                    matchDetail.ClubId = AwayClubId;
-                    var index = random.Next(awayPlayers.Count());
-                    matchDetail.PlayerId = awayPlayers[index].PlayerId;
-                }
-                await _aPIServiceMatches.Insert<MatchDetails>(matchDetail, "NewDetailMatch");
+                BtnMatchFinish.Visible = false;
+                BtnNewEventMatch.Visible = false;
+                BtnSimulate.Visible = false;
+
+                var match = await _aPIServiceMatches.GetById<Matches>(Id);
+                match.IsFinished = true;
+                var updatedMatch = await _aPIServiceMatches.Update<Matches>(match, match.Id.ToString());
+                UpdatePoints(updatedMatch);
+
+                MessageBox.Show("Match simulated", "Information");
+                FrmMatchDetail frm = new FrmMatchDetail(Id);
+                frm.Show();
+                Close();
             }
-            BtnMatchFinish.Visible = false;
-            BtnNewEventMatch.Visible = false;
-            BtnSimulate.Visible = false;
-
-            var match = await _aPIServiceMatches.GetById<Matches>(Id);
-            match.IsFinished = true;
-            var updatedMatch = await _aPIServiceMatches.Update<Matches>(match, match.Id.ToString());
-            UpdatePoints(updatedMatch);
-
-            MessageBox.Show("Match simulated", "Information");
-            FrmMatchDetail frm = new FrmMatchDetail(Id);
-            frm.Show();
-            Close();
+            catch (Exception)
+            {
+                MessageBox.Show("There was an error while simulating match.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+                throw;
+            }
         }
         private async void UpdatePoints(Matches match)
         {
-            var matchDetails = await _aPIServiceMatches.GetById<List<MatchDetails>>(Id, "MatchDetail");
-
-            //counting goals
-            var homeClubGoals = matchDetails.Count(x => x.ClubId == HomeClubId
-                && x.ActionType == (int)Enums.ActionType.Goal);
-
-            var awayClubGoals = matchDetails.Count(x => x.ClubId == AwayClubId
-                && x.ActionType == (int)Enums.ActionType.Goal);
-
-            if (homeClubGoals > awayClubGoals)
+            try
             {
-                var clubLeaguePoints = await _aPIServiceClubs.GetById<ClubsLeague>(match.HomeClubId, "ClubPoints");
-                clubLeaguePoints.Points += 3;
-                await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePoints, clubLeaguePoints.Id.ToString(), "ClubPoints");
+                var matchDetails = await _aPIServiceMatches.GetById<List<MatchDetails>>(Id, "MatchDetail");
+
+                //counting goals
+                var homeClubGoals = matchDetails.Count(x => x.ClubId == HomeClubId
+                    && x.ActionType == (int)Enums.ActionType.Goal);
+
+                var awayClubGoals = matchDetails.Count(x => x.ClubId == AwayClubId
+                    && x.ActionType == (int)Enums.ActionType.Goal);
+
+                if (homeClubGoals > awayClubGoals)
+                {
+                    var clubLeaguePoints = await _aPIServiceClubs.GetById<ClubsLeague>(match.HomeClubId, "ClubPoints");
+                    clubLeaguePoints.Points += 3;
+                    await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePoints, clubLeaguePoints.Id.ToString(), "ClubPoints");
+                }
+                else if (awayClubGoals > homeClubGoals)
+                {
+                    var clubLeaguePoints = await _aPIServiceClubs.GetById<ClubsLeague>(match.AwayClubId, "ClubPoints");
+                    clubLeaguePoints.Points += 3;
+                    await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePoints, clubLeaguePoints.Id.ToString(), "ClubPoints");
+                }
+                else
+                {
+                    var clubLeaguePointsHome = await _aPIServiceClubs.GetById<ClubsLeague>(match.HomeClubId, "ClubPoints");
+                    var clubLeaguePointsAway = await _aPIServiceClubs.GetById<ClubsLeague>(match.AwayClubId, "ClubPoints");
+
+                    clubLeaguePointsHome.Points += 1;
+                    clubLeaguePointsAway.Points += 1;
+
+                    await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePointsHome, clubLeaguePointsHome.Id.ToString(), "ClubPoints");
+                    await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePointsAway, clubLeaguePointsHome.Id.ToString(), "ClubPoints");
+                }
             }
-            else if (awayClubGoals > homeClubGoals)
+            catch (Exception)
             {
-                var clubLeaguePoints = await _aPIServiceClubs.GetById<ClubsLeague>(match.AwayClubId, "ClubPoints");
-                clubLeaguePoints.Points += 3;
-                await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePoints, clubLeaguePoints.Id.ToString(), "ClubPoints");
-            }
-            else
-            {
-                var clubLeaguePointsHome = await _aPIServiceClubs.GetById<ClubsLeague>(match.HomeClubId, "ClubPoints");
-                var clubLeaguePointsAway = await _aPIServiceClubs.GetById<ClubsLeague>(match.AwayClubId, "ClubPoints");
-
-                clubLeaguePointsHome.Points += 1;
-                clubLeaguePointsAway.Points += 1;
-
-                await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePointsHome, clubLeaguePointsHome.Id.ToString(), "ClubPoints");
-                await _aPIServiceClubs.Update<ClubsLeague>(clubLeaguePointsAway, clubLeaguePointsHome.Id.ToString(), "ClubPoints");
+                MessageBox.Show("There was an error while updating points.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+                throw;
             }
         }
     }

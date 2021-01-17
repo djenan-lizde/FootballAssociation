@@ -185,5 +185,11 @@ namespace Transfermarkt.WinUI
             var result = await _aPIServiceLeague.Get<List<Leagues>>();
             DgvLeagues.DataSource = result;
         }
+
+        private void UsersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmAdminPanel frm = new FrmAdminPanel();
+            frm.Show();
+        }
     }
 }
