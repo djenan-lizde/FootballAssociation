@@ -117,6 +117,11 @@ namespace Transfermarkt.WebAPI.Controllers
                                     clubPointsGoals.Add(clubGoals);
                                 }
                             }
+                            else
+                            {
+                                return _serviceMatch.GetTByCondition(x => x.LeagueId == leagueId && x.SeasonId == lastSeason.Id
+                                && x.IsFinished == false);
+                            }
                         }
                     }
                     if (clubPointsGoals.Count > 1)
@@ -127,15 +132,14 @@ namespace Transfermarkt.WebAPI.Controllers
                                 .ThenByDescending(x => x.NumberOfScoredGoals))
                         {
                             if (counter == clubPointsGoals.Count)
-                            {
                                 return null;
-                            }
-                            if (counter != 1)
+
+                            if (counter > 1 && item.ClubId != clubPointsGoals[counter].ClubId)
                             {
                                 match = _serviceMatch.GetTByCondition(x => ((x.HomeClubId == item.ClubId
-                                     && x.AwayClubId == clubPointsGoals[counter - 1].ClubId)
+                                     && x.AwayClubId == clubPointsGoals[counter].ClubId)
                                      || (x.AwayClubId == clubPointsGoals[counter].ClubId
-                                     && x.HomeClubId == clubPointsGoals[counter - 1].ClubId))
+                                     && x.HomeClubId == clubPointsGoals[counter].ClubId))
                                      && x.IsFinished == false);
                                 if (match != null)
                                     return match;

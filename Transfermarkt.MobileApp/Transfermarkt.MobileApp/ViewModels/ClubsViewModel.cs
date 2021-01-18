@@ -12,6 +12,7 @@ namespace Transfermarkt.MobileApp.ViewModels
     {
         private readonly APIService _apiServiceClubs = new APIService("Clubs");
         private readonly APIService _apiServiceLeagues = new APIService("Leagues");
+        private readonly APIService _apiServiceMatches = new APIService("Matches");
 
         public ClubsViewModel()
         {
@@ -29,52 +30,78 @@ namespace Transfermarkt.MobileApp.ViewModels
             }
         }
 
+        string recommendedMatch = string.Empty;
+        public string RecommendedMatch
+        {
+            get { return recommendedMatch; }
+            set { SetProperty(ref recommendedMatch, value); }
+        }
+
         public async Task Init()
         {
-            if (LeaguesList.Count == 0)
+            try
             {
-                var leagues = await _apiServiceLeagues.Get<List<Leagues>>(null);
-                if (leagues.Count > 0)
+                if (LeaguesList.Count == 0)
                 {
-                    foreach (var item in leagues)
+                    var leagues = await _apiServiceLeagues.Get<List<Leagues>>(null);
+                    if (leagues.Count > 0)
                     {
-                        LeaguesList.Add(item);
-                    }
-                }
-                else
-                {
-                    await Application.Current.MainPage.DisplayAlert("Information", "We don't have leagues.", "OK");
-                }
-            }
-
-            if (SelectedLeague != null)
-            {
-                var clubInLeague = await _apiServiceClubs.GetById<List<ClubsLeague>>(SelectedLeague.Id, "ClubsInLeague");
-                if (clubInLeague.Count > 0)
-                {
-                    ClubsPoints.Clear();
-                    var counter = 0;
-                    foreach (var item in clubInLeague)
-                    {
-                        var club = await _apiServiceClubs.GetById<Clubs>(item.ClubId);
-                        if (club != null)
+                        foreach (var item in leagues)
                         {
-                            ClubsPoints.Add(new ClubPoints
-                            {
-                                Id = club.Id,
-                                Abbreviation = club.Abbreviation,
-                                Logo = club.Logo,
-                                Name = club.Name,
-                                Points = item.Points,
-                                Position = counter + 1
-                            });
+                            LeaguesList.Add(item);
                         }
                     }
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Information", "We don't have leagues.", "OK");
+                    }
                 }
-                else
+
+                if (SelectedLeague != null)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Information", "We don't have clubs in leagues", "OK");
+                    var clubInLeague = await _apiServiceClubs.GetById<List<ClubsLeague>>(SelectedLeague.Id, "ClubsInLeague");
+                    if (clubInLeague.Count > 0)
+                    {
+                        ClubsPoints.Clear();
+                        var counter = 0;
+                        foreach (var item in clubInLeague)
+                        {
+                            var club = await _apiServiceClubs.GetById<Clubs>(item.ClubId);
+                            if (club != null)
+                            {
+                                ClubsPoints.Add(new ClubPoints
+                                {
+                                    Id = club.Id,
+                                    Abbreviation = club.Abbreviation,
+                                    Logo = club.Logo,
+                                    Name = club.Name,
+                                    Points = item.Points,
+                                    Position = counter + 1
+                                });
+                            }
+                        }
+                        var match = await _apiServiceMatches.GetById<Matches>(SelectedLeague.Id, "RecommendMatch");
+
+                        if (match == null)
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Information", "Season is not created yet.", "OK");
+                            return;
+                        }
+                        var homeClub = await _apiServiceClubs.GetById<Clubs>(match.HomeClubId);
+                        var awayClub = await _apiServiceClubs.GetById<Clubs>(match.AwayClubId);
+                        RecommendedMatch = $"{homeClub.Name} vs {awayClub.Name} - {match.DateGame:dddd, dd MMMM yyyy} {match.GameStart}";
+                    }
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Information", "We don't have clubs in leagues", "OK");
+                    }
                 }
+            }
+            catch (System.Exception)
+            {
+                await Application.Current.MainPage.DisplayAlert("Information", "Error", "OK");
+                return;
+                throw;
             }
         }
 

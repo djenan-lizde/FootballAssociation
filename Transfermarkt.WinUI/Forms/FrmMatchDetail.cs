@@ -182,7 +182,7 @@ namespace Transfermarkt.WinUI.Forms
                 {
                     var matchDetail = new MatchDetails
                     {
-                        ActionType = random.Next(0, 3),
+                        ActionType = random.Next(0, 4),
                         MatchId = Id,
                         Minute = random.Next(1, 95)
                     };

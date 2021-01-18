@@ -20,6 +20,7 @@
                 HorizontalOptions="CenterAndExpand" Padding="10" FontSize="Header"/>
             <Label Text="Choose a league from a combo box." VerticalOptions="FillAndExpand" Padding="10" HorizontalOptions="Center"></Label>
             <Picker ItemsSource="{Binding LeaguesList}" SelectedItem="{Binding SelectedLeague}" ItemDisplayBinding="{Binding Name}"></Picker>
+            <Label Text="{Binding RecommendedMatch}" VerticalOptions="FillAndExpand" Padding="10" HorizontalOptions="Center"></Label>
 
             <Grid HorizontalOptions="FillAndExpand" VerticalOptions="Start" RowSpacing="0" BackgroundColor="LightCoral">
                 <Grid.ColumnDefinitions>

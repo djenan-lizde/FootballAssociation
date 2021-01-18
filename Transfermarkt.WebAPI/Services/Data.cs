@@ -41,7 +41,7 @@ namespace Transfermarkt.WebAPI.Services
             var entity = entities.AsNoTracking().FirstOrDefault(predicate);
             if (entity == null)
             {
-                throw new ArgumentNullException("Entity");
+                return null;
             }
             return entity;
         }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Transfermarkt.Models;
 using Transfermarkt.Models.Requests;
+using Xamarin.Forms;
 
 namespace Transfermarkt.MobileApp.ViewModels
 {
@@ -57,6 +58,10 @@ namespace Transfermarkt.MobileApp.ViewModels
                         }
                     }
                 }
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Information", "There is no matches yet.", "OK");
             }
         }
     }

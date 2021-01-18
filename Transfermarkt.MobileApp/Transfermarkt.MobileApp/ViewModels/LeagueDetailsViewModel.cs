@@ -50,6 +50,10 @@ namespace Transfermarkt.MobileApp.ViewModels
                         SeasonsList.Add(item);
                     }
                 }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Information", "There is no seasons yet.", "OK");
+                }
             }
 
             if (SelectedSeason != null)
