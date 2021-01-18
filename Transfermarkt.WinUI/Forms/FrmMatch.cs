@@ -177,6 +177,7 @@ namespace Transfermarkt.WinUI.Forms
                             await _aPIServiceMatch.Insert<RefereeMatches>(refereeMatch, "RefereeMatch");
 
                             MessageBox.Show("Match added.", "Information", MessageBoxButtons.OK);
+                            Close();
                             return;
                         }
                     }

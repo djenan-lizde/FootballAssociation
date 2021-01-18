@@ -128,8 +128,7 @@ namespace Transfermarkt.WebAPI.Controllers
                     {
                         Matches match = null;
                         int counter = 1;
-                        foreach (var item in clubPointsGoals.OrderByDescending(x => x.Points)
-                                .ThenByDescending(x => x.NumberOfScoredGoals))
+                        foreach (var item in clubPointsGoals.OrderByDescending(x => x.Points))
                         {
                             if (counter == clubPointsGoals.Count)
                                 return null;
