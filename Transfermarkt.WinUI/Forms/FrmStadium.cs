@@ -33,7 +33,6 @@ namespace Transfermarkt.WinUI.Forms
                     TxtCapacity.Text = _stadium.Capacity.ToString();
                     dateTimePicker1.Value = _stadium.DateBuilt;
                     TxtStadiumName.Text = _stadium.Name;
-                    txtStadiumId.Text = _stadium.Id.ToString();
                 }
                 else
                 {
@@ -42,6 +41,7 @@ namespace Transfermarkt.WinUI.Forms
             }
             catch (Exception)
             {
+                MessageBox.Show("There was an error while creating a stadium.", "Information", MessageBoxButtons.OK);
                 return;
             }
         }
@@ -51,7 +51,7 @@ namespace Transfermarkt.WinUI.Forms
         {
             if (ValidateChildren())
             {
-                if (Id == 0)
+                try
                 {
                     var stadiums = await _aPIServiceStadium.Get<List<Stadiums>>();
 
@@ -63,28 +63,20 @@ namespace Transfermarkt.WinUI.Forms
                             return;
                         }
                     }
-                }
 
-                stadium.Capacity = int.Parse(TxtCapacity.Text);
-                stadium.ClubId = Id;
-                stadium.DateBuilt = dateTimePicker1.Value;
-                stadium.Name = TxtStadiumName.Text;
-                if (string.IsNullOrWhiteSpace(txtStadiumId.Text))
-                    stadium.Id = 0;
-                else
-                    stadium.Id = int.Parse(txtStadiumId.Text.ToString());
+                    stadium.Capacity = int.Parse(TxtCapacity.Text);
+                    stadium.ClubId = Id;
+                    stadium.DateBuilt = dateTimePicker1.Value;
+                    stadium.Name = TxtStadiumName.Text;
 
-                if (stadium.Id == 0)
-                {
                     await _aPIServiceStadium.Insert<Stadiums>(stadium);
                     MessageBox.Show("Successfully added!", "Stadium added");
                     Close();
                 }
-                else
+                catch (Exception)
                 {
-                    await _aPIServiceStadium.Update<Stadiums>(stadium, stadium.Id.ToString());
-                    MessageBox.Show("Successfully updated!", "Stadium updated");
-                    Close();
+                    MessageBox.Show("Error while creating stadium.", "Information", MessageBoxButtons.OK);
+                    return;
                 }
             }
         }

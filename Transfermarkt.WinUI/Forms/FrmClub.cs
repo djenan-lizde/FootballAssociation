@@ -27,6 +27,7 @@ namespace Transfermarkt.WinUI.Forms
         }
         private async void FrmInsertClub_Load(object sender, EventArgs e)
         {
+            TxtPhotoInput.ReadOnly = true;
             var resultCity = await _aPIServiceCity.Get<List<Cities>>();
             resultCity.Insert(0, new Cities());
             CmbCities.DataSource = resultCity;
@@ -102,13 +103,21 @@ namespace Transfermarkt.WinUI.Forms
 
                 if (Id.HasValue)
                 {
-                    var clubInDb = await _aPIServiceClub.GetById<Clubs>(club.Id);
-                    club.Logo = clubInDb.Logo;
+                    if (club.Logo == null)
+                    {
+                        var clubInDb = await _aPIServiceClub.GetById<Clubs>(club.Id);
+                        club.Logo = clubInDb.Logo;
+                    }
                     await _aPIServiceClub.Update<Clubs>(club, club.Id.ToString());
                     MessageBox.Show("Successfully updated.", "Club update");
                 }
                 else
                 {
+                    if (string.IsNullOrEmpty(TxtPhotoInput.Text) || string.IsNullOrWhiteSpace(TxtPhotoInput.Text))
+                    {
+                        MessageBox.Show("Please insert a logo.", "Information", MessageBoxButtons.OK);
+                        return;
+                    }
                     club = await _aPIServiceClub.Insert<Clubs>(club);
                     Id = club.Id;
                     MessageBox.Show("Successfully added.", "Information");

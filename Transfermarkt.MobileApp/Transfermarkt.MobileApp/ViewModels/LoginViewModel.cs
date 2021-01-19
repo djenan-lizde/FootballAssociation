@@ -41,11 +41,14 @@ namespace Transfermarkt.MobileApp.ViewModels
                     password = Password
                 }, "login");
 
-                if (data != null)
+                if (data == null)
                 {
-                    APIService.Token = data.Token;
-                    Application.Current.MainPage = new MainPage();
+                    await Application.Current.MainPage.DisplayAlert("Information", "Wrong username or password", "OK");
+                    return;
                 }
+
+                APIService.Token = data.Token;
+                Application.Current.MainPage = new MainPage();
             }
             catch (Exception ex)
             {

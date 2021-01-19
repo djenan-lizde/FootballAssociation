@@ -36,7 +36,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.lblClubName = new System.Windows.Forms.Label();
             this.BtnSaveStadium = new System.Windows.Forms.Button();
-            this.txtStadiumId = new System.Windows.Forms.TextBox();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -113,14 +112,6 @@
             this.BtnSaveStadium.UseVisualStyleBackColor = false;
             this.BtnSaveStadium.Click += new System.EventHandler(this.BtnSaveStadium_Click);
             // 
-            // txtStadiumId
-            // 
-            this.txtStadiumId.Location = new System.Drawing.Point(313, 194);
-            this.txtStadiumId.Name = "txtStadiumId";
-            this.txtStadiumId.Size = new System.Drawing.Size(100, 20);
-            this.txtStadiumId.TabIndex = 8;
-            this.txtStadiumId.Visible = false;
-            // 
             // errorProvider
             // 
             this.errorProvider.ContainerControl = this;
@@ -138,7 +129,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(548, 350);
             this.Controls.Add(this.dateTimePicker1);
-            this.Controls.Add(this.txtStadiumId);
             this.Controls.Add(this.BtnSaveStadium);
             this.Controls.Add(this.lblClubName);
             this.Controls.Add(this.label3);
@@ -164,7 +154,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblClubName;
         private System.Windows.Forms.Button BtnSaveStadium;
-        private System.Windows.Forms.TextBox txtStadiumId;
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }
