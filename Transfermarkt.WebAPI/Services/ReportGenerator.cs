@@ -9,7 +9,6 @@ namespace Transfermarkt.WebAPI.Services
     public interface IReportGenerator
     {
         IEnumerable<Transfers> GetTransfersReport();
-        IEnumerable<ClubContracts> GetClubContractsReport();
     }
 
     public class ReportGenerator : IReportGenerator
@@ -19,16 +18,6 @@ namespace Transfermarkt.WebAPI.Services
         public ReportGenerator(FootballAssociationDbContext context)
         {
             _context = context;
-        }
-
-        public IEnumerable<ClubContracts> GetClubContractsReport()
-        {
-            return _context.Clubs.Include(x => x.Contracts).ThenInclude(x => x.Player)
-                .Select(x => new ClubContracts
-                {
-                    ClubName = x.Name,
-                    Sum = _context.Contracts.Where(p => p.ClubId == x.Id).Sum(s => s.RedemptionClause)
-                }).ToList();
         }
 
         public IEnumerable<Transfers> GetTransfersReport()

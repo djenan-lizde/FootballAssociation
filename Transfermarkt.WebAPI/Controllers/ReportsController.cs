@@ -21,12 +21,5 @@ namespace Transfermarkt.WebAPI.Controllers
         {
             return Ok(_reportGenerator.GetTransfersReport());
         }
-
-        [HttpGet("clubContracts")]
-        [ExcelTemplate("ClubContracts.xslt")]
-        public IActionResult GetClubContractsReport()
-        {
-            return Ok(_reportGenerator.GetClubContractsReport());
-        }
     }
 }

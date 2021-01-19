@@ -31,7 +31,6 @@ namespace Transfermarkt.WinUI.Forms
                 MessageBox.Show("We don't have leagues", "Information", MessageBoxButtons.OK);
                 return;
             }
-            BtnClubContracts.Enabled = false;
             BtnTransfers.Enabled = false;
             leagues.Insert(0, new Leagues());
             CmbLeagues.DataSource = leagues;
@@ -45,7 +44,6 @@ namespace Transfermarkt.WinUI.Forms
         private async void CmbLeagues_SelectionChangeCommitted(object sender, EventArgs e)
         {
             TxtTotalSum.Enabled = true;
-            BtnClubContracts.Enabled = true;
             BtnTransfers.Enabled = true;
             clubContractsMoneySpent.Clear();
             transfers.Clear();
@@ -112,20 +110,7 @@ namespace Transfermarkt.WinUI.Forms
             catch (Exception)
             {
                 MessageBox.Show("There was an error while creating report.", "Information");
-                throw;
-            }
-        }
-
-        private async void BtnClubContracts_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                await _reportsService.GetExcelFile($"ClubContracts_Report_{DateTime.UtcNow.Ticks}.xls", "clubContracts");
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("There was an error while creating report.", "Information");
-                throw;
+                return;
             }
         }
     }

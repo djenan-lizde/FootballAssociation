@@ -28,16 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.CmbLeagues = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.TxtTotalSum = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.DgvTransfers = new System.Windows.Forms.DataGridView();
-            this.BtnClubContracts = new System.Windows.Forms.Button();
             this.ChrPie = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.BtnTransfers = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
@@ -103,32 +102,19 @@
             this.DgvTransfers.Size = new System.Drawing.Size(505, 303);
             this.DgvTransfers.TabIndex = 0;
             // 
-            // BtnClubContracts
-            // 
-            this.BtnClubContracts.BackColor = System.Drawing.Color.RoyalBlue;
-            this.BtnClubContracts.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnClubContracts.ForeColor = System.Drawing.Color.White;
-            this.BtnClubContracts.Location = new System.Drawing.Point(882, 492);
-            this.BtnClubContracts.Name = "BtnClubContracts";
-            this.BtnClubContracts.Size = new System.Drawing.Size(153, 40);
-            this.BtnClubContracts.TabIndex = 5;
-            this.BtnClubContracts.Text = "Contracts report";
-            this.BtnClubContracts.UseVisualStyleBackColor = false;
-            this.BtnClubContracts.Click += new System.EventHandler(this.BtnClubContracts_Click);
-            // 
             // ChrPie
             // 
-            chartArea4.Name = "ChartArea1";
-            this.ChrPie.ChartAreas.Add(chartArea4);
-            legend4.Name = "Legend1";
-            this.ChrPie.Legends.Add(legend4);
+            chartArea5.Name = "ChartArea1";
+            this.ChrPie.ChartAreas.Add(chartArea5);
+            legend5.Name = "Legend1";
+            this.ChrPie.Legends.Add(legend5);
             this.ChrPie.Location = new System.Drawing.Point(560, 180);
             this.ChrPie.Name = "ChrPie";
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
-            series4.Legend = "Legend1";
-            series4.Name = "s1";
-            this.ChrPie.Series.Add(series4);
+            series5.ChartArea = "ChartArea1";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
+            series5.Legend = "Legend1";
+            series5.Name = "s1";
+            this.ChrPie.Series.Add(series5);
             this.ChrPie.Size = new System.Drawing.Size(486, 306);
             this.ChrPie.TabIndex = 6;
             this.ChrPie.Text = "chart1";
@@ -138,7 +124,7 @@
             this.BtnTransfers.BackColor = System.Drawing.Color.RoyalBlue;
             this.BtnTransfers.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnTransfers.ForeColor = System.Drawing.Color.White;
-            this.BtnTransfers.Location = new System.Drawing.Point(709, 492);
+            this.BtnTransfers.Location = new System.Drawing.Point(893, 492);
             this.BtnTransfers.Name = "BtnTransfers";
             this.BtnTransfers.Size = new System.Drawing.Size(153, 40);
             this.BtnTransfers.TabIndex = 7;
@@ -153,7 +139,6 @@
             this.ClientSize = new System.Drawing.Size(1058, 558);
             this.Controls.Add(this.BtnTransfers);
             this.Controls.Add(this.ChrPie);
-            this.Controls.Add(this.BtnClubContracts);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.TxtTotalSum);
             this.Controls.Add(this.label2);
@@ -178,7 +163,6 @@
         private System.Windows.Forms.TextBox TxtTotalSum;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView DgvTransfers;
-        private System.Windows.Forms.Button BtnClubContracts;
         private System.Windows.Forms.DataVisualization.Charting.Chart ChrPie;
         private System.Windows.Forms.Button BtnTransfers;
     }
