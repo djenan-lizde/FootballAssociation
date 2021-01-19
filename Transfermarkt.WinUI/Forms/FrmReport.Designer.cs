@@ -37,8 +37,9 @@
             this.TxtTotalSum = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.DgvTransfers = new System.Windows.Forms.DataGridView();
-            this.BtnPrint = new System.Windows.Forms.Button();
+            this.BtnClubContracts = new System.Windows.Forms.Button();
             this.ChrPie = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.BtnTransfers = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvTransfers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ChrPie)).BeginInit();
@@ -102,18 +103,18 @@
             this.DgvTransfers.Size = new System.Drawing.Size(505, 303);
             this.DgvTransfers.TabIndex = 0;
             // 
-            // BtnPrint
+            // BtnClubContracts
             // 
-            this.BtnPrint.BackColor = System.Drawing.Color.RoyalBlue;
-            this.BtnPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnPrint.ForeColor = System.Drawing.Color.White;
-            this.BtnPrint.Location = new System.Drawing.Point(887, 492);
-            this.BtnPrint.Name = "BtnPrint";
-            this.BtnPrint.Size = new System.Drawing.Size(106, 40);
-            this.BtnPrint.TabIndex = 5;
-            this.BtnPrint.Text = "Print";
-            this.BtnPrint.UseVisualStyleBackColor = false;
-            this.BtnPrint.Click += new System.EventHandler(this.BtnPrint_Click);
+            this.BtnClubContracts.BackColor = System.Drawing.Color.RoyalBlue;
+            this.BtnClubContracts.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnClubContracts.ForeColor = System.Drawing.Color.White;
+            this.BtnClubContracts.Location = new System.Drawing.Point(882, 492);
+            this.BtnClubContracts.Name = "BtnClubContracts";
+            this.BtnClubContracts.Size = new System.Drawing.Size(153, 40);
+            this.BtnClubContracts.TabIndex = 5;
+            this.BtnClubContracts.Text = "Contracts report";
+            this.BtnClubContracts.UseVisualStyleBackColor = false;
+            this.BtnClubContracts.Click += new System.EventHandler(this.BtnClubContracts_Click);
             // 
             // ChrPie
             // 
@@ -132,13 +133,27 @@
             this.ChrPie.TabIndex = 6;
             this.ChrPie.Text = "chart1";
             // 
+            // BtnTransfers
+            // 
+            this.BtnTransfers.BackColor = System.Drawing.Color.RoyalBlue;
+            this.BtnTransfers.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnTransfers.ForeColor = System.Drawing.Color.White;
+            this.BtnTransfers.Location = new System.Drawing.Point(709, 492);
+            this.BtnTransfers.Name = "BtnTransfers";
+            this.BtnTransfers.Size = new System.Drawing.Size(153, 40);
+            this.BtnTransfers.TabIndex = 7;
+            this.BtnTransfers.Text = "Transfers report";
+            this.BtnTransfers.UseVisualStyleBackColor = false;
+            this.BtnTransfers.Click += new System.EventHandler(this.BtnTransfers_Click);
+            // 
             // FrmReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1058, 558);
+            this.Controls.Add(this.BtnTransfers);
             this.Controls.Add(this.ChrPie);
-            this.Controls.Add(this.BtnPrint);
+            this.Controls.Add(this.BtnClubContracts);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.TxtTotalSum);
             this.Controls.Add(this.label2);
@@ -163,7 +178,8 @@
         private System.Windows.Forms.TextBox TxtTotalSum;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView DgvTransfers;
-        private System.Windows.Forms.Button BtnPrint;
+        private System.Windows.Forms.Button BtnClubContracts;
         private System.Windows.Forms.DataVisualization.Charting.Chart ChrPie;
+        private System.Windows.Forms.Button BtnTransfers;
     }
 }

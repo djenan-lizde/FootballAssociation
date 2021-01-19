@@ -16,6 +16,7 @@ namespace Transfermarkt.WinUI.Forms
         private readonly APIService _apiServiceLeagues = new APIService("Leagues");
         private readonly APIService _apiServiceClubs = new APIService("Clubs");
         private readonly APIService _apiServicePlayers = new APIService("Players");
+        private readonly APIService _reportsService = new APIService("Reports");
 
         public FrmReport()
         {
@@ -30,7 +31,8 @@ namespace Transfermarkt.WinUI.Forms
                 MessageBox.Show("We don't have leagues", "Information", MessageBoxButtons.OK);
                 return;
             }
-            BtnPrint.Enabled = false;
+            BtnClubContracts.Enabled = false;
+            BtnTransfers.Enabled = false;
             leagues.Insert(0, new Leagues());
             CmbLeagues.DataSource = leagues;
             CmbLeagues.DisplayMember = "Name";
@@ -43,7 +45,8 @@ namespace Transfermarkt.WinUI.Forms
         private async void CmbLeagues_SelectionChangeCommitted(object sender, EventArgs e)
         {
             TxtTotalSum.Enabled = true;
-            BtnPrint.Enabled = true;
+            BtnClubContracts.Enabled = true;
+            BtnTransfers.Enabled = true;
             clubContractsMoneySpent.Clear();
             transfers.Clear();
             DgvTransfers.DataSource = null;
@@ -73,7 +76,7 @@ namespace Transfermarkt.WinUI.Forms
                             ClubName = club.Name,
                             ContractExpirationDate = item2.ExpirationDate,
                             PlayerFullName = $"{player.FirstName} {player.LastName}",
-                            RedemptionClause = item2.RedemptionClause
+                            RedemptionClause = $"{item2.RedemptionClause} €"
                         });
                     }
                     var contractsSum = clubContracts.Sum(x => x.RedemptionClause);
@@ -99,98 +102,30 @@ namespace Transfermarkt.WinUI.Forms
             }
 
         }
-        private void BtnPrint_Click(object sender, EventArgs e)
+
+        private async void BtnTransfers_Click(object sender, EventArgs e)
         {
             try
             {
-                var tableData = clubContractsMoneySpent;
-                if (tableData.Count > 0)
-                {
-                    Stream stream = File.OpenWrite(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\SeasonReport.pdf");
-                    Document doc = new Document();
-                    PdfWriter.GetInstance(doc, stream);
-                    doc.Open();
-
-                    Font times = new Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN);
-
-                    Paragraph header = new Paragraph($"Report for the league {CmbLeagues.Text}", times)
-                    {
-                        Alignment = Element.ALIGN_CENTER,
-                        Font = times
-                    };
-                    doc.Add(header);
-                    doc.Add(new Paragraph("\n"));
-
-                    PdfPTable table = new PdfPTable(2);
-
-                    foreach (var item in tableData.OrderByDescending(x => x.Sum))
-                    {
-                        PdfPCell cell1 = new PdfPCell(new Phrase($"{item.ClubName}"))
-                        {
-                            HorizontalAlignment = 1
-                        };
-                        table.AddCell(cell1);
-                        PdfPCell cell2 = new PdfPCell(new Phrase($"{item.Sum} €"))
-                        {
-                            HorizontalAlignment = 1
-                        };
-                        table.AddCell(cell2);
-                    }
-                    doc.Add(table);
-                    Paragraph footer = new Paragraph($"Transfer sum { clubContractsMoneySpent.Sum(x => x.Sum)} €", times)
-                    {
-                        Alignment = Element.ALIGN_CENTER,
-                        Font = times
-                    };
-                    doc.Add(footer);
-                    doc.Add(new Paragraph("\n"));
-
-                    var transferTableData = transfers;
-                    if (transferTableData.Count > 0)
-                    {
-                        doc.Add(new Paragraph("\n"));
-
-                        PdfPTable transferTable = new PdfPTable(3);
-
-                        PdfPCell elements = new PdfPCell(new Phrase("Player name - Expiration date - Redemption clause"))
-                        {
-                            HorizontalAlignment = 1
-                        };
-                        elements.Colspan = 3;
-                        transferTable.AddCell(elements);
-
-                        foreach (var item in transferTableData.OrderByDescending(x => x.RedemptionClause))
-                        {
-                            PdfPCell cell1 = new PdfPCell(new Phrase($"{item.PlayerFullName}"))
-                            {
-                                HorizontalAlignment = 1
-                            };
-                            transferTable.AddCell(cell1);
-                            PdfPCell cell2 = new PdfPCell(new Phrase($"{item.ContractExpirationDate.ToShortDateString()}"))
-                            {
-                                HorizontalAlignment = 1
-                            };
-                            transferTable.AddCell(cell2);
-                            PdfPCell cell3 = new PdfPCell(new Phrase($"{item.RedemptionClause} €"))
-                            {
-                                HorizontalAlignment = 1
-                            };
-                            transferTable.AddCell(cell3);
-                        }
-                        doc.Add(transferTable);
-                    }
-                    doc.Close();
-
-                    MessageBox.Show("Report successfully saved to desktop.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("There is no enough data to create a report.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                await _reportsService.GetExcelFile($"Transfers_Report_{DateTime.UtcNow.Ticks}.xls", $"transfers");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("There was an error while creating report.", "Information");
+                throw;
+            }
+        }
+
+        private async void BtnClubContracts_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                await _reportsService.GetExcelFile($"ClubContracts_Report_{DateTime.UtcNow.Ticks}.xls", "clubContracts");
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("There was an error while creating report.", "Information");
+                throw;
             }
         }
     }

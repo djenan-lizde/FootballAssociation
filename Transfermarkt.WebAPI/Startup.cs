@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +13,6 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System;
 using System.Text;
-using Transfermarkt.Models;
 using Transfermarkt.Models.Requests;
 using Transfermarkt.WebAPI.Configuration;
 using Transfermarkt.WebAPI.Database;
@@ -34,7 +34,10 @@ namespace Transfermarkt.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers()
+                .AddNewtonsoftJson()
+                .AddXmlSerializerFormatters()
+                .AddExcelOutputFormatter();
 
             services.AddMvc(x => x.Filters.Add<ErrorFilter>()).SetCompatibilityVersion(CompatibilityVersion.Latest);
             services.AddAutoMapper(typeof(Startup));
@@ -100,6 +103,7 @@ namespace Transfermarkt.WebAPI
             services.AddScoped<IData<Database.PlayerPositions>, Data<Database.PlayerPositions>>();
             services.AddScoped<IData<Database.RefereeMatches>, Data<Database.RefereeMatches>>();
             services.AddScoped<IData<Database.MatchDetails>, Data<Database.MatchDetails>>();
+            services.AddScoped<IReportGenerator, ReportGenerator>();
 
             //get
             services.AddScoped<IService<Models.Positions, object>, BaseService<Models.Positions, object, Database.Positions>>();
@@ -115,6 +119,16 @@ namespace Transfermarkt.WebAPI
             services.AddScoped<ICRUDService<Models.Stadiums, object, Models.Stadiums, Models.Stadiums>, StadiumsService>();
             services.AddScoped<ICRUDService<Models.Contracts, object, Models.Contracts, Models.Contracts>, ContractsService>();
             services.AddScoped<ICRUDService<Models.Matches, object, Models.Matches, Models.Matches>, MatchesService>();
+
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
+
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

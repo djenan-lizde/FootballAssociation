@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -125,6 +128,54 @@ namespace Transfermarkt.WinUI
 
                 MessageBox.Show(stringBuilder.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return default(T);
+            }
+        }
+
+        public async Task GetExcelFile(string destinationFilename, string action = null)
+        {
+            var query = string.Empty;
+
+            string url = $"{Properties.Settings.Default.APIUrl}/{_route}";
+
+            if (!string.IsNullOrEmpty(action))
+            {
+                url += $"/{action}";
+            }
+
+            var response = await $"{url}?{query}"
+                .WithHeader("Accept", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                .WithOAuthBearerToken(Token)
+                .GetBytesAsync();
+
+
+            string file = $@"C:\Reports\{destinationFilename}";
+            string path = Path.GetDirectoryName(file);
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            if (!File.Exists(file))
+            {
+                try
+                {
+                    using (var fs = new FileStream(file, FileMode.Create, FileAccess.Write))
+                    {
+                        await fs.WriteAsync(response, 0, response.Length);
+                        try
+                        {
+                            MessageBox.Show($"Excel report generated at {file}. Attempting to open the folder.");
+                            Process.Start("explorer.exe", path);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Failed opening the destination report directory. The report may be generated, though, {ex.Message}");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
     }
