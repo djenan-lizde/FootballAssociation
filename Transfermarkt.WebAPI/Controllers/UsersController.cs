@@ -58,43 +58,30 @@ namespace Transfermarkt.WebAPI.Controllers
         {
             var query = _userService.GetUsers().AsQueryable();
 
-            if (request.Username == null && request.FirstName == null && request.LastName == null && request.Username == null)
+            if(request.Username != null || request.FirstName != null || request.LastName != null || request.Username != null)
             {
-                return GetUserInfos(query.ToList());
+                query = query.Where(x => 
+                            x.FirstName.ToLower().StartsWith(request.FirstName) ||
+                            x.LastName.ToLower().StartsWith(request.LastName) ||
+                            x.Email.ToLower().StartsWith(request.Email) ||
+                            x.Username.ToLower().StartsWith(request.Username)
+                    );
             }
 
-            query = query.Where(x => x.FirstName.ToLower().StartsWith(request.FirstName) ||
-                        x.LastName.ToLower().StartsWith(request.LastName) ||
-                        x.Email.ToLower().StartsWith(request.Email) ||
-                        x.Username.ToLower().StartsWith(request.Username)).OrderByDescending(x => x.JoinDate);
+            var users = query
+                .OrderByDescending(x => x.JoinDate)
+                .Select(x => new UserInfo {
+                    Id = x.Id,
+                    Email = x.Email,
+                    FirstName = x.FirstName,
+                    JoinDate = x.JoinDate,
+                    LastName = x.LastName,
+                    Username = x.Username,
+                    Roles = string.Join(",", x.UsersRoles.Select(r => r.Role.Name))
+                })
+                .ToList();
 
-            return GetUserInfos(query.ToList());
-        }
-
-        private List<UserInfo> GetUserInfos(List<Users> users)
-        {
-            List<UserInfo> list = new List<UserInfo>();
-
-            foreach (var item in users)
-            {
-                var userRoles = _serviceUsersRoles.GetByCondition(x => x.UserId == item.Id);
-                var userInfo = new UserInfo
-                {
-                    Id = item.Id,
-                    Email = item.Email,
-                    FirstName = item.FirstName,
-                    JoinDate = item.JoinDate,
-                    LastName = item.LastName,
-                    Username = item.Username
-                };
-                foreach (var item2 in userRoles)
-                {
-                    var role = _serviceRole.GetById(item2.RoleId);
-                    userInfo.Roles = string.Join(',', role.Name);
-                }
-                list.Add(userInfo);
-            }
-            return list;
+            return users;
         }
 
         [HttpGet("CheckRole")]

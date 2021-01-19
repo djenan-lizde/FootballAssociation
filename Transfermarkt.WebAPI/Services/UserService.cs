@@ -118,7 +118,7 @@ namespace Transfermarkt.WebAPI.Services
         }
         public List<Users> GetUsers()
         {
-            return _context.Users.ToList();
+            return _context.Users.Include(u => u.UsersRoles).ThenInclude(ur => ur.Role).ToList();
         }
         public bool IsAdmin(UserRoleCheck userRole)
         {

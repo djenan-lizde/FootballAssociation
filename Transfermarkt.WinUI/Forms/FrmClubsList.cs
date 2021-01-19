@@ -37,8 +37,7 @@ namespace Transfermarkt.WinUI.Forms
 
                 if (match == null)
                 {
-                    MessageBox.Show("Season is not created yet.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Close();
+                    MessageBox.Show("There is no match to recommend right now.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
                 var homeClub = await _apiServiceClubs.GetById<Clubs>(match.HomeClubId);

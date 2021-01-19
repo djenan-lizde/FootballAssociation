@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Transfermarkt.Models.Enums;
 using Transfermarkt.Models.Requests;
 using Transfermarkt.WebAPI.Database;
@@ -8,6 +9,14 @@ using Transfermarkt.WebAPI.Services;
 
 namespace Transfermarkt.WebAPI.Controllers
 {
+
+    public class ReccomendedMatch
+    {
+        public int ClubId { get; set; }
+        public int scoredGoals { get; set; }
+        public int clubPoints { get; set; }
+    }
+
     public class MatchesController : BaseCRUDController<Models.Matches, object, Models.Matches, Models.Matches>
     {
         private readonly IData<RefereeMatches> _serviceRefereeMatch;
@@ -16,11 +25,12 @@ namespace Transfermarkt.WebAPI.Controllers
         private readonly IData<Matches> _serviceMatch;
         private readonly IData<Clubs> _serviceClub;
         private readonly IData<ClubsLeague> _serviceClubLeague;
+        private readonly FootballAssociationDbContext _dbContext;
 
         public MatchesController(ICRUDService<Models.Matches, object, Models.Matches, Models.Matches> service,
              IData<MatchDetails> serviceMatchDetail, IData<RefereeMatches> serviceRefereeMatch,
             IData<Seasons> serviceSeason, IData<Matches> serviceMatch,
-            IData<Clubs> serviceClub, IData<ClubsLeague> serviceClubLeague) : base(service)
+            IData<Clubs> serviceClub, IData<ClubsLeague> serviceClubLeague, FootballAssociationDbContext context) : base(service)
         {
             _serviceMatchDetail = serviceMatchDetail;
             _serviceRefereeMatch = serviceRefereeMatch;
@@ -28,6 +38,7 @@ namespace Transfermarkt.WebAPI.Controllers
             _serviceSeason = serviceSeason;
             _serviceClub = serviceClub;
             _serviceClubLeague = serviceClubLeague;
+            _dbContext = context;
         }
 
         [HttpGet("MatchDetail/{MatchId}")]
@@ -78,77 +89,48 @@ namespace Transfermarkt.WebAPI.Controllers
         {
             var seasons = _serviceSeason.Get();
             var lastSeason = seasons.LastOrDefault();
-            if (lastSeason != null)
+            
+            if (lastSeason == null)
             {
-                var clubs = _serviceClubLeague.GetByCondition(x => x.LeagueId == leagueId && x.SeasonId == lastSeason.Id);
-
-                List<ClubPointsGoals> clubPointsGoals = new List<ClubPointsGoals>();
-                if (clubs.Count() > 0)
-                {
-                    foreach (var item in clubs)
-                    {
-                        var club = _serviceClub.GetById(item.ClubId);
-                        if (club != null)
-                        {
-                            var clubMatches = _serviceMatch.GetByCondition(x => (x.HomeClubId == item.ClubId || x.AwayClubId == item.ClubId)
-                            && x.SeasonId == lastSeason.Id && x.IsFinished == true && x.LeagueId == leagueId);
-
-                            if (clubMatches.Count() > 0)
-                            {
-                                int scoredGoals = 0;
-                                foreach (var match in clubMatches)
-                                {
-                                    scoredGoals += _serviceMatchDetail.GetByCondition(x => x.ClubId == item.ClubId && x.ActionType == (int)Enums.ActionType.Goal
-                                    && x.MatchId == match.Id).Count();
-                                }
-
-                                var clubPoints = _serviceClubLeague.GetTByCondition(x => x.LeagueId == leagueId && x.SeasonId == lastSeason.Id
-                                    && x.ClubId == club.Id);
-
-                                if (clubPoints != null)
-                                {
-                                    var clubGoals = new ClubPointsGoals
-                                    {
-                                        ClubId = item.ClubId,
-                                        ClubName = club.Name,
-                                        NumberOfScoredGoals = scoredGoals,
-                                        Points = clubPoints.Points
-                                    };
-                                    clubPointsGoals.Add(clubGoals);
-                                }
-                            }
-                            else
-                            {
-                                return _serviceMatch.GetTByCondition(x => x.LeagueId == leagueId && x.SeasonId == lastSeason.Id
-                                && x.IsFinished == false);
-                            }
-                        }
-                    }
-                    if (clubPointsGoals.Count > 1)
-                    {
-                        Matches match = null;
-                        int counter = 1;
-                        foreach (var item in clubPointsGoals.OrderByDescending(x => x.Points))
-                        {
-                            if (counter == clubPointsGoals.Count)
-                                return null;
-
-                            if (counter > 1 && item.ClubId != clubPointsGoals[counter].ClubId)
-                            {
-                                match = _serviceMatch.GetTByCondition(x => ((x.HomeClubId == item.ClubId
-                                     && x.AwayClubId == clubPointsGoals[counter].ClubId)
-                                     || (x.AwayClubId == clubPointsGoals[counter].ClubId
-                                     && x.HomeClubId == clubPointsGoals[counter].ClubId))
-                                     && x.IsFinished == false);
-                                if (match != null)
-                                    return match;
-                            }
-                            counter++;
-                        }
-                    }
-                }
+                return null;
             }
-            return null;
+
+            var clubs = _dbContext.ClubsLeague
+                .Where(cb => cb.LeagueId == leagueId && cb.SeasonId == lastSeason.Id)
+                .Select(cb => new ClubPointsGoals {
+                    Points = cb.Points,
+                    ClubId = cb.ClubId,
+                    ClubName = _dbContext.Clubs.Where(c => c.Id == cb.ClubId).FirstOrDefault().Name,
+                    NumberOfScoredGoals = _dbContext.MatchDetails
+                                    .Where(md => 
+                                        md.Match.LeagueId == leagueId && md.Match.SeasonId == lastSeason.Id &&
+                                        (md.Match.HomeClubId == cb.ClubId || md.Match.AwayClubId == cb.ClubId) 
+                                        && md.Match.IsFinished == true && md.ActionType == (int)Enums.ActionType.Goal
+                                    )
+                                    .Count()
+                })
+                .OrderByDescending(x => x.NumberOfScoredGoals)
+                .OrderByDescending(x => x.Points)
+                .ToList();
+
+            if (clubs.Count() == 0)
+            {
+                return null;
+            }
+
+            var bestClub = clubs.First();
+            var secondBestClub = clubs[1];
+
+            Matches match = _dbContext.Matches.Where(
+                m => 
+                (
+                    (m.AwayClubId == bestClub.ClubId && m.HomeClubId == secondBestClub.ClubId) 
+                    || (m.AwayClubId == secondBestClub.ClubId && m.HomeClubId == bestClub.ClubId)
+                )
+                    && m.IsFinished == false)
+                .FirstOrDefault();
+
+            return match;
         }
 
         private Seasons LastSeason()

@@ -59,6 +59,7 @@ namespace Transfermarkt.MobileApp.ViewModels
 
                 if (SelectedLeague != null)
                 {
+                    RecommendedMatch = string.Empty;
                     var clubInLeague = await _apiServiceClubs.GetById<List<ClubsLeague>>(SelectedLeague.Id, "ClubsInLeague");
                     if (clubInLeague.Count > 0)
                     {
@@ -84,7 +85,7 @@ namespace Transfermarkt.MobileApp.ViewModels
 
                         if (match == null)
                         {
-                            await Application.Current.MainPage.DisplayAlert("Information", "Season is not created yet.", "OK");
+                            await Application.Current.MainPage.DisplayAlert("Information", "There is no recommended match for now. Check later.", "OK");
                             return;
                         }
                         var homeClub = await _apiServiceClubs.GetById<Clubs>(match.HomeClubId);
